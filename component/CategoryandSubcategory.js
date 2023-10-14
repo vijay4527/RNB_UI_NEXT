@@ -7,8 +7,8 @@ import { getCookie } from "@/cookieUtils";
 import { useEffect, useState } from "react";
 
 function CategoryComponent({ category, subcategoryName, data, categoryName }) {
-  const productData = JSON.parse(data);
-  const categoryData = JSON.parse(category);
+  const productData = data;
+  const categoryData = category;
   const fcHalfHeight = 205;
   const fcHalfWidth = 135;
   const defaultLightWidth = 40;

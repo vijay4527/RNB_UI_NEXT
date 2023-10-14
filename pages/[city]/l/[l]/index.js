@@ -34,6 +34,8 @@ export async function getServerSideProps(context) {
   const apiurl = process.env.API_URL;
   // const city = getCookie("userCity");
   const city = context.query.city;
+  const subcategoryurl = context.query.subcategory;
+  // const subcategoryName = subcategoryurl.split("-").join(" ");
   try {
     const obj = {
       category_name: context.query.l || "",
@@ -64,8 +66,8 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
-        data: JSON.stringify(response.data),
-        category: JSON.stringify(category.data),
+        data: response.data,
+        category: category.data,
       },
     };
   } catch (error) {

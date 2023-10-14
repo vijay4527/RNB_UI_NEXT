@@ -25,18 +25,20 @@ function SubCategoryPage({ data, category, categoryName, subcategoryName }) {
 
 export async function getServerSideProps(context) {
   const apiurl = process.env.API_URL;
+
   //const city = getCookie("userCity");
   const city = context.query.city;
   // console.log("Users City is : " + city);
-  const categoryname = context.query.l || "";
+  const url = context.query;
+  const categoryname = url.l.split("-").join(" ") || "";
   //  console.log("Category Name : " + categoryname);
-  const subcategoryname = context.query.subcategory || "";
+  const subcategoryname = url.subcategory.split("-").join(" ") || "";
   // console.log("SubCategory Name : " + subcategoryname);
 
   try {
     const obj = {
-      category_name: context.query.categoryName || "",
-      sub_category_name: context.query.subcategory || "",
+      category_name: categoryname || "",
+      sub_category_name: subcategoryname || "",
       city_name: "mumbai",
     };
     // console.log("object is :" + obj);
@@ -51,7 +53,7 @@ export async function getServerSideProps(context) {
       }
     );
     const cityObj = {
-      city_name: "mumbai",
+      city_name: city,
     };
     // console.log("city object is : " + JSON.stringify(cityObj));
     const category = await axios.post(
@@ -62,9 +64,9 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
-        category: JSON.stringify(category.data),
+        category: category.data,
         subcategoryName: subcategoryname,
-        data: JSON.stringify(response.data),
+        data: response.data,
         categoryName: categoryname,
       },
     };

@@ -52,11 +52,8 @@ const Header = () => {
 
   const fetchSubcategories = (categoryId) => {
     if (!subcategories[categoryId]) {
-      var obj = {
-        category_id: categoryId,
-      };
       axios
-        .post(`${api_url}/SubCategory/GetSubCategoryByCategoryId`, obj)
+        .get(`${api_url}/SubCategory/GetSubCategoryByCategoryId/${categoryId}`)
         .then((res) => {
           return setSubcategories(res.data);
         });
@@ -141,19 +138,24 @@ const Header = () => {
               <li className="nav-item subcategory-link">
                 <span className="nav-link">Sub Category</span>
                 <ul className="subcategories-list">
-                  {subcategories.map((subcat) => (
-                    <li
-                      className={`subcategory-item `}
-                      key={subcat.sub_category_id}
-                    >
-                      <Link
-                        className="nav-link"
-                        href={`/${city}/l/${subcat.category_name}/${subcat.sub_category_name}`}
+                  {subcategories.map((subcat) => {
+                    const subCategoryName = subcat.sub_category_name
+                      .split(" ")
+                      .join("-"); // Add this line here
+                    return (
+                      <li
+                        className={`subcategory-item`}
+                        key={subcat.sub_category_id}
                       >
-                        {subcat.sub_category_name}
-                      </Link>
-                    </li>
-                  ))}
+                        <Link
+                          className="nav-link"
+                          href={`/${city}/l/${subcat.category_name}/${subCategoryName}`}
+                        >
+                          {subcat.sub_category_name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
             </div>
