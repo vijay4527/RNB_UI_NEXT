@@ -7,8 +7,8 @@ import { getCookie } from "@/cookieUtils";
 import { useEffect, useState } from "react";
 
 function CategoryComponent({ category, subcategoryName, data, categoryName }) {
-  const productData = data;
-  const categoryData = category;
+  // const productData = data;
+  // const categoryData = category;
   const fcHalfHeight = 205;
   const fcHalfWidth = 135;
   const defaultLightWidth = 40;
@@ -89,14 +89,16 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                   </div>
                 </div>
                 <div className={styles.plp_FilterBody}>
-                  {categoryData.map((item) => (
-                    <h4
-                      className={styles.plp_FilterCate}
-                      key={item.category_id}
-                    >
-                      {item.category_name}
-                    </h4>
-                  ))}
+                  {category
+                    ? category.map((item) => (
+                        <h4
+                          className={styles.plp_FilterCate}
+                          key={item.category_id}
+                        >
+                          {item.category_name}
+                        </h4>
+                      ))
+                    : ""}
                 </div>
               </div>
               {/* <div className={styles.plp_Filter}>
@@ -121,8 +123,8 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
             </div>
           </div> */}
               <div className={styles.plp_Cards}>
-                {productData.length > 0 ? (
-                  productData.map((item) => {
+                {data ? (
+                  data.map((item) => {
                     const productName = item.product_name.split(" ").join("-");
                     return (
                       <Link
