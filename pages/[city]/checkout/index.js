@@ -36,7 +36,6 @@ const CheckoutPage = () => {
                       </div> */}
                     </div>
 
-                    {/* Product cards */}
                     {selectedCartProduct.map((product) => (
                       <div className="card mb-3" key={product.product_id}>
                         <div className="card-body">
@@ -80,8 +79,6 @@ const CheckoutPage = () => {
                   <div className="col-lg-5">
                     <div className="card bg-primary text-white rounded-3">
                       <div className="card-body">
-                        {/* Payment form goes here */}
-                        {/* Card type icons */}
                         <p className="small mb-2">Card type</p>
                         <a href="#!" type="submit" className="text-white">
                           <i className="fab fa-cc-mastercard fa-2x me-2"></i>
@@ -96,7 +93,6 @@ const CheckoutPage = () => {
                           <i className="fab fa-cc-paypal fa-2x"></i>
                         </a>
 
-                        {/* Payment form inputs */}
                         <form className="mt-4">
                           <div className="form-outline form-white mb-4">
                             <input

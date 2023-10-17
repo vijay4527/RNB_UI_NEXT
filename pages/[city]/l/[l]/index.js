@@ -32,17 +32,14 @@ function CategoryPage({ data, category }) {
 
 export async function getServerSideProps(context) {
   const apiurl = process.env.API_URL;
-  // const city = getCookie("userCity");
   const city = context.query.city;
   const subcategoryurl = context.query.subcategory;
-  // const subcategoryName = subcategoryurl.split("-").join(" ");
   try {
     const obj = {
       category_name: context.query.l || "",
       sub_category_name: context.query.subcategory || "",
       city_name: city,
     };
-    // console.log("object is :" + JSON.stringify(obj));
 
     const response = await axios.post(
       `${apiurl}/ProductMaster/GetB2CProducts`,
@@ -57,12 +54,10 @@ export async function getServerSideProps(context) {
     const cityObj = {
       city_name: city,
     };
-    // console.log("city object is : " + JSON.stringify(cityObj));
     const category = await axios.post(
       `${apiurl}/Category/GetAllCategories`,
       cityObj
     );
-    // console.log("category : " + category);
 
     return {
       props: {

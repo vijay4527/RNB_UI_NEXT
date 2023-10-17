@@ -61,16 +61,8 @@ const addToCartButton = ({ data }) => {
         if (response.data.resp === true) {
           try {
             if (!cartId) {
-              // console.log("Cart");
               sessionStorage.setItem("cartId", response.data.respObj.cart_id);
             }
-            // console.log("Success");
-            // toastr.options = {
-            //   positionClass: "toast-top-right",
-            //   timeOut: 3000,
-            //   closeButton: true,
-            // };
-            // toastr.success("Product added to cart successfully :");
           } catch (error) {
             console.error("Error storing cartId in session storage:", error);
           }
