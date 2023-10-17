@@ -1,31 +1,16 @@
 import { create } from "zustand";
 
-const useProductStore = create((set) => ({
-  selectedCartProduct: loadFromLocalStorage() || [],
+export const useProductStore = create((set) => ({
+  selectedProduct: [],
   addSelectedProduct: (product) =>
-    set((state) => {
-      const updatedSelectedProducts = [...state.selectedCartProduct, product];
-      saveToLocalStorage(updatedSelectedProducts);
-      return { selectedCartProduct: updatedSelectedProducts };
-    }),
+    set((state) => ({
+      selectedProduct: [...state.selectedProduct, product],
+    })),
 
   removeSelectedProduct: (productId) =>
-    set((state) => {
-      const updatedSelectedProducts = state.selectedCartProduct.filter(
+    set((state) => ({
+      selectedProduct: state.selectedProduct.filter(
         (product) => product.cp_id !== productId
-      );
-      saveToLocalStorage(updatedSelectedProducts);
-      return { selectedCartProduct: updatedSelectedProducts };
-    }),
+      ),
+    })),
 }));
-
-function loadFromLocalStorage() {
-  const data = localStorage.getItem("selectedCartProduct");
-  return data ? JSON.parse(data) : [];
-}
-
-function saveToLocalStorage(data) {
-  localStorage.setItem("selectedCartProduct", JSON.stringify(data));
-}
-
-export default useProductStore;
