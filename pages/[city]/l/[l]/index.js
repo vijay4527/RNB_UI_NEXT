@@ -42,7 +42,7 @@ export async function getServerSideProps(context) {
       sub_category_name: context.query.subcategory || "",
       city_name: city,
     };
-    console.log("object is :" + JSON.stringify(obj));
+    // console.log("object is :" + JSON.stringify(obj));
 
     const response = await axios.post(
       `${apiurl}/ProductMaster/GetB2CProducts`,
@@ -57,7 +57,7 @@ export async function getServerSideProps(context) {
     const cityObj = {
       city_name: city,
     };
-    console.log("city object is : " + JSON.stringify(cityObj));
+    // console.log("city object is : " + JSON.stringify(cityObj));
     const category = await axios.post(
       `${apiurl}/Category/GetAllCategories`,
       cityObj

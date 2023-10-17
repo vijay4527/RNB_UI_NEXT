@@ -3,8 +3,8 @@ import { create } from "zustand";
 
 export const useSharedStore = create((set) => ({
   Variable: null,
-  VBArrayariety: null,
-  Vnit: null,
+  Variety: null,
+  Unit: null,
   Value: null,
   Message: null,
   updateVariable: (newValue) => set({ Variable: newValue }),

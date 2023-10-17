@@ -89,7 +89,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                   </div>
                 </div>
                 <div className={styles.plp_FilterBody}>
-                  {category
+                  {category && category.length > 0
                     ? category.map((item) => (
                         <h4
                           className={styles.plp_FilterCate}
@@ -123,7 +123,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
             </div>
           </div> */}
               <div className={styles.plp_Cards}>
-                {data ? (
+                {data && data.length > 0 ? (
                   data.map((item) => {
                     const productName = item.product_name.split(" ").join("-");
                     return (
@@ -171,8 +171,12 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                   })
                 ) : (
                   <>
-                    <span className="text-center"></span>
-                    <img src="https://static.vecteezy.com/system/resources/thumbnails/006/549/647/small/404-landing-page-free-vector.jpg" />
+                    <div className="display-flex-center">
+                      <span className="text-center">
+                        No Products Found for {categoryName}
+                      </span>
+                      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/549/647/small/404-landing-page-free-vector.jpg" />
+                    </div>
                   </>
                 )}
               </div>

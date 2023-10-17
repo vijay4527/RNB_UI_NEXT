@@ -1,26 +1,19 @@
 import axios from "axios";
-// import Modal from "react-modal";
 import React, { useEffect, useState, useRef } from "react";
-// import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-// import AutoOpenModal from "../../Component/cityModal";
 import "@/styles/Home.module.css";
 import Link from "next/link";
 import { getCookie } from "@/cookieUtils";
 
 const Header = () => {
-  //   const { data, status } = useSession();
   const [category, setCategory] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  //   const [isCityModalOpen, setCityModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
-  //   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const router = useRouter();
-  //   const modalRef = useRef(null);
   const api_url = process.env.API_URL;
   //   const city =
   //     typeof window !== "undefined" ? localStorage.getItem("cityName") : "";

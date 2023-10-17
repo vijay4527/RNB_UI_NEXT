@@ -34,63 +34,72 @@ const productbyname = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className={styles.pdp_Wrap}>
-        <div className={styles.container}>
-          <div className={styles.pdp_DetailBody}>
-            <div className={styles.pdp_DetailDesc}>
-              {data ? (
-                <h2 className={styles.pdp_ProductName}>{data.product_name}</h2>
-              ) : (
-                ""
-              )}
-              <ul className={styles.pdp_ProductDesc}>
-                <li>
-                  <span>Base: </span>Chocolate Sponge.
-                </li>
-                <li>
-                  <span>Filling: </span>Layered with white ganache, coconut
-                  crunchy & french vanilla custard.
-                </li>
-                <li>
-                  <span>Topping: </span>Coated with rich cream mixed with french
-                  vanilla custard & Garnished with french vanilla custard glaze
-                  and rich dark ganache.
-                </li>
-              </ul>
-              <div className={styles.pdp_ProductContent}>
-                <h4>
-                  Call Us For Instant Help:{" "}
-                  <a href="tel:18002096323">18002096323</a>
-                </h4>
-                <p>10:30 AM To 5:30 PM (Mon To Sat)</p>
-              </div>
-              {/* <div className={styles.pdp_ProductContentButton}>
-                <h4 className={styles.pdp_ProductContentPrice}>₹ 450</h4> */}
-              <AddToCart data={data}></AddToCart>
-              {/* </div> */}
-            </div>
-            <div className={styles.pdp_DetailImg}>
-              <div className={styles.pdp_ProductImg}>
-                <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
-              </div>
-              <div className={styles.pdp_ProductImgs}>
-                <ul>
-                  <li className={styles.active}>
-                    <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
+      {data ? (
+        <div className={styles.pdp_Wrap}>
+          <div className={styles.container}>
+            <div className={styles.pdp_DetailBody}>
+              <div className={styles.pdp_DetailDesc}>
+                {data ? (
+                  <h2 className={styles.pdp_ProductName}>
+                    {data.product_name}
+                  </h2>
+                ) : (
+                  ""
+                )}
+                <ul className={styles.pdp_ProductDesc}>
+                  <li>
+                    <span>Base: </span>Chocolate Sponge.
                   </li>
                   <li>
-                    <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
+                    <span>Filling: </span>Layered with white ganache, coconut
+                    crunchy & french vanilla custard.
                   </li>
                   <li>
-                    <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
+                    <span>Topping: </span>Coated with rich cream mixed with
+                    french vanilla custard & Garnished with french vanilla
+                    custard glaze and rich dark ganache.
                   </li>
                 </ul>
+                <div className={styles.pdp_ProductContent}>
+                  <h4>
+                    Call Us For Instant Help:{" "}
+                    <a href="tel:18002096323">18002096323</a>
+                  </h4>
+                  <p>10:30 AM To 5:30 PM (Mon To Sat)</p>
+                </div>
+                {/* <div className={styles.pdp_ProductContentButton}>
+                <h4 className={styles.pdp_ProductContentPrice}>₹ 450</h4> */}
+                <AddToCart data={data}></AddToCart>
+                {/* </div> */}
               </div>
+              <div className={styles.pdp_DetailImg}>
+                <div className={styles.pdp_ProductImg}>
+                  <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
+                </div>
+                <div className={styles.pdp_ProductImgs}>
+                  <ul>
+                    <li className={styles.active}>
+                      <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
+                    </li>
+                    <li>
+                      <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
+                    </li>
+                    <li>
+                      <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <ProducDetails data={data}></ProducDetails>
             </div>
-            <ProducDetails data={data}></ProducDetails>
           </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <img src="https://static.vecteezy.com/system/resources/thumbnails/006/549/647/small/404-landing-page-free-vector.jpg" />
+          <span>Product not found</span>
+        </>
+      )}
     </div>
   );
 };

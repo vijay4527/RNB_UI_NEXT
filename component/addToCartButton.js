@@ -61,10 +61,10 @@ const addToCartButton = ({ data }) => {
         if (response.data.resp === true) {
           try {
             if (!cartId) {
-              console.log("Cart");
+              // console.log("Cart");
               sessionStorage.setItem("cartId", response.data.respObj.cart_id);
             }
-            console.log("Success");
+            // console.log("Success");
             // toastr.options = {
             //   positionClass: "toast-top-right",
             //   timeOut: 3000,
