@@ -14,10 +14,6 @@ axios.defaults.httpsAgent = httpsAgent;
 function CategoryPage({ data, category }) {
   const router = useRouter();
 
-  //console.log("category on category page is : " + category);
-  // console.log("data is :" + data);
-  // console.log("category is :" + category);
-
   const { l, subcategory } = router.query;
 
   return (

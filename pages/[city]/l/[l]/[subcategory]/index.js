@@ -9,8 +9,6 @@ const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 function SubCategoryPage({ data, category, categoryName, subcategoryName }) {
-  // const router = useRouter();
-  // const { city, l, subcategory } = router.query;
   return (
     <CategoryComponent
       category={category}
@@ -47,13 +45,10 @@ export async function getServerSideProps(context) {
     const cityObj = {
       city_name: city,
     };
-    // console.log("city object is : " + JSON.stringify(cityObj));
     const category = await axios.post(
       `${apiurl}/Category/GetAllCategories`,
       cityObj
     );
-    //  console.log("category : " + category);
-
     return {
       props: {
         category: category.data,
