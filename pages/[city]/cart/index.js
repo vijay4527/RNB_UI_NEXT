@@ -4,10 +4,13 @@ import axios from "axios";
 import styles from "./cart.module.css";
 import { useRouter } from "next/router";
 import { getCookie } from "@/cookieUtils";
-// import { useProductStore } from "@/component/CheckoutData";
-const CartPage = () => {
-  // const { selectedCartProduct, addSelectedProduct, removeSelectedProduct } = useProductStore();
+import LoginModal from "@/component/loginModal";
+import { useSession, signIn, signOut } from "next-auth/react";
+import useDataStore from "@/component/CheckoutData";
 
+const CartPage = () => {
+  const { dataArray, setDataArray } = useDataStore();
+  const { data, status } = useSession();
   const [cart, setCart] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
   const [selectedProductTotal, setSelectedProductTotal] = useState(0);
@@ -15,6 +18,9 @@ const CartPage = () => {
   const router = useRouter();
   const api_url = process.env.API_URL;
   const city = getCookie("userCity");
+  const [isCityModalOpen, setCityModalOpen] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const userObject =
     typeof window !== "undefined"
       ? JSON.parse(sessionStorage.getItem("userObject"))
@@ -72,9 +78,21 @@ const CartPage = () => {
   const getCartById = (productname) => {
     router.push(`/${city}/product/${productname}`);
   };
-
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  var isLoggedIn = false;
+  if (data) {
+    isLoggedIn = true;
+  }
   const handleProducts = () => {
-    router.push(`/${city}/checkout`);
+    if (!isLoggedIn) {
+      setCityModalOpen(true);
+    } else {
+      router.push(`/${city}/checkout`);
+    }
+  };
+
+  const closeCityModal = () => {
+    setCityModalOpen(false);
   };
 
   const handleSelectedProductChange = (cpId) => {
@@ -86,75 +104,83 @@ const CartPage = () => {
         (product) => product.cp_id !== cpId
       );
       setSelectedProducts(updatedSelectedProducts);
-      // removeSelectedProduct(cpId); // Update Zustand store
     } else {
       const selectedProduct = cart.find((item) => item.cp_id === cpId);
       setSelectedProducts([...selectedProducts, selectedProduct]);
-      // addSelectedProduct(selectedProduct); // Update Zustand store
+      setDataArray([...dataArray, selectedProduct]);
     }
   };
 
   return (
-    <div className={styles.container}>
-      {cart.length > 0 ? (
-        <>
-          <div className={styles.header}>
-            <div>Image</div>
-            <div>Product</div>
-            <div>Price</div>
-            <div>Quantity</div>
-            <div>Total Price</div>
-            <div>Actions</div>
-            <div>Select Product</div>
-          </div>
-          {cart.map((item) => (
-            <div className={styles.body} key={item.cp_id}>
-              <div className={styles.image}>
-                <Image src={item.image} height="90" width="65" alt="" />
-              </div>
-              <p
-                className={styles.productname}
-                onClick={() => getCartById(item.product_name)}
-              >
-                {item.product_name}
-              </p>
-              <p> {item.cost}</p>{" "}
-              <p>
-                {item.product_type == 3 ? (
-                  <>{item.value}</>
-                ) : (
-                  <>{item.value + " " + item.unit}</>
-                )}
-              </p>
-              <p> {item.cost}</p>
-              <div className={styles.buttons}>
-                <button onClick={() => removeFromCart(item.cp_id, item.cost)}>
-                  x
-                </button>
-              </div>
-              <input
-                type="checkbox"
-                onChange={() => handleSelectedProductChange(item.cp_id)}
-                checked={selectedProducts.some(
-                  (product) => product.cp_id === item.cp_id
-                )}
-              />
+    <>
+      <div className={styles.container}>
+        {cart.length > 0 ? (
+          <>
+            <div className={styles.header}>
+              <div>Image</div>
+              <div>Product</div>
+              <div>Price</div>
+              <div>Quantity</div>
+              <div>Total Price</div>
+              <div>Actions</div>
+              <div>Select Product</div>
             </div>
-          ))}
-          <h2>Cart Total: {grandTotal}</h2>
-          {selectedProductTotal ? (
-            <h2>Selected Products Total: {selectedProductTotal}</h2>
-          ) : (
-            ""
-          )}
-          <button className="btn btn-sm btn-primary" onClick={handleProducts}>
-            want to checkout
-          </button>
-        </>
-      ) : (
-        <h1>Your Cart is Empty!</h1>
+            {cart.map((item) => (
+              <div className={styles.body} key={item.cp_id}>
+                <div className={styles.image}>
+                  <img
+                    src="https://fama.b-cdn.net/RnB/lstcakeimg/1.webp"
+                    height="90"
+                    width="65"
+                  />
+                </div>
+                <p
+                  className={styles.productname}
+                  onClick={() => getCartById(item.product_name)}
+                >
+                  {item.product_name}
+                </p>
+                <p> {item.cost}</p>{" "}
+                <p>
+                  {item.product_type == 3 ? (
+                    <>{item.value}</>
+                  ) : (
+                    <>{item.value + " " + item.unit}</>
+                  )}
+                </p>
+                <p> {item.cost}</p>
+                <div className={styles.buttons}>
+                  <button onClick={() => removeFromCart(item.cp_id, item.cost)}>
+                    x
+                  </button>
+                </div>
+                <input
+                  type="checkbox"
+                  onChange={() => handleSelectedProductChange(item.cp_id)}
+                  checked={selectedProducts.some(
+                    (product) => product.cp_id === item.cp_id
+                  )}
+                />
+              </div>
+            ))}
+            <h2>Cart Total: {grandTotal}</h2>
+            {selectedProductTotal ? (
+              <h2>Selected Products Total: {selectedProductTotal}</h2>
+            ) : (
+              ""
+            )}
+            <button className="btn btn-sm btn-primary" onClick={handleProducts}>
+              want to checkout
+            </button>
+          </>
+        ) : (
+          <h1>Your Cart is Empty!</h1>
+        )}
+      </div>
+      {isCityModalOpen && (
+        <LoginModal isOpen={isCityModalOpen} onClose={closeCityModal} />
       )}
-    </div>
+    </>
   );
 };
 

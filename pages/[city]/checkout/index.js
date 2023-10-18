@@ -1,9 +1,9 @@
 // pages/checkout.js
 import React from "react";
 import "./index.module.css";
-import { useProductStore } from "@/component/CheckoutData";
+import useDataStore from "@/component/CheckoutData";
 const CheckoutPage = () => {
-  const { selectedCartProduct } = useProductStore();
+  const { dataArray, setDataArray } = useDataStore();
   return (
     <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
       <div className="container-fluid py-5 h-100">
@@ -26,55 +26,53 @@ const CheckoutPage = () => {
                         <p className="mb-1">Shopping cart</p>
                         <p className="mb-0">You have 4 items in your cart</p>
                       </div>
-                      {/* <div>
-                        <p className="mb-0">
-                          <span className="text-muted">Sort by:</span>{" "}
-                          <a href="#!" className="text-body">
-                            price <i className="fas fa-angle-down mt-1"></i>
-                          </a>
-                        </p>
-                      </div> */}
                     </div>
 
-                    {selectedCartProduct.map((product) => (
-                      <div className="card mb-3" key={product.product_id}>
-                        <div className="card-body">
-                          <div className="d-flex justify-content-between">
-                            <div className="d-flex flex-row align-items-center">
-                              <div>
-                                <img
-                                  src={product.product_image}
-                                  className="img-fluid rounded-3"
-                                  alt="Shopping item"
-                                  style={{ width: "65px" }}
-                                />
+                    {dataArray.length > 0 ? (
+                      dataArray.map((product) => (
+                        <div className="card mb-3" key={product.product_id}>
+                          <div className="card-body">
+                            <div className="d-flex justify-content-between">
+                              <div className="d-flex flex-row align-items-center">
+                                <div>
+                                  <img
+                                    src={product.product_image}
+                                    className="img-fluid rounded-3"
+                                    alt="Shopping item"
+                                    style={{ width: "65px" }}
+                                  />
+                                </div>
+                                <div className="m-3">
+                                  <h5>{product.product_name}</h5>
+                                  <p className="small mb-0">
+                                    {product.description}
+                                  </p>
+                                </div>
                               </div>
-                              <div className="m-3">
-                                <h5>{product.product_name}</h5>
-                                <p className="small mb-0">
-                                  {product.description}
-                                </p>
+                              <div className="d-flex flex-row align-items-center">
+                                <div style={{ width: "50px" }}>
+                                  <h5 className="fw-normal mb-0">
+                                    {product.quantity}
+                                  </h5>
+                                </div>
+                                <div style={{ width: "100px" }}>
+                                  <h5 className="mb-0">
+                                    ₹ {product.cost.toFixed(2)}
+                                  </h5>
+                                </div>
+                                <a href="#!" style={{ color: "#cecece" }}>
+                                  <i className="fas fa-trash-alt"></i>
+                                </a>
                               </div>
-                            </div>
-                            <div className="d-flex flex-row align-items-center">
-                              <div style={{ width: "50px" }}>
-                                <h5 className="fw-normal mb-0">
-                                  {product.quantity}
-                                </h5>
-                              </div>
-                              <div style={{ width: "100px" }}>
-                                <h5 className="mb-0">
-                                  ₹ {product.cost.toFixed(2)}
-                                </h5>
-                              </div>
-                              <a href="#!" style={{ color: "#cecece" }}>
-                                <i className="fas fa-trash-alt"></i>
-                              </a>
                             </div>
                           </div>
                         </div>
+                      ))
+                    ) : (
+                      <div>
+                        <span>No Products has been selected</span>
                       </div>
-                    ))}
+                    )}
                   </div>
                   <div className="col-lg-5">
                     <div className="card bg-primary text-white rounded-3">

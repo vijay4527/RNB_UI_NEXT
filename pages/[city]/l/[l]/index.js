@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import CategoryComponent from "../../../../component/CategoryandSubcategory";
 import axios from "axios";
 import https from "https";
-import Cookies from "js-cookie";
 import { getCookie, setCookie } from "../../../../cookieUtils";
 
 const httpsAgent = new https.Agent({

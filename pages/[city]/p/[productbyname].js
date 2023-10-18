@@ -9,7 +9,6 @@ const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 const productbyname = ({ data }) => {
-  //  console.log("data : " + data);
   return (
     <div className={styles.pdp_WrapContent}>
       <div className={styles.common_header}>

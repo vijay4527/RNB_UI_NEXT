@@ -59,8 +59,6 @@ function getProductDetails({ data }) {
 
   useEffect(() => {
     if (data) {
-      //  console.log("data in useEffect : " + data);
-      // setProduct(data);
       const productData = data;
       setProduct(productData);
       if (
@@ -87,11 +85,11 @@ function getProductDetails({ data }) {
             break;
           case 2:
             if (productData.type_id == 2) {
-              setUnit("KG");
+              // setUnit("KG");
               updateUnit("KG");
-              setValues(productData.min);
+              // setValues(productData.min);
               updateValue(productData.min);
-              setProductPrice(initialProductType.cost * 2 * productData.min);
+              // setProductPrice(initialProductType.cost * 2 * productData.min);
               updateVariable(initialProductType.cost * 2 * productData.min);
               // calculatedPrice(initialProductType.cost * 2 * productData.min);
               setActiveWeight(productData.min.toString());
@@ -99,18 +97,18 @@ function getProductDetails({ data }) {
             break;
           case 3:
             if (productData.type_id == 3) {
-              setUnit(productData.productTypeData[0].variety_type);
+              // setUnit(productData.productTypeData[0].variety_type);
               updateUnit(productData.productTypeData[0].variety_type);
-              setValues(productData.productTypeData[0].variety_name);
+              // setValues(productData.productTypeData[0].variety_name);
               updateValue(productData.productTypeData[0].variety_name);
               setActiveWeight(productData.productTypeData[0].variety_name);
             }
             break;
           case 4:
             if (productData.type_id == 4) {
-              setUnit("KG");
+              // setUnit("KG");
               updateUnit("KG");
-              setValues(productData.min);
+              // setValues(productData.min);
               updateValue(productData.min);
               setSelectedProduct(productData.productTypeData[0]);
               // setProductPrice(initialProductType.cost * 2 * productData.min);
@@ -154,7 +152,7 @@ function getProductDetails({ data }) {
   };
   const handleProductTypeChange = (event) => {
     const selectedType = event;
-    setVariety(selectedType);
+    // setVariety(selectedType);
     updateVariety(selectedType);
     setSelectedProductType(selectedType);
     const selectProduct = product.productTypeData.find(
@@ -165,26 +163,26 @@ function getProductDetails({ data }) {
 
     if (selectProduct) {
       if (product.type_id == 3) {
-        setProductPrice(selectProduct.cost);
+        // setProductPrice(selectProduct.cost);
         updateVariable(selectProduct.cost);
 
         setActiveWeight(selectProduct.variety_name);
         if (selectProduct.variety_name == "Small") {
-          setUnit("S");
+          // setUnit("S");
           updateUnit("S");
-          setValues(selectProduct.variety_name);
+          // setValues(selectProduct.variety_name);
           updateValue(selectProduct.variety_name);
         } else {
-          setUnit("L");
+          // setUnit("L");
           updateUnit("L");
-          setValues(selectProduct.variety_name);
+          // setValues(selectProduct.variety_name);
           updateValue(selectProduct.variety_name);
         }
       } else if (product.type_id == 6) {
-        setProductPrice(selectProduct.cost * quantity);
+        // setProductPrice(selectProduct.cost * quantity);
         updateVariable(selectProduct.cost * quantity);
       } else {
-        setProductPrice(selectProduct.cost * 2 * quantity);
+        // setProductPrice(selectProduct.cost * 2 * quantity);
         updateVariable(selectProduct.cost * 2 * quantity);
       }
     }
@@ -198,7 +196,7 @@ function getProductDetails({ data }) {
         updateValue("0.5");
         setUnit("gram");
         updateUnit("gram");
-        setProductPrice(product.productTypeData[0].cost);
+        // setProductPrice(product.productTypeData[0].cost);
         updateVariable(product.productTypeData[0].cost);
       } else {
         setValues("1");
@@ -224,19 +222,19 @@ function getProductDetails({ data }) {
     if (product.type_id == 4) {
       setValues(weight);
       updateValue(weight);
-      setProductPrice(selectedProduct.cost * 2 * weight);
+      // setProductPrice(selectedProduct.cost * 2 * weight);
       updateVariable(selectedProduct.cost * 2 * weight);
     }
     if (product.type_id == 5) {
       setValues(weight);
       updateValue(weight);
-      setProductPrice(product.productTypeData[0].cost * weight);
+      // setProductPrice(product.productTypeData[0].cost * weight);
       updateVariable(product.productTypeData[0].cost * weight);
     }
     if (product.type_id == 6) {
       setValues(weight);
       updateValue(weight);
-      setProductPrice(selectedProduct.cost * weight);
+      // setProductPrice(selectedProduct.cost * weight);
       updateVariable(selectedProduct.cost * weight);
     }
   };
