@@ -166,12 +166,16 @@ const Header = () => {
           </ul>
         </div>
       </nav>
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onRequestClose={closeLoginModal}
-        closeLoginModal={closeLoginModal}
-        contentLabel="Login"
-      />
+      {!data ? (
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          onRequestClose={closeLoginModal}
+          closeLoginModal={closeLoginModal}
+          contentLabel="Login"
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };
