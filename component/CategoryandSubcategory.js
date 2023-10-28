@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { getCookie } from "@/cookieUtils";
 import { useEffect, useState } from "react";
-
+import AppConfig from "../AppConfig";
 function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   // const productData = data;
   // const categoryData = category;
@@ -126,6 +126,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                 {data && data.length > 0 ? (
                   data.map((item) => {
                     const productName = item.product_name.split(" ").join("-");
+                    var image = item.product_image.split(",");
                     return (
                       <Link
                         key={item.product_id}
@@ -144,7 +145,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                               // }}
                             >
                               <img
-                                src={`https://fama.b-cdn.net/RnB/lstcakeimg/1.webp`}
+                                src={`${AppConfig.cdn}products/${image[0]}`}
                                 className={styles.fc__thumb}
                               />
                               <div className={styles.fc__content}>

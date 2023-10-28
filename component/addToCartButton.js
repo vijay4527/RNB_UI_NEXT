@@ -5,12 +5,24 @@ import useSharedStore from "./calculatedPrice";
 import { getCookie } from "@/cookieUtils";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { axiosGet, axiosPost, axiosGetAll } from "@/api";
+import { useSession } from "next-auth/react";
 const addToCartButton = ({ data }) => {
   const { Variable, Variety, Unit, Value, Message } = useSharedStore();
+  const { session } = useSession();
   const placeholder = "Enter message on cake";
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
+  const [user, setUser] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    const userInfo =
+      typeof window !== "undefined"
+        ? JSON.parse(sessionStorage.getItem("userData"))
+        : "";
+    setUser(userInfo);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,11 +53,12 @@ const addToCartButton = ({ data }) => {
   };
   const cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
+
   const { city } = router.query;
-  const apiurl = process.env.API_URL;
-  const handleAddToCartOrWishlist = () => {
+  // const apiurl = process.env.API_URL;
+  const handleAddToCartOrWishlist = async () => {
     const cartItem = {
-      user_id: "",
+      user_id: user ? user.user_id : "",
       cart_id: cartId ? cartId : "",
       product_id: data.product_id,
       variety_id: Variety,
@@ -54,23 +67,19 @@ const addToCartButton = ({ data }) => {
       value: Value.toString(),
       msg_cake: Message,
     };
-
-    axios
-      .post(`${apiurl}/CartMaster/SaveCartDetails`, cartItem)
-      .then((response) => {
-        if (response.data.resp === true) {
-          try {
-            if (!cartId) {
-              sessionStorage.setItem("cartId", response.data.respObj.cart_id);
-            }
-          } catch (error) {
-            console.error("Error storing cartId in session storage:", error);
-          }
+    const response = await axiosPost(`/CartMaster/SaveCartDetails`, cartItem);
+    if (response.resp == true) {
+      try {
+        if (!cartId) {
+          sessionStorage.setItem("cartId", response.respObj.cart_id);
         }
-      })
-      .catch((error) => {
-        console.error("Error adding product to cart:", error);
-      });
+        router.push({
+          pathname: `/${city}/cart`,
+        });
+      } catch (error) {
+        console.error("Error storing cartId in session storage:", error);
+      }
+    }
   };
   return (
     <div className={styles.pdp_ProductContentButton}>

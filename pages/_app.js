@@ -8,7 +8,7 @@ if (typeof window !== "undefined") {
 export default function App({ Component, pageProps }) {
   return (
     <SessionProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </SessionProvider>
   );
 }

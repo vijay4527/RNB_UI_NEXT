@@ -1,192 +1,690 @@
 // pages/checkout.js
 import React from "react";
 import "./index.module.css";
-import useDataStore from "@/component/CheckoutData";
+import { useEffect, useState } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { getCookie } from "@/cookieUtils";
+import Link from "next/link";
+import { axiosGet, axiosPost, axiosGetAll } from "@/api";
+import Head from "next/head";
+import {
+  GoogleMap,
+  Marker,
+  InfoWindow,
+  LoadScript,
+} from "@react-google-maps/api";
+import AppConfig from "@/AppConfig";
 const CheckoutPage = () => {
-  const { dataArray, setDataArray } = useDataStore();
+  const { data, status } = useSession();
+  const [products, setProducts] = useState([]);
+  const [subTotalAmount, setSubTotalAmount] = useState(0);
+  const [shippingCharges, setShippingCharges] = useState(20);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("pickup");
+  const [inputValue, setInputValue] = useState("");
+  const [email, setEmail] = useState("");
+  const [franchise, setFranchise] = useState([]);
+  const [selectedFranchise, setSelectedFranchise] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userCity, setUserCity] = useState("");
+  const [state, setState] = useState("");
+  const [pinCode, setPinCode] = useState("");
+  const [contact, setContact] = useState("");
+  const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [userAddress, setUserAddress] = useState([]);
+  const [couponCode, setCouponCode] = useState("");
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [user, setUser] = useState("");
+  const city = getCookie("userCity");
+  useEffect(() => {
+    const userObject =
+      typeof window !== "undefined"
+        ? JSON.parse(sessionStorage.getItem("userData"))
+        : "";
+    setUser(userObject);
+  }, []);
+
+  const cartId =
+    typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
+
+  useEffect(() => {
+    GetAllCart();
+  }, [cartId]);
+  useEffect(() => {
+    countSubTotalAmount();
+  }, [products]);
+  useEffect(() => {
+    if (subTotalAmount) {
+      setTotalAmount(subTotalAmount + shippingCharges);
+    }
+  }, [subTotalAmount]);
+  useEffect(() => {
+    GetAddress();
+  }, [user]);
+  const GetAllCart = async () => {
+    var obj = {
+      cart_id: cartId ? cartId : "",
+      user_id: user ? user.user_id : "",
+      city_name: city,
+    };
+    const response = await axiosPost("/CartMaster/GetCartDetails", obj);
+    if (response) {
+      setProducts(response);
+    }
+  };
+
+  const countSubTotalAmount = () => {
+    var price = 0;
+    products.map((e) => {
+      price += e.cost;
+    });
+    setSubTotalAmount(price);
+  };
+
+  const handleInputChange = async (e) => {
+    const inputValue = e.target.value;
+    setInputValue(inputValue);
+    const inputWords = inputValue.trim().split(/\s+/);
+    if (inputWords.length > 0) {
+      const lastWord = inputWords[inputWords.length - 1];
+      if (lastWord) {
+        const apiRequestData = {
+          city_name: city,
+          param: lastWord,
+        };
+        const stores = await axiosPost(
+          "/StoreMaster/GetPickupDetails",
+          apiRequestData
+        );
+        if (stores) {
+          setFranchise(stores);
+        }
+      } else {
+        setFranchise([]);
+      }
+    } else {
+      setSelectedFranchise("");
+    }
+  };
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+  };
+
+  const loadMap = (lat, long) => {
+    const url = `https://www.google.com/maps?q=${lat},${long}`;
+    window.open(url, "_blank");
+  };
+
+  const GetAddress = async () => {
+    try {
+      if (user) {
+        const addressData = await axiosGet(
+          `ShippingAddress/GetShippingAddressByUserId/${user.user_id}`
+        );
+        if (addressData) {
+          setUserAddress(addressData);
+        }
+      }
+    } catch (error) {
+      console.log("error while fetching the data" + error);
+    }
+  };
+  const createOrder = async () => {
+    products.forEach((e) => {
+      e.city = city;
+    });
+    const orderobj = {
+      orderProductRequest: products,
+      order_type: selectedOption,
+      franchise_id: selectedFranchise ? selectedFranchise : null,
+      shipping_address_id: selectedAddress ? selectedAddress : "",
+      coupon_code: couponCode ? couponCode : null,
+      city: city,
+      user_id: user.user_id,
+      order_status: null,
+    };
+    const order = await axiosPost("Order/SaveOrder", orderobj);
+    if (order.resp == true) {
+      console.log("Order SuccessFull");
+    } else {
+      console.log("Order not placed");
+    }
+  };
+
+  const frachiseSelection = (storeid) => {
+    setSelectedFranchise(storeid);
+  };
+
+  const saveShippingAddress = async () => {
+    var obj = {
+      shipping_address_id: "",
+      user_id: user.user_id,
+      first_name: firstName,
+      last_name: lastName,
+      email_address: email,
+      mobile_number: contact,
+      address: address,
+      city: userCity,
+      state: state,
+      pincode: pinCode,
+      country: country,
+    };
+    const data = await axiosPost("ShippingAddress/SaveShippingAddress", obj);
+    if (data.resp == true) {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setContact("");
+      setAddress("");
+      setUserCity("");
+      setState("");
+      setPinCode("");
+      setCountry("");
+      GetAddress();
+    }
+  };
   return (
-    <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
-      <div className="container-fluid py-5 h-100">
-        <div className="row d-flex justify-content-center align-items-center h-100">
-          <div className="col">
-            <div className="card">
-              <div className="card-body p-4">
-                <div className="row">
-                  <div className="col-lg-7">
-                    <h5 className="mb-3">
-                      <a href="#!" className="text-body">
+    <>
+      <Head>
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBpti7QuC_QXwWE90MT0RkfMPlET1KbhS4&libraries=places`}
+        ></script>
+      </Head>
+      <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
+        <div className="container-fluid py-5 h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col">
+              <div className="card">
+                <div className="card-body p-4">
+                  <div className="row">
+                    <div className="col-lg-6">
+                      <h5 className="mb-3">
                         <i className="fas fa-long-arrow-alt-left me-2"></i>
-                        Continue shopping
-                      </a>
-                    </h5>
-                    <hr />
+                        Shipping Details{" "}
+                      </h5>
+                      <hr />
+                      <span>Select Order Type</span>
+                      <div className="d-flex">
+                        <div className="form-check form-check-inline ">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            value="pickup"
+                            checked={selectedOption === "pickup"}
+                            onChange={() => handleOptionChange("pickup")}
+                          />
+                          <label className="form-check-label">Pickup</label>
+                        </div>
 
-                    <div className="d-flex justify-content-between align-items-center mb-4">
-                      <div>
-                        <p className="mb-1">Shopping cart</p>
-                        <p className="mb-0">You have 4 items in your cart</p>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            value="delivery"
+                            checked={selectedOption === "delivery"}
+                            onChange={() => handleOptionChange("delivery")}
+                          />
+                          <label className="form-check-label">Delivery</label>
+                        </div>
                       </div>
-                    </div>
 
-                    {dataArray.length > 0 ? (
-                      dataArray.map((product) => (
-                        <div className="card mb-3" key={product.product_id}>
-                          <div className="card-body">
-                            <div className="d-flex justify-content-between">
-                              <div className="d-flex flex-row align-items-center">
+                      {selectedOption === "pickup" && (
+                        <div className="mt-4">
+                          <p>Pickup details go here.</p>
+                          <div className="row p-4">
+                            <div className="col-lg-6">
+                              <label>Select Franchise</label>
+                              {franchise.length >= 1 ? (
+                                franchise.map((res) => (
+                                  <div className="" key={res.store_id}>
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      value="pickup"
+                                      checked={
+                                        selectedFranchise === res.store_id
+                                      }
+                                      onChange={() => {
+                                        frachiseSelection(res.store_id);
+                                      }}
+                                    />
+                                    <h6>{res.franchise_name}</h6>
+                                    <span>{res.store_address}</span>
+                                    <button
+                                      className="btn btn-sm btn-primary ml-4"
+                                      onClick={() =>
+                                        loadMap(res.latitude, res.longitude)
+                                      }
+                                    >
+                                      View in Map
+                                    </button>
+                                  </div>
+                                ))
+                              ) : (
                                 <div>
-                                  <img
-                                    src={product.product_image}
-                                    className="img-fluid rounded-3"
-                                    alt="Shopping item"
-                                    style={{ width: "65px" }}
+                                  <h5>No Franchise to Show</h5>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="col-lg-6 col-md-6 ">
+                              <label>Search Address</label>
+                              <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Type here"
+                                value={inputValue}
+                                onChange={handleInputChange}
+                                required
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      {selectedOption === "delivery" && (
+                        <div className="mt-4">
+                          <h4 style={{ margin: "10px 0px 0px 20px" }}>
+                            Add New Shipping Address
+                          </h4>
+                          <hr />
+                          <div className="p-4">
+                            {" "}
+                            <div className="row">
+                              <div className="col-lg-6">
+                                <div className="form-group">
+                                  <label className="form-label">
+                                    First Name
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) =>
+                                      setFirstName(e.target.value)
+                                    }
+                                    required
                                   />
                                 </div>
-                                <div className="m-3">
-                                  <h5>{product.product_name}</h5>
-                                  <p className="small mb-0">
-                                    {product.description}
-                                  </p>
+                              </div>
+                              <div className="col-lg-6">
+                                {" "}
+                                <div className="form-group">
+                                  <label className="form-label">
+                                    Last Name
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) =>
+                                      setLastName(e.target.value)
+                                    }
+                                    required
+                                  />
                                 </div>
                               </div>
-                              <div className="d-flex flex-row align-items-center">
-                                <div style={{ width: "50px" }}>
-                                  <h5 className="fw-normal mb-0">
-                                    {product.quantity}
-                                  </h5>
+                            </div>
+                            <div className="row">
+                              <div className="col-lg-6">
+                                <div className="form-group">
+                                  <label className="form-label">Email</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                  />
                                 </div>
-                                <div style={{ width: "100px" }}>
-                                  <h5 className="mb-0">
-                                    ₹ {product.cost.toFixed(2)}
-                                  </h5>
-                                </div>
-                                <a href="#!" style={{ color: "#cecece" }}>
-                                  <i className="fas fa-trash-alt"></i>
-                                </a>
                               </div>
+                              <div className="col-lg-6">
+                                <div className="form-group">
+                                  <label className="form-label">Contact</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="+91"
+                                    onChange={(e) => setContact(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-lg-12">
+                                <div className="form-group">
+                                  <label className="form-label">Address</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-lg-6">
+                                <div className="form-group">
+                                  <label className="form-label">Zip Code</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => setPinCode(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="col-lg-6">
+                                <div className="form-group">
+                                  <label className="form-label">City</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) =>
+                                      setUserCity(e.target.value)
+                                    }
+                                    required
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-lg-6">
+                                <div className="form-group">
+                                  <label className="form-label">State</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => setState(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-lg-6">
+                                <div className="form-group">
+                                  <label className="form-label">Country</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <button
+                              className="btn btn-sm btn-primary"
+                              onClick={saveShippingAddress}
+                            >
+                              Submit
+                            </button>
+                          </div>
+                          <div className="p-4">
+                            <p>HI, {user ? user.first_name : ""} 😎</p>
+                            Select Your Shipping Address
+                            <div className="m-4">
+                              {userAddress.length > 0 ? (
+                                userAddress.map((address) => {
+                                  const Address = address.address;
+                                  const City = address.city;
+                                  const State = address.state;
+                                  const zipCode = address.pincode;
+                                  const userCountry = address.country;
+                                  const fullAddress = `${address.mobile_number},${address.first_name} ${address.last_name},${address.address}, ${address.city}, ${address.state}, ${address.pincode}, ${address.country}`;
+
+                                  return (
+                                    <div
+                                      className="d-flex mt-4"
+                                      key={address.shipping_address_id}
+                                    >
+                                      <input
+                                        type="radio"
+                                        className=""
+                                        name="address"
+                                        onChange={() =>
+                                          setSelectedAddress(
+                                            address.shipping_address_id
+                                          )
+                                        }
+                                      />
+                                      <div>
+                                        <span>{Address}</span>,
+                                        <span>
+                                          {City},{zipCode},
+                                        </span>
+                                        <span>
+                                          {State},{userCountry}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  );
+                                })
+                              ) : (
+                                <p>No shipping addresses available.</p>
+                              )}
                             </div>
                           </div>
                         </div>
-                      ))
-                    ) : (
-                      <div>
-                        <span>No Products has been selected</span>
+                      )}
+                    </div>
+
+                    <div className="col-lg-6">
+                      <h5 className="mb-3">
+                        <Link href={`/${city}`} className="text-body">
+                          <i className="fas fa-long-arrow-alt-left me-2"></i>
+                          Continue shopping
+                        </Link>
+                      </h5>
+                      <hr />
+
+                      <div className="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                          <p className="mb-1">Shopping cart</p>
+                          <p className="mb-0">
+                            You have {products.length} items in your cart
+                          </p>
+                        </div>
                       </div>
-                    )}
+
+                      {products.length > 0 ? (
+                        products.map((product) => (
+                          <div className="card mb-3" key={product.product_id}>
+                            <div className="card-body">
+                              <div className="d-flex justify-content-between">
+                                <div className="d-flex flex-row align-items-center">
+                                  <div>
+                                    <img
+                                      src={
+                                        AppConfig.cdn +
+                                        "products/" +
+                                        product.image.split(",")[0]
+                                      }
+                                      className="img-fluid rounded-3"
+                                      alt="Shopping item"
+                                      style={{ width: "65px" }}
+                                    />
+                                  </div>
+                                  <div className="m-3">
+                                    <h5>{product.product_name}</h5>
+                                    <p className="small mb-0">
+                                      {product.description}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="d-flex flex-row align-items-center">
+                                  <div style={{ width: "50px" }}>
+                                    <h5 className="fw-normal mb-0">
+                                      {product.quantity}
+                                    </h5>
+                                  </div>
+                                  <div style={{ width: "100px" }}>
+                                    <h5 className="mb-0">
+                                      ₹ {product.cost.toFixed(2)}
+                                    </h5>
+                                  </div>
+                                  <a href="#!" style={{ color: "#cecece" }}>
+                                    <i className="fas fa-trash-alt"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div>
+                          <span>No Products has been selected</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div className="col-lg-5">
-                    <div className="card bg-primary text-white rounded-3">
-                      <div className="card-body">
-                        <p className="small mb-2">Card type</p>
-                        <a href="#!" type="submit" className="text-white">
-                          <i className="fab fa-cc-mastercard fa-2x me-2"></i>
-                        </a>
-                        <a href="#!" type="submit" className="text-white">
-                          <i className="fab fa-cc-visa fa-2x me-2"></i>
-                        </a>
-                        <a href="#!" type="submit" className="text-white">
-                          <i className="fab fa-cc-amex fa-2x me-2"></i>
-                        </a>
-                        <a href="#!" type="submit" className="text-white">
-                          <i className="fab fa-cc-paypal fa-2x"></i>
-                        </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                        <form className="mt-4">
-                          <div className="form-outline form-white mb-4">
-                            <input
-                              type="text"
-                              id="typeName"
-                              className="form-control form-control-lg"
-                              size="17"
-                              placeholder="Cardholder's Name"
-                            />
-                            <label className="form-label" htmlFor="typeName">
-                              Cardholder's Name
-                            </label>
-                          </div>
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col">
+              <div className="card">
+                <div className="card-body p-4">
+                  <div className="row">
+                    <div className="col-lg-5">
+                      <div className="card bg-primary text-white rounded-3">
+                        <div className="card-body">
+                          <p className="small mb-2">Card type</p>
+                          <a href="#!" type="submit" className="text-white">
+                            <i className="fab fa-cc-mastercard fa-2x me-2"></i>
+                          </a>
+                          <a href="#!" type="submit" className="text-white">
+                            <i className="fab fa-cc-visa fa-2x me-2"></i>
+                          </a>
+                          <a href="#!" type="submit" className="text-white">
+                            <i className="fab fa-cc-amex fa-2x me-2"></i>
+                          </a>
+                          <a href="#!" type="submit" className="text-white">
+                            <i className="fab fa-cc-paypal fa-2x"></i>
+                          </a>
 
-                          <div className="form-outline form-white mb-4">
-                            <input
-                              type="text"
-                              id="typeText"
-                              className="form-control form-control-lg"
-                              size="17"
-                              placeholder="1234 5678 9012 3457"
-                              minLength="19"
-                              maxLength="19"
-                            />
-                            <label className="form-label" htmlFor="typeText">
-                              Card Number
-                            </label>
-                          </div>
+                          <form className="mt-4">
+                            <div className="form-outline form-white mb-4">
+                              <input
+                                type="text"
+                                id="typeName"
+                                className="form-control form-control-lg"
+                                size="17"
+                                placeholder="Enter Coupon Code "
+                                onChange={(e) => setCouponCode(e.target.value)}
+                              />
+                              <label className="form-label" htmlFor="typeName">
+                                Coupon Code
+                              </label>
+                            </div>
+                            <div className="form-outline form-white mb-4">
+                              <input
+                                type="text"
+                                id="typeName"
+                                className="form-control form-control-lg"
+                                size="17"
+                                placeholder="Cardholder's Name"
+                              />
+                              <label className="form-label" htmlFor="typeName">
+                                Cardholder's Name
+                              </label>
+                            </div>
 
-                          <div className="row mb-4">
-                            <div className="col-md-6">
-                              <div className="form-outline form-white">
-                                <input
-                                  type="text"
-                                  id="typeExp"
-                                  className="form-control form-control-lg"
-                                  placeholder="MM/YYYY"
-                                  size="7"
-                                  minLength="7"
-                                  maxLength="7"
-                                />
-                                <label className="form-label" htmlFor="typeExp">
-                                  Expiration
-                                </label>
+                            <div className="form-outline form-white mb-4">
+                              <input
+                                type="text"
+                                id="typeText"
+                                className="form-control form-control-lg"
+                                size="17"
+                                placeholder="1234 5678 9012 3457"
+                                minLength="19"
+                                maxLength="19"
+                              />
+                              <label className="form-label" htmlFor="typeText">
+                                Card Number
+                              </label>
+                            </div>
+
+                            <div className="row mb-4">
+                              <div className="col-md-6">
+                                <div className="form-outline form-white">
+                                  <input
+                                    type="text"
+                                    id="typeExp"
+                                    className="form-control form-control-lg"
+                                    placeholder="MM/YYYY"
+                                    size="7"
+                                    minLength="7"
+                                    maxLength="7"
+                                  />
+                                  <label
+                                    className="form-label"
+                                    htmlFor="typeExp"
+                                  >
+                                    Expiration
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-outline form-white">
+                                  <input
+                                    type="password"
+                                    id="typeCvv"
+                                    className="form-control form-control-lg"
+                                    placeholder="&#9679;&#9679;&#9679;"
+                                    size="1"
+                                    minLength="3"
+                                    maxLength="3"
+                                  />
+                                  <label
+                                    className="form-label"
+                                    htmlFor="typeCvv"
+                                  >
+                                    CVV
+                                  </label>
+                                </div>
                               </div>
                             </div>
-                            <div className="col-md-6">
-                              <div className="form-outline form-white">
-                                <input
-                                  type="password"
-                                  id="typeCvv"
-                                  className="form-control form-control-lg"
-                                  placeholder="&#9679;&#9679;&#9679;"
-                                  size="1"
-                                  minLength="3"
-                                  maxLength="3"
-                                />
-                                <label className="form-label" htmlFor="typeCvv">
-                                  CVV
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
+                          </form>
 
-                        {/* Payment summary */}
-                        <hr className="my-4" />
+                          <hr className="my-4" />
 
-                        <div className="d-flex justify-content-between">
-                          <p className="mb-2">Subtotal</p>
-                          <p className="mb-2">₹ 4798.00</p>
-                        </div>
-
-                        <div className="d-flex justify-content-between">
-                          <p className="mb-2">Shipping</p>
-                          <p className="mb-2">₹ 20.00</p>
-                        </div>
-
-                        <div className="d-flex justify-content-between mb-4">
-                          <p className="mb-2">Total (Incl. taxes)</p>
-                          <p className="mb-2">₹ 4818.00</p>
-                        </div>
-
-                        {/* Checkout button */}
-                        <button
-                          type="button"
-                          className="btn btn-info btn-block btn-lg"
-                        >
                           <div className="d-flex justify-content-between">
-                            <span>₹ 4818.00</span>
-                            <span>
-                              Pay{" "}
-                              <i className="fas fa-long-arrow-alt-right ms-2"></i>
-                            </span>
+                            <p className="mb-2">Subtotal</p>
+                            <p className="mb-2">
+                              ₹ {subTotalAmount.toFixed(2)}
+                            </p>
                           </div>
-                        </button>
+                          <div className="d-flex justify-content-between">
+                            <p className="mb-2">Shipping</p>
+                            <p className="mb-2">
+                              ₹ {shippingCharges.toFixed(2)}
+                            </p>
+                          </div>
+                          <div className="d-flex justify-content-between mb-4">
+                            <p className="mb-2">Total (Incl. taxes)</p>
+                            <p className="mb-2">₹ {totalAmount.toFixed(2)}</p>
+                          </div>
+
+                          <button
+                            type="button"
+                            className="btn btn-info btn-block btn-lg"
+                            onClick={createOrder}
+                          >
+                            <div className="d-flex justify-content-between">
+                              <span>₹ {totalAmount}</span>
+                              <span>
+                                Pay{" "}
+                                <i className="fas fa-long-arrow-alt-right ms-2"></i>
+                              </span>
+                            </div>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -195,8 +693,8 @@ const CheckoutPage = () => {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

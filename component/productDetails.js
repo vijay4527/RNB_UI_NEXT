@@ -85,33 +85,24 @@ function getProductDetails({ data }) {
             break;
           case 2:
             if (productData.type_id == 2) {
-              // setUnit("KG");
               updateUnit("KG");
-              // setValues(productData.min);
               updateValue(productData.min);
-              // setProductPrice(initialProductType.cost * 2 * productData.min);
               updateVariable(initialProductType.cost * 2 * productData.min);
-              // calculatedPrice(initialProductType.cost * 2 * productData.min);
               setActiveWeight(productData.min.toString());
             }
             break;
           case 3:
             if (productData.type_id == 3) {
-              // setUnit(productData.productTypeData[0].variety_type);
               updateUnit(productData.productTypeData[0].variety_type);
-              // setValues(productData.productTypeData[0].variety_name);
               updateValue(productData.productTypeData[0].variety_name);
               setActiveWeight(productData.productTypeData[0].variety_name);
             }
             break;
           case 4:
             if (productData.type_id == 4) {
-              // setUnit("KG");
               updateUnit("KG");
-              // setValues(productData.min);
               updateValue(productData.min);
               setSelectedProduct(productData.productTypeData[0]);
-              // setProductPrice(initialProductType.cost * 2 * productData.min);
               updateVariable(initialProductType.cost * 2 * productData.min);
               setSelectedProduct(productData.productTypeData[0]);
               setActiveWeight(productData.min);
@@ -119,7 +110,7 @@ function getProductDetails({ data }) {
             }
           case 5:
             if (productData.type_id == 5) {
-              setUnit("PCS");
+              // setUnit("PCS");
               updateUnit("PCS");
               setValues("1");
               updateValue("1");
@@ -127,7 +118,7 @@ function getProductDetails({ data }) {
             }
           case 6:
             if (productData.type_id == 6) {
-              setUnit("PCS");
+              // setUnit("PCS");
               updateUnit("PCS");
               setValues("1");
               updateValue("1");
@@ -222,19 +213,16 @@ function getProductDetails({ data }) {
     if (product.type_id == 4) {
       setValues(weight);
       updateValue(weight);
-      // setProductPrice(selectedProduct.cost * 2 * weight);
       updateVariable(selectedProduct.cost * 2 * weight);
     }
     if (product.type_id == 5) {
       setValues(weight);
       updateValue(weight);
-      // setProductPrice(product.productTypeData[0].cost * weight);
       updateVariable(product.productTypeData[0].cost * weight);
     }
     if (product.type_id == 6) {
       setValues(weight);
       updateValue(weight);
-      // setProductPrice(selectedProduct.cost * weight);
       updateVariable(selectedProduct.cost * weight);
     }
   };
@@ -261,14 +249,6 @@ function getProductDetails({ data }) {
       setQuantity(newQuantity);
       handleWeight(newQuantity);
     }
-    //else {
-    //   toastr.options = {
-    //     positionClass: "toast-top-right",
-    //     timeOut: 3000,
-    //     closeButton: true,
-    //   };
-    //   toastr.warning(`Quantity should not be greater than 20`);
-    // }
   };
 
   const handleDecrementQuantity = () => {
@@ -277,18 +257,10 @@ function getProductDetails({ data }) {
       setQuantity(newQuantity);
       handleWeight(newQuantity);
     }
-    //else {
-    //   toastr.options = {
-    //     positionClass: "toast-top-right",
-    //     timeOut: 3000,
-    //     closeButton: true,
-    //   };
-    //   toastr.warning(`Quantity should not be less than 1`);
-    // }
   };
   const userObject =
     typeof window !== "undefined"
-      ? JSON.parse(sessionStorage.getItem("userObject"))
+      ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
   const cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
@@ -323,9 +295,6 @@ function getProductDetails({ data }) {
             console.error("Error storing cartId in session storage:", error);
           }
         }
-        // else {
-        //   toastr.error("Something went wrong :");
-        // }
       })
       .catch((error) => {
         console.error("Error adding product to cart:", error);
@@ -422,19 +391,6 @@ function getProductDetails({ data }) {
                 </ul>
               </div>
             </div>
-            {/* 
-                          <div className={styles.pdp_SelectInfo}>
-                            <h4 className={styles.pdp_DetailInfoTitle}>
-                              Select Flavour
-                            </h4>
-                            <div className={styles.pdp_SelectFlavour}>
-                              <ul>
-                                <li className={styles.active}>
-                                  {product.productTypeData[0].variety_name}
-                                </li>
-                              </ul>
-                            </div>
-                          </div> */}
           </>
         )}
         {product.type_id == 4 && (
@@ -518,25 +474,6 @@ function getProductDetails({ data }) {
                 </div>
               </div>
             </div>
-
-            {/* <div className={styles.pdp_SelectInfo}>
-                            <h4 className={styles.pdp_DetailInfoTitle}>
-                              Select Flavour
-                            </h4>
-                            <div className={styles.pdp_SelectFlavour}>
-                              <ul>
-                                {product.productTypeData ? (
-                                  product.productTypeData.map((ele) => (
-                                    <li key={ele.variety_id} value={ele.variety_id}>
-                                      {ele.variety_name}
-                                    </li>
-                                  ))
-                                ) : (
-                                  <li value="">No types available</li>
-                                )}
-                              </ul>
-                            </div>
-                          </div> */}
           </>
         )}
         {product.type_id == 6 && (

@@ -47,6 +47,9 @@ export async function getServerSideProps(context) {
   removeCookie("userCity");
   if (city) {
     setCookie("userCity", city);
+    console.log(
+      "here is your cookie after the setting : " + getCookie("userCity")
+    );
   }
 
   return {

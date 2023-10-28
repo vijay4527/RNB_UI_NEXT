@@ -5,10 +5,15 @@ import styles from "./productbyname.module.css";
 import AddToCart from "@/component/addToCartButton";
 import ProducDetails from "@/component/productDetails";
 import https from "https";
+import AppConfig from "@/AppConfig";
+import { axiosGet, axiosPost, axiosGetAll } from "@/api";
+
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
+
 const productbyname = ({ data }) => {
+  let image = data.product_image.split(",");
   return (
     <div className={styles.pdp_WrapContent}>
       <div className={styles.common_header}>
@@ -66,28 +71,37 @@ const productbyname = ({ data }) => {
                   </h4>
                   <p>10:30 AM To 5:30 PM (Mon To Sat)</p>
                 </div>
-                {/* <div className={styles.pdp_ProductContentButton}>
-                <h4 className={styles.pdp_ProductContentPrice}>₹ 450</h4> */}
+
                 <AddToCart data={data}></AddToCart>
-                {/* </div> */}
               </div>
               <div className={styles.pdp_DetailImg}>
-                <div className={styles.pdp_ProductImg}>
-                  <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
-                </div>
-                <div className={styles.pdp_ProductImgs}>
-                  <ul>
-                    <li className={styles.active}>
-                      <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
-                    </li>
-                    <li>
-                      <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
-                    </li>
-                    <li>
-                      <img src="https://fama.b-cdn.net/RnB/Cake.png" alt="" />
-                    </li>
-                  </ul>
-                </div>
+                {image ? (
+                  <>
+                    <div className={styles.pdp_ProductImg}>
+                      <img
+                        src={AppConfig.cdn + "products/" + image[0]}
+                        alt=""
+                      />
+                    </div>
+                    <div className={styles.pdp_ProductImgs}>
+                      <ul>
+                        {image.slice(1).map((item, index) => (
+                          <li
+                            key={item}
+                            className={index === 0 ? styles.active : ""}
+                          >
+                            <img
+                              src={AppConfig.cdn + "products/" + item}
+                              alt=""
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
               <ProducDetails data={data}></ProducDetails>
             </div>
@@ -108,18 +122,16 @@ export default productbyname;
 export async function getServerSideProps(context) {
   const url = context.query.productbyname;
   const productName = url.split("-").join(" ");
-  // console.log("Product Name is : " + productName);
-  // const city = getCookie("userCity");
   const city = context.query.city;
-  // console.log("City of : " + city);
   const apiurl = process.env.API_URL;
-  const response = await axios.get(
-    `${apiurl}/productMaster/GetProductByName/${city}/${productName}`
+
+  const response = await axiosGet(
+    `/productMaster/GetProductByName/${city}/${productName}`
   );
-  // console.log("response of product : " + JSON.stringify(response.data));
+
   return {
     props: {
-      data: response.data,
+      data: response,
     },
   };
 }

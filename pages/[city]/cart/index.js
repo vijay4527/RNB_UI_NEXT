@@ -6,46 +6,80 @@ import { useRouter } from "next/router";
 import { getCookie } from "@/cookieUtils";
 import LoginModal from "@/component/loginModal";
 import { useSession, signIn, signOut } from "next-auth/react";
-import useDataStore from "@/component/CheckoutData";
-
+import { axiosGet, axiosPost, axiosGetAll } from "@/api";
+import AppConfig from "@/AppConfig";
 const CartPage = () => {
-  const { dataArray, setDataArray } = useDataStore();
   const { data, status } = useSession();
   const [cart, setCart] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
-  const [selectedProductTotal, setSelectedProductTotal] = useState(0);
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [user, setUser] = useState({});
+  // const [selectedProductTotal, setSelectedProductTotal] = useState(0);
+  // const [selectedProducts, setSelectedProducts] = useState([]);
   const router = useRouter();
-  const api_url = process.env.API_URL;
+  // const api_url = process.env.API_URL;
   const city = getCookie("userCity");
   const [isCityModalOpen, setCityModalOpen] = useState(false);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const userObject =
     typeof window !== "undefined"
-      ? JSON.parse(sessionStorage.getItem("userObject"))
+      ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
-
   const cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
 
   useEffect(() => {
     GetAllCart();
+    const userInfo =
+      typeof window !== "undefined"
+        ? sessionStorage.getItem("userData")
+        : data
+        ? data.user
+        : "";
+    setUser(userInfo);
   }, []);
 
-  const GetAllCart = () => {
-    var obj = {
-      cart_id: cartId ? cartId : "",
-      user_id: "",
-      city_name: city ? city : "",
-    };
-    axios.post(`${api_url}/CartMaster/GetCartDetails`, obj).then((res) => {
-      setCart(res.data);
-    });
+  // const GetAllCart = async () => {
+  //   var obj = {
+  //     cart_id: cartId ? cartId : "",
+  //     user_id: userObject ? userObject.user_name : "",
+  //     city_name: city ? city : "",
+  //   };
+  //   axios.post(`${api_url}/CartMaster/GetCartDetails`, obj).then((res) => {
+  //     setCart(res.data);
+  //   });
+  // };
+
+  const GetAllCart = async () => {
+    try {
+      var obj = {
+        cart_id: cartId ? cartId : "",
+        user_id: userObject ? userObject.user_id : "",
+        city_name: city ? city : "",
+      };
+      const response = await axiosPost("/CartMaster/GetCartDetails", obj);
+      if (response) {
+        setCart(response);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const removeFromCart = (cpId, itemCost) => {
-    axios.get(`${api_url}/CartMaster/RemoveCart/${cpId}`).then((response) => {
+  const removeFromCart = async (cpId, itemCost) => {
+    // axios.get(`${api_url}/CartMaster/RemoveCart/${cpId}`).then((response) => {
+    //   var newPrice = grandTotal - itemCost;
+    //   setGrandTotal(newPrice);
+    //   GetAllCart();
+    //   if (cart.length === 1) {
+    //     try {
+    //       sessionStorage.removeItem("cartId");
+    //     } catch (error) {
+    //       console.error("Error removing cartId from session storage:", error);
+    //     }
+    //   }
+    // });
+    const response = await axiosGet(`/CartMaster/RemoveCart/${cpId}`);
+    if (response) {
       var newPrice = grandTotal - itemCost;
       setGrandTotal(newPrice);
       GetAllCart();
@@ -56,7 +90,7 @@ const CartPage = () => {
           console.error("Error removing cartId from session storage:", error);
         }
       }
-    });
+    }
   };
 
   useEffect(() => {
@@ -68,13 +102,6 @@ const CartPage = () => {
     }
   }, [cart]);
 
-  useEffect(() => {
-    const selectedTotal = selectedProducts.reduce((accumulator, item) => {
-      return accumulator + item.cost;
-    }, 0);
-    setSelectedProductTotal(selectedTotal);
-  }, [selectedProducts]);
-
   const getCartById = (productname) => {
     router.push(`/${city}/product/${productname}`);
   };
@@ -84,7 +111,7 @@ const CartPage = () => {
     isLoggedIn = true;
   }
   const handleProducts = () => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !user) {
       setCityModalOpen(true);
     } else {
       router.push(`/${city}/checkout`);
@@ -95,91 +122,100 @@ const CartPage = () => {
     setCityModalOpen(false);
   };
 
-  const handleSelectedProductChange = (cpId) => {
-    const isSelected = selectedProducts.some(
-      (product) => product.cp_id === cpId
-    );
-    if (isSelected) {
-      const updatedSelectedProducts = selectedProducts.filter(
-        (product) => product.cp_id !== cpId
-      );
-      setSelectedProducts(updatedSelectedProducts);
-    } else {
-      const selectedProduct = cart.find((item) => item.cp_id === cpId);
-      setSelectedProducts([...selectedProducts, selectedProduct]);
-      setDataArray([...dataArray, selectedProduct]);
-    }
-  };
-
   return (
     <>
-      <div className={styles.container}>
-        {cart.length > 0 ? (
-          <>
-            <div className={styles.header}>
-              <div>Image</div>
-              <div>Product</div>
-              <div>Price</div>
-              <div>Quantity</div>
-              <div>Total Price</div>
-              <div>Actions</div>
-              <div>Select Product</div>
-            </div>
-            {cart.map((item) => (
-              <div className={styles.body} key={item.cp_id}>
-                <div className={styles.image}>
-                  <img
-                    src="https://fama.b-cdn.net/RnB/lstcakeimg/1.webp"
-                    height="90"
-                    width="65"
-                  />
-                </div>
-                <p
-                  className={styles.productname}
-                  onClick={() => getCartById(item.product_name)}
-                >
-                  {item.product_name}
-                </p>
-                <p> {item.cost}</p>{" "}
-                <p>
-                  {item.product_type == 3 ? (
-                    <>{item.value}</>
-                  ) : (
-                    <>{item.value + " " + item.unit}</>
-                  )}
-                </p>
-                <p> {item.cost}</p>
-                <div className={styles.buttons}>
-                  <button onClick={() => removeFromCart(item.cp_id, item.cost)}>
-                    x
-                  </button>
-                </div>
-                <input
-                  type="checkbox"
-                  onChange={() => handleSelectedProductChange(item.cp_id)}
-                  checked={selectedProducts.some(
-                    (product) => product.cp_id === item.cp_id
-                  )}
-                />
+      <div className={styles.plp_WrapContent} id={styles.title}>
+        <div className={styles.common_header}>
+          <div className={styles.container_fluid}>
+            <div className={styles.content_heading}>
+              <div className={styles.content_title_heading}>
+                <span className={styles.back_to_shop}>
+                  {/* {categoryName ? categoryName : ""} */}
+                  Cart
+                </span>
+                {/* <h1 className={styles.text_title_heading}>
+                 {categoryName ? categoryName : ""} 
+                  Cart
+                </h1> */}
               </div>
-            ))}
-            <h2>Cart Total: {grandTotal}</h2>
-            {selectedProductTotal ? (
-              <h2>Selected Products Total: {selectedProductTotal}</h2>
-            ) : (
-              ""
-            )}
-            <button className="btn btn-sm btn-primary" onClick={handleProducts}>
-              want to checkout
-            </button>
-          </>
-        ) : (
-          <h1>Your Cart is Empty!</h1>
+              <div className={styles.breadcrumb}>
+                <div className={styles.breadcrumb}>
+                  <a href="/">
+                    {/* {categoryName && subcategoryName ? categoryName : ""} */}
+                    {/* {subcategoryName ? (
+                       <span className={styles.delimiter}>
+                      <span>{subcategoryName}</span>
+                    ) : (
+                      ""
+                    )} */}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.container}>
+          {cart.length > 0 ? (
+            <>
+              <div className={styles.header}>
+                <div>Image</div>
+                <div>Product</div>
+                <div>Price</div>
+                <div>Quantity</div>
+                <div>Total Price</div>
+                <div>Actions</div>
+              </div>
+              {cart.map((item) => (
+                <div className={styles.body} key={item.cp_id}>
+                  <div className={styles.image}>
+                    <img
+                      src={
+                        AppConfig.cdn + "products/" + item.image.split(",")[0]
+                      }
+                      height="90"
+                      width="65"
+                    />
+                  </div>
+                  <p
+                    className={styles.productname}
+                    onClick={() => getCartById(item.product_name)}
+                  >
+                    {item.product_name}
+                  </p>
+                  <p> {item.cost}</p>{" "}
+                  <p>
+                    {item.product_type == 3 ? (
+                      <>{item.value}</>
+                    ) : (
+                      <>{item.value + " " + item.unit}</>
+                    )}
+                  </p>
+                  <p> {item.cost}</p>
+                  <div className={styles.buttons}>
+                    <button
+                      onClick={() => removeFromCart(item.cp_id, item.cost)}
+                    >
+                      x
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <h2>Cart Total: {grandTotal}</h2>
+              <button
+                className="btn btn-sm btn-primary"
+                onClick={handleProducts}
+              >
+                want to checkout
+              </button>
+            </>
+          ) : (
+            <h1>Your Cart is Empty!</h1>
+          )}
+        </div>
+        {isLoggedIn && (
+          <LoginModal isOpen={isCityModalOpen} onClose={closeCityModal} />
         )}
       </div>
-      {isCityModalOpen && (
-        <LoginModal isOpen={isCityModalOpen} onClose={closeCityModal} />
-      )}
     </>
   );
 };

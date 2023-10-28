@@ -13,6 +13,12 @@ const Header = () => {
   const [category, setCategory] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const userInfo =
+      typeof window !== "undefined" ? sessionStorage.getItem("userData") : "";
+    setUser(JSON.parse(userInfo));
+  }, []);
   const router = useRouter();
   const api_url = process.env.API_URL;
 
@@ -20,6 +26,11 @@ const Header = () => {
 
   const closeLoginModal = () => {
     setLoginModalOpen(false);
+  };
+
+  const openLoginModal = () => {
+    setLoginModalOpen(true);
+    console.log(isLoginModalOpen);
   };
 
   useEffect(() => {
@@ -96,6 +107,9 @@ const Header = () => {
                 <span className="nav-link">Sub Category</span>
                 <ul className="subcategories-list">
                   {subcategories.map((subcat) => {
+                    if (!subcat || !subcat.sub_category_name) {
+                      return null;
+                    }
                     const subCategoryName = subcat.sub_category_name
                       .split(" ")
                       .join("-");
@@ -129,14 +143,14 @@ const Header = () => {
                         className="fa fa-user"
                         data-toggle="modal"
                         data-target="#exampleModal"
-                        onClick={() => setLoginModalOpen(true)}
+                        onClick={openLoginModal}
                       ></i>
                     </span>
                   )}
                 </li>
               </div>
             </div>
-            {data?.user?.name || (isLoggedIn && userInfo) ? (
+            {data?.user?.name || user ? (
               <>
                 <span style={{ marginRight: "15px" }}>
                   {data?.user ? (
@@ -154,8 +168,21 @@ const Header = () => {
                       alt="user image"
                     />
                   )}
-                  Hi, {data?.user?.name || (isLoggedIn && userInfo.first_name)}
+                  Hi, {data?.user?.name || user ? user.first_name : ""}
                 </span>
+                <li className="nav-item">
+                  <Link className="nav-link" href={`${city}/profile`}>
+                    {" "}
+                    Manage Profile
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" href={`${city}/profile`}>
+                    {" "}
+                    Manage Profile
+                  </Link>
+                </li>
                 <span style={{ cursor: "pointer" }} onClick={handleLogout}>
                   Logout
                 </span>
