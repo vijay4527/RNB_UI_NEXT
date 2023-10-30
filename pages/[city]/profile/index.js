@@ -79,7 +79,6 @@ const Index = () => {
     } catch (validationError) {
       if (validationError instanceof yup.ValidationError) {
         const newErrors = {};
-
         validationError.inner.forEach((error) => {
           newErrors[error.path] = error.message;
         });
