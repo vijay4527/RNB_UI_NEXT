@@ -12,17 +12,13 @@ const validationSchema = yup.object().shape({
     .required("Email is required"),
   contact: yup
     .string()
-    .test(
-      "contact",
-      "Contact is required",
-      (value) => value && value.trim() !== ""
-    )
-    .matches(/^[0-9]{10}$/, "Invalid Contact format (10 digits required)"),
+    .matches(/^[0-9]{10}$/, "Invalid Contact format (10 digits required)")
+    .required("THis field is required"),
   address1: yup.string().required("Apartment is required"),
   address2: yup.string().required("Street is required"),
   userCity: yup.string().required("City is required"),
   state: yup.string().required("State is required"),
-  pinCode: yup.string().matches(/^[0-9]{5}$/, "Invalid Pin Code format"),
+  pinCode: yup.string().required("Pin code is required"),
   country: yup.string().required("Country is required"),
 });
 
@@ -65,28 +61,32 @@ const Index = () => {
       await validationSchema.validate(formValues, { abortEarly: false });
       const obj = {
         user_id: user ? user.user_id : "",
-        first_name: firstName,
-        last_name: lastName,
-        user_email: email,
-        contact_details: contact,
-        city: city,
-        state: state,
-        address_1: address1,
-        address_2: address2,
-        pincode: pinCode,
-        country: country,
-        ...formValues,
+        first_name: formValues.firstName,
+        last_name: formValues.lastName,
+        user_email: formValues.userEmail,
+        contact_details: formValues.contact,
+        city: formValues.userCity,
+        state: formValues.state,
+        address_1: formValues.address1,
+        address_2: formValues.address2,
+        pincode: formValues.pinCode,
+        country: formValues.country,
       };
       const data = await axiosPost("UserProfile/SaveUserProfile", obj);
       if (data.resp === true) {
         console.log("Address added successfully");
       }
-    } catch (validationErrors) {
-      const newErrors = {};
-      validationErrors.inner.forEach((error) => {
-        newErrors[error.path] = error.message;
-      });
-      setErrors(newErrors);
+    } catch (validationError) {
+      if (validationError instanceof yup.ValidationError) {
+        const newErrors = {};
+
+        validationError.inner.forEach((error) => {
+          newErrors[error.path] = error.message;
+        });
+        setErrors(newErrors);
+      } else {
+        console.error(validationError);
+      }
     }
   };
 
