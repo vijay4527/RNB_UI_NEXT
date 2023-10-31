@@ -14,14 +14,13 @@ const Header = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [user, setUser] = useState({});
-  const { l } = useRouter();
-  const city = l;
+  const router = useRouter();
+  const { city } = router.query;
   useEffect(() => {
     const userInfo =
       typeof window !== "undefined" ? sessionStorage.getItem("userData") : "";
     setUser(JSON.parse(userInfo));
   }, []);
-  const router = useRouter();
   const api_url = process.env.API_URL;
 
   const closeLoginModal = () => {
