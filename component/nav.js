@@ -14,6 +14,8 @@ const Header = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [user, setUser] = useState({});
+  const { l } = useRouter();
+  const city = l;
   useEffect(() => {
     const userInfo =
       typeof window !== "undefined" ? sessionStorage.getItem("userData") : "";
@@ -21,8 +23,6 @@ const Header = () => {
   }, []);
   const router = useRouter();
   const api_url = process.env.API_URL;
-
-  const city = getCookie("userCity");
 
   const closeLoginModal = () => {
     setLoginModalOpen(false);
