@@ -13,7 +13,26 @@ import {
   InfoWindow,
   LoadScript,
 } from "@react-google-maps/api";
+import * as yup from "yup";
 import AppConfig from "@/AppConfig";
+const validationSchema = yup.object().shape({
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  contact: yup
+    .string()
+    .matches(/^[0-9]{10}$/, "Invalid Contact format (10 digits required)")
+    .required("This field is required"),
+  address: yup.string().required("Address is required"),
+  city: yup.string().required("City is required"),
+  state: yup.string().required("State is required"),
+  pinCode: yup.string().required("Pin code is required"),
+  country: yup.string().required("Country is required"),
+});
+
 const CheckoutPage = () => {
   const { data, status } = useSession();
   const [products, setProducts] = useState([]);
@@ -22,17 +41,17 @@ const CheckoutPage = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedOption, setSelectedOption] = useState("pickup");
   const [inputValue, setInputValue] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [franchise, setFranchise] = useState([]);
   const [selectedFranchise, setSelectedFranchise] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userCity, setUserCity] = useState("");
-  const [state, setState] = useState("");
-  const [pinCode, setPinCode] = useState("");
-  const [contact, setContact] = useState("");
-  const [address, setAddress] = useState("");
-  const [country, setCountry] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [userCity, setUserCity] = useState("");
+  // const [state, setState] = useState("");
+  // const [pinCode, setPinCode] = useState("");
+  // const [contact, setContact] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [country, setCountry] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [userAddress, setUserAddress] = useState([]);
@@ -40,6 +59,17 @@ const CheckoutPage = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [user, setUser] = useState("");
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    contact: "",
+    address: "",
+    city: "",
+    state: "",
+    pinCode: "",
+    country: "",
+  });
   const city = getCookie("userCity");
   useEffect(() => {
     const userObject =
@@ -54,7 +84,7 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     GetAllCart();
-  }, [cartId]);
+  }, [cartId, user]);
   useEffect(() => {
     countSubTotalAmount();
   }, [products]);
@@ -67,14 +97,16 @@ const CheckoutPage = () => {
     GetAddress();
   }, [user]);
   const GetAllCart = async () => {
-    var obj = {
-      cart_id: cartId ? cartId : "",
-      user_id: user ? user.user_id : "",
-      city_name: city,
-    };
-    const response = await axiosPost("/CartMaster/GetCartDetails", obj);
-    if (response) {
-      setProducts(response);
+    if (user) {
+      var obj = {
+        cart_id: cartId ? cartId : "",
+        user_id: user ? user.user_id : "",
+        city_name: city,
+      };
+      const response = await axiosPost("/CartMaster/GetCartDetails", obj);
+      if (response) {
+        setProducts(response);
+      }
     }
   };
 
@@ -86,7 +118,7 @@ const CheckoutPage = () => {
     setSubTotalAmount(price);
   };
 
-  const handleInputChange = async (e) => {
+  const handleFranchiseAddress = async (e) => {
     const inputValue = e.target.value;
     setInputValue(inputValue);
     const inputWords = inputValue.trim().split(/\s+/);
@@ -161,31 +193,53 @@ const CheckoutPage = () => {
   };
 
   const saveShippingAddress = async () => {
-    var obj = {
-      shipping_address_id: "",
-      user_id: user.user_id,
-      first_name: firstName,
-      last_name: lastName,
-      email_address: email,
-      mobile_number: contact,
-      address: address,
-      city: userCity,
-      state: state,
-      pincode: pinCode,
-      country: country,
-    };
-    const data = await axiosPost("ShippingAddress/SaveShippingAddress", obj);
-    if (data.resp == true) {
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setContact("");
-      setAddress("");
-      setUserCity("");
-      setState("");
-      setPinCode("");
-      setCountry("");
-      GetAddress();
+    try {
+      await validationSchema.validate(formValues, { abortEarly: false });
+      var obj = {
+        shipping_address_id: "",
+        user_id: user.user_id,
+        first_name: formValues.firstName,
+        last_name: formValues.lastName,
+        email_address: formValues.email,
+        mobile_number: formValues.contact,
+        address: formValues.address,
+        city: formValues.userCity,
+        state: formValues.state,
+        pincode: formValues.pinCode,
+        country: formValues.country,
+      };
+      const data = await axiosPost("ShippingAddress/SaveShippingAddress", obj);
+      if (data.resp == true) {
+        // setFirstName("");
+        // setLastName("");
+        // setEmail("");
+        // setContact("");
+        // setAddress("");
+        // setUserCity("");
+        // setState("");
+        // setPinCode("");
+        // setCountry("");
+        GetAddress();
+      }
+    } catch (validationError) {
+      if (validationError instanceof yup.ValidationError) {
+        const newErrors = {};
+        validationError.inner.forEach((error) => {
+          newErrors[error.path] = error.message;
+        });
+        setErrors(newErrors);
+      } else {
+        console.error(validationError);
+      }
+    }
+  };
+
+  const [errors, setErrors] = useState({});
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+    if (value.trim() !== "") {
+      setErrors({ ...errors, [name]: "" });
     }
   };
   return (
@@ -279,7 +333,7 @@ const CheckoutPage = () => {
                                 type="text"
                                 placeholder="Type here"
                                 value={inputValue}
-                                onChange={handleInputChange}
+                                onChange={handleFranchiseAddress}
                                 required
                               />
                             </div>
@@ -303,11 +357,16 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) =>
-                                      setFirstName(e.target.value)
-                                    }
+                                    name="firstName"
+                                    value={formValues.firstName}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.firstName && (
+                                    <div className="text-danger">
+                                      {errors.firstName}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <div className="col-lg-6">
@@ -319,11 +378,16 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) =>
-                                      setLastName(e.target.value)
-                                    }
+                                    name="lastName"
+                                    value={formValues.lastName}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.lastName && (
+                                    <div className="text-danger">
+                                      {errors.firstName}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -334,9 +398,15 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
+                                    name="email"
+                                    value={formValues.email}
+                                    onChange={handleInputChange}
                                   />
+                                  {errors.email && (
+                                    <div className="text-danger">
+                                      {errors.email}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <div className="col-lg-6">
@@ -346,9 +416,16 @@ const CheckoutPage = () => {
                                     type="text"
                                     className="form-control"
                                     placeholder="+91"
-                                    onChange={(e) => setContact(e.target.value)}
+                                    name="contact"
+                                    value={formValues.contact}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.contact && (
+                                    <div className="text-danger">
+                                      {errors.contact}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -359,9 +436,16 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) => setAddress(e.target.value)}
+                                    name="address"
+                                    value={formValues.address}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.address && (
+                                    <div className="text-danger">
+                                      {errors.address}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -372,9 +456,16 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) => setPinCode(e.target.value)}
+                                    name="pinCode"
+                                    value={formValues.pinCode}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.pinCode && (
+                                    <div className="text-danger">
+                                      {errors.pinCode}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
 
@@ -384,11 +475,16 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) =>
-                                      setUserCity(e.target.value)
-                                    }
+                                    name="city"
+                                    value={formValues.city}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.city && (
+                                    <div className="text-danger">
+                                      {errors.city}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -399,9 +495,16 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) => setState(e.target.value)}
+                                    name="state"
+                                    value={formValues.state}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.state && (
+                                    <div className="text-danger">
+                                      {errors.state}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <div className="col-lg-6">
@@ -410,9 +513,16 @@ const CheckoutPage = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(e) => setCountry(e.target.value)}
+                                    name="country"
+                                    value={formValues.country}
+                                    onChange={handleInputChange}
                                     required
                                   />
+                                  {errors.country && (
+                                    <div className="text-danger">
+                                      {errors.country}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -492,7 +602,7 @@ const CheckoutPage = () => {
 
                       {products.length > 0 ? (
                         products.map((product) => (
-                          <div className="card mb-3" key={product.product_id}>
+                          <div className="card mb-3">
                             <div className="card-body">
                               <div className="d-flex justify-content-between">
                                 <div className="d-flex flex-row align-items-center">

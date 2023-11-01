@@ -7,6 +7,7 @@ import { getCookie } from "@/cookieUtils";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Modal from "react-modal";
 import LoginModal from "@/component/loginModal";
+import { axiosGet, axiosPost } from "@/api";
 const Header = () => {
   const { data, status } = useSession();
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -21,8 +22,6 @@ const Header = () => {
       typeof window !== "undefined" ? sessionStorage.getItem("userData") : "";
     setUser(JSON.parse(userInfo));
   }, []);
-  const api_url = process.env.API_URL;
-
   const closeLoginModal = () => {
     setLoginModalOpen(false);
   };
@@ -36,29 +35,33 @@ const Header = () => {
     getAllCategories();
   }, []);
 
-  const getAllCategories = () => {
+  const getAllCategories = async () => {
     var cityobj = {
       city_name: city,
     };
-    axios.post(`${api_url}/Category/GetAllCategories`, cityobj).then((res) => {
-      setCategory(res.data);
-    });
+    const categories = await axiosPost("/Category/GetAllCategories", cityobj);
+    if (categories) {
+      setCategory(categories);
+    }
   };
 
-  const fetchSubcategories = (categoryId) => {
+  const fetchSubcategories = async (categoryId) => {
     if (!subcategories[categoryId]) {
-      axios
-        .get(`${api_url}/SubCategory/GetSubCategoryByCategoryId/${categoryId}`)
-        .then((res) => {
-          return setSubcategories(res.data);
-        });
+      const subcategoryData = await axiosGet(
+        `/SubCategory/GetSubCategoryByCategoryId/${categoryId}`
+      );
+      if (subcategoryData) {
+        return setSubcategories(subcategoryData);
+      }
     }
   };
 
   const handleLogout = async () => {
-    if (isLoggedIn) {
+    if (user) {
       setIsLoggedIn(false);
       sessionStorage.clear();
+      localStorage.removeItem("userData");
+      setUser({});
       router.push("/");
     } else {
       await signOut();
@@ -149,7 +152,7 @@ const Header = () => {
                 </li>
               </div>
             </div>
-            {data?.user?.name || user ? (
+            {data?.user?.name || (user && Object.keys(user).length > 0) ? (
               <>
                 <span style={{ marginRight: "15px" }}>
                   {data?.user ? (
@@ -167,18 +170,10 @@ const Header = () => {
                       alt="user image"
                     />
                   )}
-                  Hi, {data?.user?.name || user ? user.first_name : ""}
+                  Hi, {data?.user?.name || (user && user.first_name) || ""}
                 </span>
                 <li className="nav-item">
                   <Link className="nav-link" href={`${city}/profile`}>
-                    {" "}
-                    Manage Profile
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" href={`${city}/profile`}>
-                    {" "}
                     Manage Profile
                   </Link>
                 </li>
@@ -187,21 +182,42 @@ const Header = () => {
                 </span>
               </>
             ) : (
-              ""
+              user &&
+              Object.keys(user).length > 0 && (
+                <div>
+                  <span style={{ marginRight: "15px" }}>
+                    <img
+                      src={user?.image}
+                      height="25"
+                      width="25"
+                      alt="user image"
+                    />
+                    Hi, {user.first_name || ""}
+                  </span>
+                  <li className="nav-item">
+                    <Link className="nav-link" href={`${city}/profile`}>
+                      Manage Profile
+                    </Link>
+                  </li>
+                  <span style={{ cursor: "pointer" }} onClick={handleLogout}>
+                    Logout
+                  </span>
+                </div>
+              )
             )}
           </ul>
         </div>
       </nav>
-      {!data ? (
-        <LoginModal
-          isOpen={isLoginModalOpen}
-          onRequestClose={closeLoginModal}
-          closeLoginModal={closeLoginModal}
-          contentLabel="Login"
-        />
-      ) : (
-        ""
-      )}
+      {!data
+        ? !(user && Object.keys(user).length > 0) && (
+            <LoginModal
+              isOpen={isLoginModalOpen}
+              onRequestClose={closeLoginModal}
+              closeLoginModal={closeLoginModal}
+              contentLabel="Login"
+            />
+          )
+        : ""}
     </>
   );
 };

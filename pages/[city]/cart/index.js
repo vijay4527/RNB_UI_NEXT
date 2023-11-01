@@ -212,7 +212,7 @@ const CartPage = () => {
             <h1>Your Cart is Empty!</h1>
           )}
         </div>
-        {isLoggedIn && (
+        {!isLoggedIn && (
           <LoginModal isOpen={isCityModalOpen} onClose={closeCityModal} />
         )}
       </div>

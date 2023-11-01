@@ -2,7 +2,6 @@ import React from "react";
 import styles from "../pages/[city]/p/productbyname.module.css";
 import { useState, useEffect } from "react";
 import useSharedStore from "./calculatedPrice";
-import { getCookie } from "@/cookieUtils";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";

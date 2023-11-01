@@ -5,11 +5,19 @@ import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { axiosGet, axiosPost } from "@/api";
 import { getCookie } from "@/cookieUtils";
+import * as yup from "yup";
+import { loginSchema, registrationSchema } from "./validation";
+const modalStyle = {
+  content: {
+    width: "60%",
+    marginLeft: "17.5%",
+  },
+};
+
 const LoginModal = ({ isOpen, closeLoginModal }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [street, SetStreet] = useState("");
@@ -26,8 +34,9 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
   const [showOtpSection, setShowOtpSection] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState("");
   const [newOtp, setnewOtp] = useState("");
+  const [loginError, setLoginError] = useState("");
   const router = useRouter();
-  const currentURL = router.asPath;
+  const currentPath = router.pathname;
   const city = getCookie("userCity");
   const openRegistrationModal = () => {
     setShowLoginSection(false);
@@ -56,48 +65,47 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
     setType(type);
     const api_url = process.env.API_URL;
     if (type == "login") {
-      const userData = await axiosPost(`/User/Login?cred=${mobile}`);
-      if (userData.resp == true) {
-        sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
-        router.push(`/${city}/checkout`);
-      } else {
-        setLoginError(userData.respMsg);
+      try {
+        await loginSchema.validate({ mobile }, { abortEarly: false });
+        const userData = await axiosPost(`/User/Login?cred=${mobile}`);
+        if (userData.resp === true) {
+          sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
+          router.push(`/${city}/checkout`);
+        } else {
+          setLoginError(userData.respMsg);
+        }
+      } catch (validationError) {
+        if (validationError instanceof yup.ValidationError) {
+          setLoginError(validationError.message);
+        } else {
+          console.log(validationError);
+        }
       }
     }
     if (type == "registeration") {
       setShowOtpSection(true);
+      // try {
+      //   const data = await axiosPost(
+      //       `${api_url}/User/Login?mobile_number=${mobile}&password=${password}`
+      //     )
+      //       if (data.resp === true) {
+      //         sessionStorage.clear();
+      //         sessionStorage.setItem(
+      //           "userObject",
+      //           JSON.stringify(data.respObj)
+      //         );
+      //         setIsLoggedIn(true);
+      //         setMobile("");
+      //         setPassword("");
+      //         closeModal();
+      //       } else {
+      //         e.preventDefault();
+      //         setLoginError("Please check your mobile and password.");
+      //       }
+      // } catch (error) {
+      //   console.log(error);
+      //   }
     }
-    // try {
-    //   const userData = await axiosGet(
-    //     `/User/Login?mobile_number=${mobile}&password=${password}`
-    //   );
-    //   const data = await axios
-    //     .post(
-    //       `${api_url}/User/Login?mobile_number=${mobile}&password=${password}`
-    //     )
-    //     .then((res) => {
-    //       if (res.data.resp === true) {
-    //         sessionStorage.clear();
-    //         sessionStorage.setItem(
-    //           "userObject",
-    //           JSON.stringify(res.data.respObj)
-    //         );
-    //         setIsLoggedIn(true);
-    //         setMobile("");
-    //         setPassword("");
-    //         closeModal();
-    //       } else {
-    //         e.preventDefault();
-    //         setLoginError("Please check your mobile and password.");
-    //       }
-    //     });
-    // } catch (error) {
-    //   console.log(error);
-    //   }
-    // } else if (type === "registeration") {
-    //   const userData = await axiosPost("User/UserRegisteration", obj);
-    //   if (userData) {
-    //   }
   };
 
   const handleOTPChange = (e, index) => {
@@ -163,10 +171,11 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Login Modal"
+        style={modalStyle}
       >
         <div className="container container-fluid">
           {showLoginSection ? (
-            <form className="p-4">
+            <form className="p-4 m-4">
               <h1 className="text-center mb-4">Login</h1>
               <div className="form-group">
                 <label className="form-label">Mobile or Email</label>
@@ -187,7 +196,9 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
                 />
               </div> */}
               {loginError && (
-                <div className="alert alert-danger">{loginError}</div>
+                <p className="" style={{ color: "red" }}>
+                  {loginError}
+                </p>
               )}
               <button
                 type="button"
@@ -228,6 +239,24 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
               <h1 className="text-center mb-4">Registration</h1>
               <div className="form-group">
                 <label className="form-label">First Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Last Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Email</label>
                 <input
                   type="text"
                   className="form-control"

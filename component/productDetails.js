@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { getCookie } from "@/cookieUtils";
 import AddToCart from "@/component/addToCartButton";
 import { useState, useEffect } from "react";
 import styles from "../pages/[city]/p/productbyname.module.css";
