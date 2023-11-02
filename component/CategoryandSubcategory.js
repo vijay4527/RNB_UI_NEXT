@@ -21,9 +21,9 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   const { l, subcategory } = router.query;
   const [city, setCity] = useState(null);
 
-  useEffect(() => {
+  useEffect(async () => {
     // Get the city from the cookie and set it in state
-    const userCity = getCookie("userCity");
+    const userCity = await getCookie("userCity");
     setCity(userCity);
   }, []);
   // const handleMouseMove = (event) => {

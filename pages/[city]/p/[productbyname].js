@@ -123,8 +123,7 @@ export async function getServerSideProps(context) {
   const url = context.query.productbyname;
   const productName = url.split("-").join(" ");
   const city = context.query.city;
-  const apiurl = process.env.API_URL;
-
+  console.log("city : " + city);
   const response = await axiosGet(
     `/productMaster/GetProductByName/${city}/${productName}`
   );
