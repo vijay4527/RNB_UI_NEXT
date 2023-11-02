@@ -21,7 +21,7 @@ const nextConfig = {
     API_KEY: "AIzaSyBN4nK5weONPZ_TGutn6d-M_c5IT6nrAPg",
     GOOGLE_MAP_API_KEY: "AIzaSyBpti7QuC_QXwWE90MT0RkfMPlET1KbhS4",
     // API_URL: "https://localhost:7189/api",
-    API_URL: "https://rnb-api.alphadigitall.com/api",
+    API_URL: "https://rnbapi.alphadigitall.com/api/",
   },
 };
 
