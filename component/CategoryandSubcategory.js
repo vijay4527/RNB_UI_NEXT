@@ -18,14 +18,14 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   const maxLightWidth = 25;
   const maxLightAngle = 20;
   const router = useRouter();
-  const { l, subcategory } = router.query;
-  const [city, setCity] = useState(null);
+  const { city, l, subcategory } = router.query;
+  // const [city, setCity] = useState(null);
 
-  useEffect(async () => {
-    // Get the city from the cookie and set it in state
-    const userCity = await getCookie("userCity");
-    setCity(userCity);
-  }, []);
+  // useEffect(async () => {
+  //   // Get the city from the cookie and set it in state
+  //   const userCity = await getCookie("userCity");
+  //   setCity(userCity);
+  // }, []);
   // const handleMouseMove = (event) => {
   //   const fcRect = event.currentTarget.getBoundingClientRect();
   //   const mouseX = event.pageX - fcRect.left;
