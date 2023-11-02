@@ -13,6 +13,7 @@ import {
   InfoWindow,
   LoadScript,
 } from "@react-google-maps/api";
+import { useRouter } from "next/router";
 import * as yup from "yup";
 import AppConfig from "@/AppConfig";
 const validationSchema = yup.object().shape({
@@ -70,7 +71,9 @@ const CheckoutPage = () => {
     pinCode: "",
     country: "",
   });
-  const city = getCookie("userCity");
+  // const city = getCookie("userCity");
+  const router = useRouter();
+  const { city } = router.query;
   useEffect(() => {
     const userObject =
       typeof window !== "undefined"
