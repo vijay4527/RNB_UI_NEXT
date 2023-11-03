@@ -74,8 +74,10 @@ const CheckoutPage = () => {
   // const city = getCookie("userCity");
   const router = useRouter();
   const { city } = router.query;
+  if (city) {
+    console.log("city : " + city);
+  }
   const userCity = city;
-  console.log("City in checkout : " + city);
   useEffect(() => {
     const userObject =
       typeof window !== "undefined"
