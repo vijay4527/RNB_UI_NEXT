@@ -74,6 +74,8 @@ const CheckoutPage = () => {
   // const city = getCookie("userCity");
   const router = useRouter();
   const { city } = router.query;
+  const userCity = city;
+  console.log("City in checkout : " + city);
   useEffect(() => {
     const userObject =
       typeof window !== "undefined"
@@ -100,11 +102,11 @@ const CheckoutPage = () => {
     GetAddress();
   }, [user]);
   const GetAllCart = async () => {
-    if (user) {
+    if (user && userCity) {
       var obj = {
         cart_id: cartId ? cartId : "",
         user_id: user ? user.user_id : "",
-        city_name: city,
+        city_name: userCity,
       };
       const response = await axiosPost("/CartMaster/GetCartDetails", obj);
       if (response) {

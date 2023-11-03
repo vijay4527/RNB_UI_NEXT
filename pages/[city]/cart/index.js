@@ -25,11 +25,10 @@ const CartPage = () => {
     typeof window !== "undefined"
       ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
-  const cartId =
+  let cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
 
   useEffect(() => {
-    GetAllCart();
     const userInfo =
       typeof window !== "undefined"
         ? sessionStorage.getItem("userData")
@@ -39,27 +38,22 @@ const CartPage = () => {
     setUser(userInfo);
   }, []);
 
-  // const GetAllCart = async () => {
-  //   var obj = {
-  //     cart_id: cartId ? cartId : "",
-  //     user_id: userObject ? userObject.user_name : "",
-  //     city_name: city ? city : "",
-  //   };
-  //   axios.post(`${api_url}/CartMaster/GetCartDetails`, obj).then((res) => {
-  //     setCart(res.data);
-  //   });
-  // };
+  useEffect(() => {
+    GetAllCart();
+  }, [city, user]);
 
   const GetAllCart = async () => {
     try {
-      var obj = {
-        cart_id: cartId ? cartId : "",
-        user_id: userObject ? userObject.user_id : "",
-        city_name: city ? city : "",
-      };
-      const response = await axiosPost("/CartMaster/GetCartDetails", obj);
-      if (response) {
-        setCart(response);
+      if (city) {
+        var obj = {
+          cart_id: cartId ? cartId : "",
+          user_id: userObject ? userObject.user_id : "",
+          city_name: city ? city : "",
+        };
+        const response = await axiosPost("/CartMaster/GetCartDetails", obj);
+        if (response) {
+          setCart(response);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -67,26 +61,15 @@ const CartPage = () => {
   };
 
   const removeFromCart = async (cpId, itemCost) => {
-    // axios.get(`${api_url}/CartMaster/RemoveCart/${cpId}`).then((response) => {
-    //   var newPrice = grandTotal - itemCost;
-    //   setGrandTotal(newPrice);
-    //   GetAllCart();
-    //   if (cart.length === 1) {
-    //     try {
-    //       sessionStorage.removeItem("cartId");
-    //     } catch (error) {
-    //       console.error("Error removing cartId from session storage:", error);
-    //     }
-    //   }
-    // });
     const response = await axiosGet(`/CartMaster/RemoveCart/${cpId}`);
-    if (response) {
+    if (response.resp == true) {
       var newPrice = grandTotal - itemCost;
       setGrandTotal(newPrice);
-      GetAllCart();
       if (cart.length === 1) {
         try {
           sessionStorage.removeItem("cartId");
+          cartId = "";
+          GetAllCart();
         } catch (error) {
           console.error("Error removing cartId from session storage:", error);
         }
