@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./index.module.css";
 import { getCookie } from "@/cookieUtils";
@@ -28,9 +28,11 @@ const MyOrder = () => {
   //     image: "https://fama.b-cdn.net/RnB/Dev/products/20231025131031495.jpeg",
   //   },
   // ];
-
-  const orderData = () => {
-    const data = `Order/GetOrderByUserId/${user.user_id}`;
+  useEffect(() => {
+    orderData();
+  }, []);
+  const orderData = async () => {
+    const data = await axiosGet(`Order/GetOrderByUserId/${user.user_id}`);
     if (data) {
       setOrders(data);
     }
