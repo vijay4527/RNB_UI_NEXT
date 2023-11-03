@@ -28,12 +28,12 @@ const MyOrder = () => {
   //   },
   // ];
 
-  const orderData = async(() => {
-    const data = await(`Order/GetOrderByUserId/${user.user_id}`);
+  const orderData = () => {
+    const data = `Order/GetOrderByUserId/${user.user_id}`;
     if (data) {
       setOrders(data);
     }
-  });
+  };
 
   return (
     <div className={styles.pdp_WrapContent}>
