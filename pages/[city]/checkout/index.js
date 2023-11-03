@@ -74,10 +74,10 @@ const CheckoutPage = () => {
   // const city = getCookie("userCity");
   const router = useRouter();
   const { city } = router.query;
+  let userCity = "";
   if (city) {
-    console.log("city : " + city);
+    console.log("user city is : " + city);
   }
-  const userCity = city;
   useEffect(() => {
     const userObject =
       typeof window !== "undefined"
@@ -91,24 +91,27 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     GetAllCart();
-  }, [cartId, user]);
+  }, [user]);
+
   useEffect(() => {
     countSubTotalAmount();
   }, [products]);
+
   useEffect(() => {
     if (subTotalAmount) {
       setTotalAmount(subTotalAmount + shippingCharges);
     }
   }, [subTotalAmount]);
+
   useEffect(() => {
     GetAddress();
-  }, [user]);
+  }, []);
   const GetAllCart = async () => {
-    if (user && userCity) {
+    if (user && city) {
       var obj = {
         cart_id: cartId ? cartId : "",
         user_id: user ? user.user_id : "",
-        city_name: userCity,
+        city_name: city,
       };
       const response = await axiosPost("/CartMaster/GetCartDetails", obj);
       if (response) {

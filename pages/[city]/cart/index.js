@@ -19,7 +19,6 @@ const CartPage = () => {
   // const api_url = process.env.API_URL;
   // const city = getCookie("userCity");
   const { city, checkout } = router.query;
-  console.log("city : " + city);
   const [isCityModalOpen, setCityModalOpen] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const userObject =
@@ -70,11 +69,11 @@ const CartPage = () => {
         try {
           sessionStorage.removeItem("cartId");
           cartId = "";
-          GetAllCart();
         } catch (error) {
           console.error("Error removing cartId from session storage:", error);
         }
       }
+      GetAllCart();
     }
   };
 
