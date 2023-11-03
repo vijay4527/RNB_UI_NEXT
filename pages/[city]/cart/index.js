@@ -19,6 +19,7 @@ const CartPage = () => {
   // const api_url = process.env.API_URL;
   // const city = getCookie("userCity");
   const { city } = router.query;
+  console.log("city : " + city);
   const [isCityModalOpen, setCityModalOpen] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const userObject =
@@ -98,7 +99,9 @@ const CartPage = () => {
     if (!isLoggedIn && !user) {
       setCityModalOpen(true);
     } else {
-      router.push(`/${city}/checkout`);
+      if (city) {
+        router.push(`/${city}/checkout`);
+      }
     }
   };
 
