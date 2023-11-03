@@ -6,7 +6,8 @@ import { axiosPost, axiosGet, axiosGetAll } from "@/api";
 const MyOrder = () => {
   const city = getCookie("userCity");
   const [orders, setOrders] = useState();
-  const user = sessionStorage.getItem(userData);
+  const user =
+    typeof window !== "undefined" ? sessionStorage.getItem(userData) : "";
   // const orders = [
   //   {
   //     orderNumber: "12345",
