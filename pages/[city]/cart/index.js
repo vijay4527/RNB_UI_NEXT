@@ -40,7 +40,7 @@ const CartPage = () => {
 
   useEffect(() => {
     GetAllCart();
-  }, [city, user]);
+  }, []);
 
   const GetAllCart = async () => {
     try {
@@ -99,7 +99,7 @@ const CartPage = () => {
       setCityModalOpen(true);
     } else {
       if (city) {
-        router.push(city + "/checkout");
+        router.push(`/${city}/checkout`);
       }
     }
   };
