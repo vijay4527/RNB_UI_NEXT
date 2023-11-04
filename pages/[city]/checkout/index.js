@@ -75,9 +75,6 @@ const CheckoutPage = () => {
   const router = useRouter();
   const { city } = router.query;
   let userCity = "";
-  if (city) {
-    console.log("user city is : " + city);
-  }
   useEffect(() => {
     const userObject =
       typeof window !== "undefined"

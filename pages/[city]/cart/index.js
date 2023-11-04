@@ -98,7 +98,8 @@ const CartPage = () => {
     if (!isLoggedIn && !user) {
       setCityModalOpen(true);
     } else {
-      router.push(`/${city}/checkout`);
+      console.log(city);
+      // router.push(`/${city}/checkout`);
     }
   };
 
