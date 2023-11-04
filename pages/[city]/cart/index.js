@@ -29,16 +29,13 @@ const CartPage = () => {
       ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
   useEffect(() => {
-    const userInfo =
+    var userInfo =
       typeof window !== "undefined"
         ? sessionStorage.getItem("userData")
         : data
         ? data.user
         : "";
-
-    if (userObject) {
-      setUser(userObject);
-    }
+    setUser(userInfo);
   }, []);
 
   useEffect(() => {
