@@ -42,24 +42,15 @@ const CheckoutPage = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedOption, setSelectedOption] = useState("pickup");
   const [inputValue, setInputValue] = useState("");
-  // const [email, setEmail] = useState("");
   const [franchise, setFranchise] = useState([]);
   const [selectedFranchise, setSelectedFranchise] = useState("");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [userCity, setUserCity] = useState("");
-  // const [state, setState] = useState("");
-  // const [pinCode, setPinCode] = useState("");
-  // const [contact, setContact] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [country, setCountry] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [userAddress, setUserAddress] = useState([]);
   const [couponCode, setCouponCode] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -76,11 +67,17 @@ const CheckoutPage = () => {
   const { city } = router.query;
   let userCity = "";
   useEffect(() => {
-    const userObject =
-      typeof window !== "undefined"
-        ? JSON.parse(sessionStorage.getItem("userData"))
-        : "";
-    setUser(userObject);
+    const fetchUser = async () => {
+      const userObject =
+        typeof window !== "undefined"
+          ? JSON.parse(sessionStorage.getItem("userData"))
+          : "";
+      if (userObject) {
+        setUser(userObject);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   const cartId =
@@ -88,7 +85,7 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     GetAllCart();
-  }, [user]);
+  }, [user, city]);
 
   useEffect(() => {
     countSubTotalAmount();
@@ -104,7 +101,7 @@ const CheckoutPage = () => {
     GetAddress();
   }, []);
   const GetAllCart = async () => {
-    if (user && city) {
+    if (user.user_id && city) {
       var obj = {
         cart_id: cartId ? cartId : "",
         user_id: user ? user.user_id : "",
@@ -161,7 +158,7 @@ const CheckoutPage = () => {
 
   const GetAddress = async () => {
     try {
-      if (user) {
+      if (user.user_id) {
         const addressData = await axiosGet(
           `ShippingAddress/GetShippingAddressByUserId/${user.user_id}`
         );
@@ -217,15 +214,6 @@ const CheckoutPage = () => {
       };
       const data = await axiosPost("ShippingAddress/SaveShippingAddress", obj);
       if (data.resp == true) {
-        // setFirstName("");
-        // setLastName("");
-        // setEmail("");
-        // setContact("");
-        // setAddress("");
-        // setUserCity("");
-        // setState("");
-        // setPinCode("");
-        // setCountry("");
         GetAddress();
       }
     } catch (validationError) {
