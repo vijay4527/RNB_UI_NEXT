@@ -207,7 +207,7 @@ const CheckoutPage = () => {
         email_address: formValues.email,
         mobile_number: formValues.contact,
         address: formValues.address,
-        city: formValues.userCity,
+        city: formValues.city,
         state: formValues.state,
         pincode: formValues.pinCode,
         country: formValues.country,
