@@ -65,7 +65,7 @@ const CartPage = () => {
     if (response.resp == true) {
       var newPrice = grandTotal - itemCost;
       setGrandTotal(newPrice);
-      if (cart.length === 1) {
+      if (cart.length == 1) {
         try {
           sessionStorage.removeItem("cartId");
           cartId = "";
