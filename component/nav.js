@@ -28,7 +28,6 @@ const Header = () => {
 
   const openLoginModal = () => {
     setLoginModalOpen(true);
-    console.log(isLoginModalOpen);
   };
 
   useEffect(() => {

@@ -91,18 +91,15 @@ const CartPage = () => {
   };
   const [showLoginModal, setShowLoginModal] = useState(false);
   var isLoggedIn = false;
-  if (data) {
+  if (data || user) {
     isLoggedIn = true;
   }
   const handleProducts = () => {
-    if (!city) {
-      return;
-    }
     if (!isLoggedIn && !user) {
       setCityModalOpen(true);
     } else {
       if (city) {
-        router.push(`/${city}/checkout`);
+        router.push(city + "/checkout");
       }
     }
   };
@@ -202,7 +199,11 @@ const CartPage = () => {
           )}
         </div>
         {!isLoggedIn && (
-          <LoginModal isOpen={isCityModalOpen} onClose={closeCityModal} />
+          <LoginModal
+            isOpen={isCityModalOpen}
+            onRequestClose={closeCityModal}
+            closeLoginModal={closeCityModal}
+          />
         )}
       </div>
     </>

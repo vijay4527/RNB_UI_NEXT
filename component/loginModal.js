@@ -14,7 +14,7 @@ const modalStyle = {
   },
 };
 
-const LoginModal = ({ isOpen, closeLoginModal }) => {
+const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
@@ -36,8 +36,9 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
   const [newOtp, setnewOtp] = useState("");
   const [loginError, setLoginError] = useState("");
   const router = useRouter();
-  const currentPath = router.pathname;
-  const city = getCookie("userCity");
+  const currentPath = router.asPath;
+  console.log(currentPath);
+  const { city } = router.query;
   const openRegistrationModal = () => {
     setShowLoginSection(false);
     setShowRegisterationSection(true);
@@ -55,7 +56,9 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
   }, [isOpen]);
 
   const closeModal = () => {
+    debugger;
     setModalIsOpen(false);
+    onRequestClose();
     closeLoginModal();
   };
 
@@ -70,7 +73,8 @@ const LoginModal = ({ isOpen, closeLoginModal }) => {
         const userData = await axiosPost(`/User/Login?cred=${mobile}`);
         if (userData.resp === true) {
           sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
-          router.push(`/${city}/checkout`);
+          setModalIsOpen(false);
+          router.push(currentPath);
         } else {
           setLoginError(userData.respMsg);
         }
