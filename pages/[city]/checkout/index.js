@@ -98,7 +98,9 @@ const CheckoutPage = () => {
   }, [subTotalAmount]);
 
   useEffect(() => {
-    GetAddress();
+    if (user.user_id) {
+      GetAddress();
+    }
   }, []);
   const GetAllCart = async () => {
     if (user.user_id && city) {

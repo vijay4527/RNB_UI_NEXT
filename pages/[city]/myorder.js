@@ -1,30 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./index.module.css";
-import { getCookie } from "@/cookieUtils";
 import { axiosPost, axiosGet, axiosGetAll } from "@/api";
+import { useRouter } from "next/router";
 const MyOrder = () => {
-  const city = getCookie("userCity");
-  const orders = [
-    {
-      orderNumber: "12345",
-      orderDate: "2023-10-15",
-      productName: "Product A",
-      quantity: 2,
-      price: "$50.00",
-      status: "Shipped",
-      image: "https://fama.b-cdn.net/RnB/Dev/products/20231025131806554.jpeg",
-    },
-    {
-      orderNumber: "54321",
-      orderDate: "2023-10-10",
-      productName: "Product B",
-      quantity: 1,
-      price: "$30.00",
-      status: "Delivered",
-      image: "https://fama.b-cdn.net/RnB/Dev/products/20231025131031495.jpeg",
-    },
-  ];
+  const router = useRouter();
+  const { city } = router.query;
+  const [order, setOrder] = useState([]);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const userInfoFromStorage =
+      typeof window !== "undefined" ? sessionStorage.getItem("userData") : null;
+    if (userInfoFromStorage) {
+      const parsedUserInfo = JSON.parse(userInfoFromStorage);
+      setUser(parsedUserInfo);
+    } else {
+      console.log("User data not found in session storage");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user.user_id) {
+      getMyOrders();
+    }
+  }, [user.user_id]);
+
+  const getMyOrders = async () => {
+    try {
+      if (user.user_id) {
+        const data = await axiosGet(`Order/getOrderByUserId/${user.user_id}`);
+        if (data) {
+          setOrder(data);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
   return (
     <div className={styles.pdp_WrapContent}>
@@ -44,41 +56,48 @@ const MyOrder = () => {
           </div>
         </div>
       </div>
-      <div className="row">
-        {orders.map((order, index) => (
-          <div key={index} className="col-md-4 mb-4">
-            <div className="card custom-card">
-              <img
-                src={order.image}
-                className="card-img-top custom-image"
-                alt={order.productName}
-                style={{ height: "300px" }}
-              />
-              <div className="card-body">
-                <h5 className="card-title">
-                  Order Number: {order.orderNumber}
-                </h5>
-                <div className="d-flex justify-content-between">
-                  <span className="card-text">
-                    Order Date: {order.orderDate}
-                  </span>
-                  <span className="card-text">
-                    Product Name: {order.productName}
-                  </span>
+      <div className="container-fluid p-4">
+        <div className="row">
+          {order && order.orderProducts ? (
+            order.orderProducts.map((product, index) => (
+              <div key={index} className="col-md-4 mb-4">
+                <div className="card custom-card">
+                  <img
+                    src={product.image}
+                    className="card-img-top custom-image"
+                    alt={product.product_name}
+                    style={{ height: "300px" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      Order Number: {order.order_id}
+                    </h5>
+                    <div className="d-flex justify-content-between">
+                      <span className="card-text">
+                        Order Date: {order.orderDate}
+                      </span>
+                      <span className="card-text">
+                        Product Name: {product.product_name}
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <span className="card-text">
+                        Quantity: {product.value}
+                      </span>
+                      <span className="card-text">Price: {product.price}</span>
+                    </div>
+                    <p className="card-text">Status: {order.order_status}</p>
+                    <Link href={`/${city}/p/${product.product_name}`}>
+                      <span className="btn btn-primary">buy again</span>
+                    </Link>
+                  </div>
                 </div>
-                <div className="d-flex justify-content-between">
-                  <span className="card-text">Quantity: {order.quantity}</span>
-                  <span className="card-text">Price: {order.price}</span>
-                </div>
-
-                <p className="card-text">Status: {order.status}</p>
-                <Link href={`${city}/p/${order.productName}`}>
-                  <span className="btn btn-primary">buy again</span>
-                </Link>
               </div>
-            </div>
-          </div>
-        ))}
+            ))
+          ) : (
+            <p>No order data available.</p>
+          )}
+        </div>
       </div>
     </div>
   );
