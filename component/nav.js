@@ -84,11 +84,6 @@ const Header = () => {
               Home
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" href={`/${city}/product`}>
-              Product
-            </Link>
-          </li>
 
           <li className="nav-item categories-link">
             <span className="nav-link">Categories</span>
