@@ -373,6 +373,7 @@ form button:hover {
   .navbar ul li.icon {
     float: left;
     display: block;
+    margin-bottom: 5px;
   }
 }
 
@@ -380,8 +381,8 @@ form button:hover {
   .navbar.responsive {position: relative;}
   .navbar.responsive ul li.icon {
     position: absolute;
-    right: 0;
     top: 0;
+    margin-top: 1px;
   }
   .navbar.responsive ul li {
     float: none;
