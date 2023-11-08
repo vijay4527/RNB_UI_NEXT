@@ -56,7 +56,6 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   }, [isOpen]);
 
   const closeModal = () => {
-    debugger;
     setModalIsOpen(false);
     onRequestClose();
     closeLoginModal();

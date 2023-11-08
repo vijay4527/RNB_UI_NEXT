@@ -67,9 +67,7 @@ a {
   padding: 5px; /* Add padding for better spacing */
 }
 
-.subcategory-link {
-  margin-left: 20px;
-}
+
 
 /* Show subcategories on hover */
 .categories-list .category-item:hover .subcategories-list {
@@ -363,4 +361,35 @@ form button.active {
 form button:hover {
   background: var(--primary-theme);
 }
+
+
+.navbar ul li.icon {
+  display: none;
+}
+
+
+@media screen and (max-width: 600px) {
+  .navbar li {display: none;}
+  .navbar ul li.icon {
+    float: left;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar.responsive {position: relative;}
+  .navbar.responsive ul li.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .navbar.responsive ul li {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+
+
 
