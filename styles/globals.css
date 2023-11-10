@@ -405,6 +405,372 @@ form button:hover {
     height: 100%;
     object-fit: cover;
 }
+
+.jss8 {
+  padding: 0 16px;
+}
+
+}
+
+/* My Order */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+.MuiDivider-root {
+  border: none;
+  height: 1px;
+  margin: 0;
+  flex-shrink: 0;
+  background-color: #ecedeb;
+}
+.jss2390 {
+  font-size: 20px;
+  line-height: 28px;
+}
+.MuiTypography-root {
+  margin: 0;
+}
+
+.jss2406 {
+  padding-top: 16px;
+  padding-bottom: 56px;
+}
+
+.jss2408 {
+  padding-bottom: 16px;
+}
+
+.jss2409 {
+  padding-top: 16px;
+}
+
+.jss8 {
+  width: 100%;
+  margin: auto;
+  max-width: 1276px;
+}
+
+.MuiGrid-spacing-xs-2 {
+  width: calc(100% + 16px);
+  margin: -8px;
+}
+
+.MuiGrid-container {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.MuiGrid-spacing-xs-2 > .MuiGrid-item {
+  padding: 8px;
+}
+
+
+.MuiGrid-grid-xs-12 {
+  flex-grow: 0;
+  max-width: 100%;
+  flex-basis: 100%;
+}
+
+.MuiGrid-item {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.MuiGrid-spacing-xs-2 {
+  width: calc(100% + 16px);
+  margin: -8px;
+}
+
+.MuiGrid-container {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.MuiGrid-grid-xs-2 {
+  flex-grow: 0;
+  max-width: 16.666667%;
+  flex-basis: 16.666667%;
+}
+
+.MuiGrid-item {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.jss2404 {
+  font-size: 16px;
+  font-family: ProximaNova-Regular,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-weight: 600;
+}
+
+.jss2412 {
+  margin-top: 16px;
+}
+
+.jss2400 {
+  width: fit-content;
+  background: #ecedeb;
+  border-radius: 8px;
+}
+
+.jss2413 {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+
+.jss2402 {
+  color: #FFFFFF;
+  width: max-content;
+  height: inherit;
+  padding: 8px 22px;
+  font-size: 14px;
+  background: #242428 !important;
+  font-style: normal;
+  font-family: ProximaNova-Regular,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: 8px;
+  text-transform: capitalize;
+}
+
+.jss2401 {
+  width: max-content;
+  height: inherit;
+  padding: 9px 22px;
+  font-size: 14px;
+  background: #ecedeb;
+  font-style: normal;
+  font-family: ProximaNova-Regular,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-weight: 400;
+  line-height: 20px;
+  text-transform: capitalize;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.MuiButtonBase-root {
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+  outline: 0;
+  position: relative;
+  align-items: center;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  justify-content: center;
+  text-decoration: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.jss2405 {
+  margin: 8px 0px 16px 0px;
+}
+
+.jss2393 {
+  font-weight: 600;
+}
+
+.jss2390 {
+  font-size: 16px;
+  font-style: normal;
+  font-family: ProximaNova-Regular,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  line-height: 24px;
+}
+
+.jss2398 {
+  width: max-content;
+  border: 1px solid #ecedeb;
+  cursor: pointer;
+  padding: 2px 16px;
+  margin-top: 8px !important;
+  border-radius: 10000px;
+  margin-bottom: 10px !important;
+  text-transform: capitalize;
+}
+
+.MuiButton-label {
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+}
+.jss2414 {
+}
+.MuiButtonBase-root {
+  margin: 0;
+  display: inline-flex;
+  outline: 0;
+  position: relative;
+  align-items: center;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.jss2392 {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.jss2399 {
+  color: #FFFFFF !important;
+  background: #faa619 !important;
+}
+
+
+/* All Order Section */
+.MuiGrid-grid-xs-10 {
+  flex-grow: 0;
+  max-width: 83.333333%;
+  flex-basis: 83.333333%;
+}
+
+.MuiGrid-item {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.jss2395 {
+  height: 600px;
+  overflow: scroll;
+}
+
+.jss2394 {
+  border: 1px solid #ecedeb;
+}
+
+.jss2422 {
+  padding: 16px;
+}
+
+.MuiGrid-spacing-xs-2 {
+  width: calc(100% + 16px);
+  margin: -8px;
+}
+
+.MuiGrid-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+
+.jss2427 {
+  color: #929391;
+}
+.jss2424 {
+  font-size: 14px;
+  font-style: normal;
+  font-family: ProximaNova-Regular,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-weight: normal;
+  line-height: 20px;
+}
+
+
+
+.jss2444 {
+  padding-left: 47px !important;
+}
+
+.jss2440 {
+  display: grid;
+  white-space: nowrap;
+  grid-template-columns: 112px auto 130px;
+}
+
+.jss630 {
+  padding-left: 0px !important;
+}
+
+.jss2443 {
+  padding-left: 0px !important;
+}
+
+.jss2428 {
+  font-weight: 600;
+}
+
+.MuiGrid-spacing-xs-2 > .MuiGrid-item {
+  padding: 8px;
+}
+
+.jss2449 {
+  padding-top: 16px;
+}
+
+.jss2439 {
+  display: grid;
+  white-space: nowrap;
+  grid-template-columns: 112px auto;
+}
+
+.jss2450 {
+  position: relative;
+}
+
+.jss2452 {
+  position: relative;
+}
+
+.jss2423 {
+  width: 80px;
+  height: 80px;
+}
+
+.jss2458 {
+  top: 45px;
+  left: 8px;
+}
+
+.jss2451 {
+  opacity: 0.95;
+  padding: 5px 8.5px;
+  position: absolute;
+  font-size: 12px;
+  text-align: center;
+  font-family: ProximaNova-Bold,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  line-height: 17px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.jss2460 {
+  color: white;
+  background-color: rgb(93, 94, 92);
+}
+.jss2431 {
+  width: 14px;
+  height: 14px;
+  background: url(https://i1.lmsin.net/website_images/static-pages/brand_exp/brand2images/prod/Sprite_icons.svg) -99px -109px;
+}
+
+.jss2438 {
+  padding: 0px 0px 0px 650px;
+  margin-top: 40px
+}
+
+.MuiIconButton-label {
+  width: 100%;
+  display: flex;
+  align-items: inherit;
+  justify-content: inherit;
+}
+
+.showDetails{
+  margin: 10px 10px 0px 0px
 }
 
 
