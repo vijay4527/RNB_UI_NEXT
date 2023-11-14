@@ -372,7 +372,6 @@ const Header = () => {
                         hoveredCategory === cat.category_name ? "show" : ""
                       }`}
                       key={cat.category_id}
-                      // key={index}
                     >
                       <div
                         onMouseEnter={() =>
@@ -607,7 +606,7 @@ const Header = () => {
 
                   {/*  */}
                 </div>
-                <div className="Brands_nav">
+                {/* <div className="Brands_nav">
                   <div className="sub_nav ">
                     <div className="sub_navbtn">
                       <a href="/OurBrands">
@@ -682,7 +681,7 @@ const Header = () => {
                       </ul>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
