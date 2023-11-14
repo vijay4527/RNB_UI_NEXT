@@ -297,7 +297,7 @@
 }
 .plp_Cards{
   display: grid;
-  grid-template-columns: 22% 22% 22% 22%;
+  grid-template-columns: 20% 20% 20% 20%;
   grid-column-gap: 15px;
   grid-row-gap: 35px;
 }
@@ -543,3 +543,5 @@
     transform: translateY(-2000px);
   }
 }
+
+
