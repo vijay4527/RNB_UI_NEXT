@@ -37,7 +37,6 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const [loginError, setLoginError] = useState("");
   const router = useRouter();
   const currentPath = router.asPath;
-  console.log(currentPath);
   const { city } = router.query;
   const openRegistrationModal = () => {
     setShowLoginSection(false);

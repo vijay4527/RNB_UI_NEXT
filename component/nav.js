@@ -101,22 +101,23 @@ const Header = () => {
     var cityobj = {
       city_name: city,
     };
-    const categories = await axiosPost("/Category/GetAllCategories", cityobj);
+    const categories = await axiosGet("/Category/GetAllTypeCategory/" + city);
     if (categories) {
-      setCategory(categories);
+      setCategory(JSON.parse(categories.respObj));
+      console.log(categories.respObj);
     }
   };
 
-  const fetchSubcategories = async (categoryId) => {
-    if (!subcategories[categoryId]) {
-      const subcategoryData = await axiosGet(
-        `/SubCategory/GetSubCategoryByCategoryId/${categoryId}`
-      );
-      if (subcategoryData) {
-        return setSubcategories(subcategoryData);
-      }
-    }
-  };
+  // const fetchSubcategories = async (categoryId) => {
+  //   if (!subcategories[categoryId]) {
+  //     const subcategoryData = await axiosGet(
+  //       `/SubCategory/GetSubCategoryByCategoryId/${categoryId}`
+  //     );
+  //     if (subcategoryData) {
+  //       return setSubcategories(subcategoryData);
+  //     }
+  //   }
+  // };
 
   const handleLogout = async () => {
     if (user) {
@@ -134,22 +135,20 @@ const Header = () => {
     setIsActive(!isActive);
   };
 
-  const handleMouseEnter = async (category, categoryId) => {
-    fetchSubcategories(categoryId);
+  const handleMouseEnter = async (category) => {
+    // fetchSubcategories(categoryId);
     setHoveredCategory(category);
   };
 
   const handleMouseLeave = () => {
     setHoveredCategory(null);
-    setSubcategories([]);
   };
 
-  const handleCategoryClick = (category, categoryId) => {
+  const handleCategoryClick = (category) => {
     if (hoveredCategory === category) {
-      setSubcategories([]);
       setHoveredCategory(null);
     } else {
-      fetchSubcategories(categoryId);
+      // fetchSubcategories(categoryId);
       setHoveredCategory(category);
     }
   };
@@ -247,147 +246,28 @@ const Header = () => {
               </div>
               <div className="Brands_navbody">
                 <div className="subNavbar_body">
-                  {/* {category
-                    ? category.map((cat) => {
-                        <div
-                          className={`sub_nav ${
-                            hoveredCategory === cat.category_id ? "show" : ""
-                          }`}
-                          key={cat.category_id}
-                        >
-                          <div
-                            onMouseEnter={() =>
-                              handleMouseEnter(cat.category_id)
-                            }
-                            onMouseLeave={handleMouseLeave}
-                            className={
-                              !category.sub_categories
-                                ? "sub_navbtn active"
-                                : "sub_navbtn"
-                            }
-                          >
-                            <Link
-                              href={`${city}/l/${cat.category_name}`}
-                              onClick={toggleClass}
-                            >
-                              <h4 className="category-title">
-                                {category.category_name}
-                              </h4>
-                            </Link>
-                            <span className="category-dropIcon">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="9"
-                                height="7"
-                                fill="none"
-                                viewBox="0 0 9 7"
-                              >
-                                <path
-                                  stroke="#000"
-                                  d="M8.177 1.25 4.355 5.663a.1.1 0 0 1-.15 0L.382 1.25"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-
-                          <div
-                            className={
-                              !category.sub_categories
-                                ? "MobileSub_navbtn active"
-                                : "MobileSub_navbtn sub_navbtn"
-                            }
-                          >
-                            <Link
-                              href={`/products${formatUrl(category.url_name)}`}
-                              onClick={toggleClass}
-                            >
-                              <h4 className="category-title">
-                                {category.name}
-                              </h4>
-                            </Link>
-                            <span
-                              onMouseLeave={handleMouseLeave}
-                              onClick={() => handleCategoryClick(category)}
-                              className="category-dropIcon"
-                            >
-                              <i className="plus_Icon">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  className="bi bi-plus"
-                                  viewBox="0 0 16 16"
-                                >
-                                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                </svg>
-                              </i>
-                              <i className="mins_Icon">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  className="bi bi-dash"
-                                  viewBox="0 0 16 16"
-                                >
-                                  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                                </svg>
-                              </i>
-                            </span>
-                          </div>
-
-                          {/* {category.sub_categories && (
-                            <div
-                              className={`subnav-content ${
-                                hoveredCategory === category ? "active" : ""
-                              }`}
-                            >
-                              <ul className="submenu-list">
-                                {category.sub_categories.map((subcategory) => (
-                                  <li
-                                    className="category-sub-title"
-                                    key={subcategory.sub_id}
-                                  >
-                                    <Nav.Link
-                                      onClick={toggleClass}
-                                      href={`/products${formatUrl(
-                                        category.url_name
-                                      )}${formatUrl(subcategory.url_name)}`}
-                                    >
-                                      {subcategory.name}
-                                    </Nav.Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )} */}
-                  {/* </div>; */}
-                  {/* }) */}
-                  {/* : ""} */}
-
-                  {category.map((cat, index) => (
+                  {category.map((category) => (
                     <div
                       className={`sub_nav ${
-                        hoveredCategory === cat.category_name ? "show" : ""
+                        hoveredCategory === category ? "show" : ""
                       }`}
-                      key={cat.category_id}
+                      key={category.cat_id}
                     >
                       <div
-                        onMouseEnter={() =>
-                          handleMouseEnter(cat.category_name, cat.category_id)
-                        }
+                        onMouseEnter={() => handleMouseEnter(category)}
                         onMouseLeave={handleMouseLeave}
-                        // className={
-                        //   !category.sub_categories
-                        //     ? "sub_navbtn active"
-                        //     : "sub_navbtn"
-                        // }
-                        className="sub_navbtn"
+                        className={
+                          !category.json_sub_category
+                            ? "sub_navbtn active"
+                            : "sub_navbtn"
+                        }
                       >
-                        <Link href={`/products`} onClick={toggleClass}>
+                        <Link
+                          href={`/products${formatUrl(category.url_name)}`}
+                          onClick={toggleClass}
+                        >
                           <h4 className="category-title">
-                            {cat.category_name}
+                            {category.category_name}
                           </h4>
                         </Link>
                         <span className="category-dropIcon">
@@ -407,26 +287,23 @@ const Header = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   !category.sub_categories
-                        //     ? "MobileSub_navbtn active"
-                        //     : "MobileSub_navbtn sub_navbtn"
-                        // }
-                        className="MobileSub_navbtn sub_navbtn"
+                        className={
+                          !category.sub_categories
+                            ? "MobileSub_navbtn active"
+                            : "MobileSub_navbtn sub_navbtn"
+                        }
                       >
-                        <Link href={`/products`} onClick={toggleClass}>
+                        <Link
+                          href={`/products${formatUrl(category.url_name)}`}
+                          onClick={toggleClass}
+                        >
                           <h4 className="category-title">
-                            {cat.category_name}
+                            {category.category_name}
                           </h4>
                         </Link>
                         <span
                           onMouseLeave={handleMouseLeave}
-                          onClick={() =>
-                            handleCategoryClick(
-                              cat.category_name,
-                              cat.category_id
-                            )
-                          }
+                          onClick={() => handleCategoryClick(category)}
                           className="category-dropIcon"
                         >
                           <i className="plus_Icon">
@@ -455,24 +332,23 @@ const Header = () => {
                           </i>
                         </span>
                       </div>
-
-                      {subcategories && (
+                      {category.json_sub_category && (
                         <div
                           className={`subnav-content ${
-                            hoveredCategory === cat.category_name
-                              ? "active"
-                              : ""
+                            hoveredCategory === category ? "active" : ""
                           }`}
                         >
                           <ul className="submenu-list">
-                            {subcategories.map((subcategory) => (
+                            {category.json_sub_category.map((subcategory) => (
                               <li
                                 className="category-sub-title"
-                                key={subcategory.sub_category_name}
+                                key={subcategory.sub_category_id}
                               >
                                 <Nav.Link
                                   onClick={toggleClass}
-                                  href={`/products`}
+                                  href={`/products${formatUrl(
+                                    category.url_name
+                                  )}${formatUrl(subcategory.url_name)}`}
                                 >
                                   {subcategory.sub_category_name}
                                 </Nav.Link>
@@ -483,205 +359,7 @@ const Header = () => {
                       )}
                     </div>
                   ))}
-
-                  {/* {category &&
-                    category.map((cat, index) => {
-                      debugger;
-                      // <div>{cat.category_name}</div>;
-
-                      <div
-                        className={`sub_nav ${
-                          hoveredCategory === cat ? "show" : ""
-                        }`}
-                        key={index}
-                        // key={cat.category_id}
-                      >
-                        <div
-                          onMouseEnter={() => handleMouseEnter(category)}
-                          onMouseLeave={handleMouseLeave}
-                          // className={
-                          //   !category.sub_categories
-                          //     ? "sub_navbtn active"
-                          //     : "sub_navbtn"
-                          // }
-                        >
-                          <Link
-                            href={`/products${formatUrl(cat.category_name)}`}
-                            onClick={toggleClass}
-                          >
-                            <h4 className="category-title">
-                              {cat.category_name}
-                            </h4>
-                          </Link>
-                          <span className="category-dropIcon">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="9"
-                              height="7"
-                              fill="none"
-                              viewBox="0 0 9 7"
-                            >
-                              <path
-                                stroke="#000"
-                                d="M8.177 1.25 4.355 5.663a.1.1 0 0 1-.15 0L.382 1.25"
-                              />
-                            </svg>
-                          </span>
-                        </div>
-
-                        <div
-                        // className={
-                        //   !category.sub_categories
-                        //     ? "MobileSub_navbtn active"
-                        //     : "MobileSub_navbtn sub_navbtn"
-                        // }
-                        >
-                          <Link
-                            href={`/products${formatUrl(cat.category_name)}`}
-                            // onClick={toggleClass}
-                          >
-                            <h4 className="category-title">
-                              {cat.category_name}
-                            </h4>
-                          </Link>
-                          <span
-                            // onMouseLeave={handleMouseLeave}
-                            // onClick={() => handleCategoryClick(category)}
-                            className="category-dropIcon"
-                          >
-                            <i className="plus_Icon">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-plus"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                              </svg>
-                            </i>
-                            <i className="mins_Icon">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-dash"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                              </svg>
-                            </i>
-                          </span>
-                        </div>
-
-                        {/* {category.sub_categories && (
-                        <div
-                          className={`subnav-content ${
-                            hoveredCategory === category ? "active" : ""
-                          }`}
-                        >
-                          <ul className="submenu-list">
-                            {category.sub_categories.map((subcategory) => (
-                              <li
-                                className="category-sub-title"
-                                key={subcategory.sub_id}
-                              >
-                                <Nav.Link
-                                  onClick={toggleClass}
-                                  href={`/products${formatUrl(
-                                    category.url_name
-                                  )}${formatUrl(subcategory.url_name)}`}
-                                >
-                                  {subcategory.name}
-                                </Nav.Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )} */}
-                  {/* </div>; */}
-                  {/* })}} */}
-
-                  {/*  */}
                 </div>
-                {/* <div className="Brands_nav">
-                  <div className="sub_nav ">
-                    <div className="sub_navbtn">
-                      <a href="/OurBrands">
-                        <h4 className="category-title">Our Brands</h4>
-                      </a>
-                      <span className="category-dropIcon">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="9"
-                          height="7"
-                          fill="none"
-                          viewBox="0 0 9 7"
-                        >
-                          <path
-                            stroke="#000"
-                            d="M8.177 1.25 4.355 5.663a.1.1 0 0 1-.15 0L.382 1.25"
-                          ></path>
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="MobileSub_navbtn sub_navbtn">
-                      <a href="/OurBrands">
-                        <h4 className="category-title">Our Brands</h4>
-                      </a>
-                      <span className="category-dropIcon">
-                        <i className="plus_Icon">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-plus"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-                          </svg>
-                        </i>
-                        <i className="mins_Icon">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-dash"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
-                          </svg>
-                        </i>
-                      </span>
-                    </div>
-                    <div className="subnav-content ">
-                      <ul className="submenu-list">
-                        <li className="category-sub-title">
-                          <a href="/OurBrands#Dayuri">Dayuri</a>
-                        </li>
-                        <li className="category-sub-title">
-                          <a href="/OurBrands#Yuri">Yuri</a>
-                        </li>
-                        <li className="category-sub-title">
-                          <a href="/OurBrands#GAOCHENG">Gaocheng</a>
-                        </li>
-                        <li className="category-sub-title">
-                          <a href="/OurBrands#GCPower">GC Power</a>
-                        </li>
-                        <li className="category-sub-title">
-                          <a href="/OurBrands#YuriSpeed">Yuri Speed</a>
-                        </li>
-                        <li className="category-sub-title">
-                          <a href="/OurBrands#Workpro">Workpro</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
