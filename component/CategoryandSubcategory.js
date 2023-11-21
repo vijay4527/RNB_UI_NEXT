@@ -55,7 +55,10 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                 <span className={styles.back_to_shop}>
                   {categoryName ? categoryName : ""}
                 </span>
-                <h1 className={styles.text_title_heading}>
+                <h1
+                  className={styles.text_title_heading}
+                  style={{ textDecoration: "none" }}
+                >
                   {categoryName ? categoryName : ""}
                 </h1>
               </div>

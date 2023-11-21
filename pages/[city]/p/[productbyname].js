@@ -7,13 +7,15 @@ import ProducDetails from "@/component/productDetails";
 import https from "https";
 import AppConfig from "@/AppConfig";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
-
+import { useRouter } from "next/router";
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
 const productbyname = ({ data }) => {
   let image = data.product_image.split(",");
+  const router = useRouter();
+  const { city } = router.query;
   return (
     <div className={styles.pdp_WrapContent}>
       <div className={styles.common_header}>
@@ -22,12 +24,22 @@ const productbyname = ({ data }) => {
             <div className={styles.content_title_heading}>
               <span className={styles.back_to_shop}>READY REGULARS</span>
               <h1 className={styles.text_title_heading}>
-                {data ? data.category_name : ""}
+                <a
+                  href={`/${city}/l/${data.category_name.split(" ").join("-")}`}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  {data ? data.category_name : ""}
+                </a>
               </h1>
             </div>
             <div className={styles.breadcrumb}>
               <div className={styles.breadcrumb}>
-                <a href="/">
+                <a
+                  href={`/${city}/l/${data.category_name
+                    .split(" ")
+                    .join("-")}/${data.sub_category_name.split(" ").join("-")}`}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
                   {data ? data.category_name : ""}{" "}
                   <span className={styles.delimiter}>
                     {data ? data.sub_category_name : ""}

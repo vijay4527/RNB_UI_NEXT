@@ -11,6 +11,7 @@ const modalStyle = {
   content: {
     width: "60%",
     marginLeft: "17.5%",
+    zIndex: 9999,
   },
 };
 
@@ -204,7 +205,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
               )}
               <button
                 type="button"
-                className="btn btn-block w-100 btn-primary btn-block mb-4 text-center"
+                className="btn btn-block w-100 btn-secondary btn-block mb-4 text-center"
                 onClick={() => submitHandler("login")}
               >
                 Sign in

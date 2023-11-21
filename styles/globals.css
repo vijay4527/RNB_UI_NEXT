@@ -27,6 +27,7 @@
 html,
 body {
   max-width: 100%;
+  height: 100%;
   overflow-x: hidden;
   font-family: var(--font-family);
 }
@@ -34,44 +35,6 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-
-.categories-list {
-  display: none !important; 
-  position: absolute !important;
-  /* background-color: white !important; */
-  border: 1px solid #ddd !important;
-  z-index: 1 !important;
-  list-style: none !important;
-  cursor: pointer !important;
-}
-
-.categories-link:hover .categories-list {
-  display: block !important; 
-}
-
-.categories-link{
-  cursor: pointer;
-
-}
-
-.subcategories-list {
-  background-color: white;
-  list-style: none;
-  padding: 0; /* Remove default padding */
-  margin: 0; /* Remove default margin */
-}
-
-.subcategory-item {
-  padding: 5px; /* Add padding for better spacing */
-}
-
-
-
-/* Show subcategories on hover */
-.categories-list .category-item:hover .subcategories-list {
-  display: none !important;
 }
 
 .myorders{
@@ -1104,7 +1067,7 @@ form button:hover {
   padding: 0;
 }
 .navbar_wrapper .navbar-brand img{
-  max-height: 60px;
+  max-height: 95px;
   width: auto;
 }
 .navbar_content .navbar-collapse a{
@@ -1521,6 +1484,18 @@ input.input-search:visited{
 .sub_nav:hover .sub_navbtn .category-dropIcon path{
   stroke: var(--theme-primary);
 } */
+.navbar_MobileClose {
+  background: var(--theme-primary);
+  height: 55px;
+  padding: 0 20px;
+  background-color: #f06e22eb !important;
+  text-transform: uppercase;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
 .sub_nav:hover .subnav-content {
   display: none;
 }
@@ -1569,7 +1544,7 @@ input.input-search:visited{
     left: unset !important;
   }
   .navbar_wrapper .navbar-brand img{
-    max-height: 45px;
+    max-height: 60px;
   }
   .navbar_search ul li .nav-link i.icon-fa{
     display: inline;
@@ -1648,7 +1623,7 @@ input.input-search:visited{
     border-bottom: 1px solid rgb(128 0 0 / 9%);
   }
   .category-title{
-    padding: 0px 15px;
+    padding: 10px 15px;
     padding-right: 0;
   }
   .subnav-content{
@@ -2424,6 +2399,20 @@ input.input-search:visited{
 
 @media screen and (max-width: 768px) {
   /* Mobile css */
+  .navbar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+     padding: 0rem 0rem !important;
+}
+
+
 .brands-details-wrap {
   margin-top: -80px;
 }
@@ -3818,3 +3807,88 @@ input.input-search:visited{
   margin-top: 15px;
 }
 
+.navbar-toggler {
+  margin: 10px 0px 10px 0px;
+
+}
+
+
+/* aboutus */
+.offset-borders {
+  position: relative;
+  padding: 0px 0;
+}
+
+.offset-borders:before {
+  bottom: 0px;
+}
+
+.offset-borders:before {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #684f40;
+  content: '';
+}
+
+#header-shop {
+  background-image: url(https://ribbonsandballoons.com/frontassets/images/bg_about.png);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+}
+
+.full-header-container {
+  border-top: 2px #684f40 solid;
+  border-bottom: 2px #684f40 solid;
+  display: table;
+  width: 100%;
+  position: relative;
+  height: 80px;
+}
+
+.full-header {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  background-color: rgba(104, 79, 64, 0.9);
+  color: #FFF;
+  text-align: center;
+  z-index: 20;
+}
+
+.full-header .container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.full-header h1 {
+  color: #FFF;
+  font-size: 30px;
+  text-transform: uppercase;
+  position: relative;
+  margin: 10px 0;
+  padding-bottom: 10px;
+  font-weight: 100;
+}
+
+.full-header h1:after {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  margin-left: -50px !important;
+  width: 100px !important;
+  height: 2px !important;
+  background-color: #FFF !important;
+  content: '' !important;
+}
+
+
+body.modal-open {
+  overflow: hidden;
+}

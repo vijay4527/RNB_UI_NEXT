@@ -11,7 +11,6 @@ import { axiosGet, axiosPost } from "@/api";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-
 const Header = () => {
   const { data, status } = useSession();
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -20,66 +19,14 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [user, setUser] = useState({});
   const router = useRouter();
-  const { city } = router.query;
-  const [isActive, setIsActive] = useState(false);
-  const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [isClicked, setIsClicked] = useState(false);
-  const formatUrl = (url) => {
-    return `/${encodeURIComponent(url).replace(/%20/g, "-")}`;
-  };
-  const brand = [
-    {
-      cat_id: 1,
-      name: "Our Brands",
-      url_name: "/OurBrands",
-      sub_categories: [
-        {
-          sub_id: 1,
-          name: "Dayuri",
-          url_name: "#Dayuri",
-        },
-        {
-          sub_id: 2,
-          name: "Yuri",
-          url_name: "#Yuri",
-        },
-        {
-          sub_id: 3,
-          name: "Gaocheng",
-          url_name: "#GAOCHENG",
-        },
-        {
-          sub_id: 4,
-          name: "GC Power",
-          url_name: "#GCPower",
-        },
-        // {
-        //   "sub_id": 5,
-        //   "name": "EMTEX POWER TOOLS",
-        //   "url_name": "#EmtexPowerTools"
-        // },
-        {
-          sub_id: 6,
-          name: "Yuri Speed",
-          url_name: "#YuriSpeed",
-        },
-        {
-          sub_id: 7,
-          name: "Workpro",
-          url_name: "#Workpro",
-        },
-      ],
-    },
-  ];
+  const { city, profile } = router.query;
+  // const [isActive, setIsActive] = useState(false);
+  // const [hoveredCategory, setHoveredCategory] = useState(null);
+  // const [isClicked, setIsClicked] = useState(false);
+  // const formatUrl = (url) => {
+  //   return `/${encodeURIComponent(url).replace(/%20/g, "-")}`;
+  // };
 
-  const handleNavList = () => {
-    var x = document.getElementById("nav");
-    if (x.classNameName === "navbar navbar-expand-lg navbar-light bg-light") {
-      x.classNameName += " responsive";
-    } else {
-      x.classNameName = "navbar navbar-expand-lg navbar-light bg-light";
-    }
-  };
   useEffect(() => {
     const userInfo =
       typeof window !== "undefined" ? sessionStorage.getItem("userData") : "";
@@ -94,17 +41,16 @@ const Header = () => {
   };
 
   useEffect(() => {
-    getAllCategories();
-  }, []);
+    if (city) {
+      console.log("City:", city);
+      getAllCategories();
+    }
+  }, [city]);
 
   const getAllCategories = async () => {
-    var cityobj = {
-      city_name: city,
-    };
     const categories = await axiosGet("/Category/GetAllTypeCategory/" + city);
     if (categories) {
       setCategory(JSON.parse(categories.respObj));
-      console.log(categories.respObj);
     }
   };
 
@@ -131,12 +77,43 @@ const Header = () => {
     }
   };
 
+  // const toggleClass = () => {
+  //   setIsActive(!isActive);
+  // };
+
+  // const handleMouseEnter = async (category) => {
+  //   // fetchSubcategories(categoryId);
+  //   setHoveredCategory(category);
+  // };
+
+  // const handleMouseLeave = () => {
+  //   setHoveredCategory(null);
+  // };
+
+  // const handleCategoryClick = (category) => {
+  //   if (hoveredCategory === category) {
+  //     setHoveredCategory(null);
+  //   } else {
+  //     // fetchSubcategories(categoryId);
+  //     setHoveredCategory(category);
+  //   }
+  // };
+
+  const [isActive, setIsActive] = useState(false);
+
   const toggleClass = () => {
     setIsActive(!isActive);
   };
 
-  const handleMouseEnter = async (category) => {
-    // fetchSubcategories(categoryId);
+  const [isClicked, setIsClicked] = useState(false);
+  const handleClick = () => {
+    setIsClicked(!isClicked);
+    // searchInputRef.current.focus();
+  };
+  // hover
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+
+  const handleMouseEnter = (category) => {
     setHoveredCategory(category);
   };
 
@@ -145,28 +122,33 @@ const Header = () => {
   };
 
   const handleCategoryClick = (category) => {
-    if (hoveredCategory === category) {
+    if (hoveredCategory == category) {
       setHoveredCategory(null);
     } else {
-      // fetchSubcategories(categoryId);
       setHoveredCategory(category);
     }
   };
+  //
+
+  const formatUrl = (url) => {
+    return `/${encodeURIComponent(url).replace(/%20/g, "-")}`;
+  };
+
   return (
     <>
       <div>
         <Navbar className="navbar_wrapper navbar navbar-expand-lg navbar-light">
           <div className="container">
-            <div className="navbar_body">
+            <div className="navbar_body ">
               <div className="navbar_logo">
                 <a href="/" className="navbar-brand">
-                  {/* <img
-                    src="https://fama.b-cdn.net/Yuri/logos/yuri%20logo%202.png"
-                    width="30"
-                    height="30"
+                  <img
+                    src="Cake_Logo2.png"
+                    width="100"
+                    height="100"
                     className="d-inline-block align-top"
                     alt="React Bootstrap logo"
-                  /> */}
+                  />
                 </a>
               </div>
               <div className="navbar_content">
@@ -181,6 +163,74 @@ const Header = () => {
               </div>
               <div className="navbar_search">
                 <ul>
+                  <li>
+                    <span className="nav-link">
+                      <i className="fa fa-user" onClick={openLoginModal}></i>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="nav-link">
+                      <Link
+                        href={`/${city}/cart`}
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <i className="fa fa-shopping-cart"></i>
+                      </Link>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="nav-link">
+                      <Link
+                        href={`/${city}`}
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <b>Home</b>
+                      </Link>
+                    </span>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${city}/about-us`}
+                      className="nav-link"
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      <b>About us</b>
+                    </Link>
+                  </li>
+                  <li>
+                    <span className="nav-link">
+                      <Link
+                        href={`/${city}/getFranchise`}
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <b> Get Franchise</b>
+                      </Link>
+                    </span>
+                  </li>
+
+                  <li>
+                    <a href={`/${city}/find-us`} className="nav-link">
+                      <b>Find Us</b>
+                      <i
+                        className="icon-fa fa fa-map-marker"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  </li>
+                  <li>
+                    {data || user
+                      ? Object.keys(user).length > 0 && (
+                          <a
+                            href="/"
+                            className="nav-link"
+                            onClick={handleLogout}
+                          >
+                            Logout
+                          </a>
+                        )
+                      : ""}
+                  </li>
+
                   {/* <li>
                     <a href="/events" className="nav-link">
                       <b>Events</b>
@@ -200,17 +250,9 @@ const Header = () => {
                       <i className=" icon-fa fa fa-book" aria-hidden="true"></i>
                     </a>
                   </li> */}
+
                   {/* <li>
-                    <a href="/find-retailer" className="nav-link">
-                      <b>Find Us</b>
-                      <i
-                        className="icon-fa fa fa-map-marker"
-                        aria-hidden="true"
-                      ></i>
-                    </a>
-                  </li> */}
-                  <li>
-                    {/* <div className="nav-link">
+                     <div className="nav-link">
                       <div className="search-product">
                         <input
                           placeholder="Search product..."
@@ -219,8 +261,8 @@ const Header = () => {
                         />
                         <i className="fa fa-search" aria-hidden="true"></i>
                       </div>
-                    </div> */}
-                  </li>
+                    </div> 
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -246,119 +288,128 @@ const Header = () => {
               </div>
               <div className="Brands_navbody">
                 <div className="subNavbar_body">
-                  {category.map((category) => (
-                    <div
-                      className={`sub_nav ${
-                        hoveredCategory === category ? "show" : ""
-                      }`}
-                      key={category.cat_id}
-                    >
-                      <div
-                        onMouseEnter={() => handleMouseEnter(category)}
-                        onMouseLeave={handleMouseLeave}
-                        className={
-                          !category.json_sub_category
-                            ? "sub_navbtn active"
-                            : "sub_navbtn"
-                        }
-                      >
-                        <Link
-                          href={`/products${formatUrl(category.url_name)}`}
-                          onClick={toggleClass}
-                        >
-                          <h4 className="category-title">
-                            {category.category_name}
-                          </h4>
-                        </Link>
-                        <span className="category-dropIcon">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="9"
-                            height="7"
-                            fill="none"
-                            viewBox="0 0 9 7"
-                          >
-                            <path
-                              stroke="#000"
-                              d="M8.177 1.25 4.355 5.663a.1.1 0 0 1-.15 0L.382 1.25"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-
-                      <div
-                        className={
-                          !category.sub_categories
-                            ? "MobileSub_navbtn active"
-                            : "MobileSub_navbtn sub_navbtn"
-                        }
-                      >
-                        <Link
-                          href={`/products${formatUrl(category.url_name)}`}
-                          onClick={toggleClass}
-                        >
-                          <h4 className="category-title">
-                            {category.category_name}
-                          </h4>
-                        </Link>
-                        <span
-                          onMouseLeave={handleMouseLeave}
-                          onClick={() => handleCategoryClick(category)}
-                          className="category-dropIcon"
-                        >
-                          <i className="plus_Icon">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-plus"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                            </svg>
-                          </i>
-                          <i className="mins_Icon">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-dash"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                            </svg>
-                          </i>
-                        </span>
-                      </div>
-                      {category.json_sub_category && (
+                  {category
+                    ? category.map((cat) => (
                         <div
-                          className={`subnav-content ${
-                            hoveredCategory === category ? "active" : ""
+                          className={`sub_nav ${
+                            hoveredCategory === cat ? "show" : ""
                           }`}
+                          key={cat.category_id}
                         >
-                          <ul className="submenu-list">
-                            {category.json_sub_category.map((subcategory) => (
-                              <li
-                                className="category-sub-title"
-                                key={subcategory.sub_category_id}
+                          <div
+                            onMouseEnter={() => handleMouseEnter(cat)}
+                            onMouseLeave={handleMouseLeave}
+                            className={
+                              !cat.json_sub_category
+                                ? "sub_navbtn active"
+                                : "sub_navbtn"
+                            }
+                          >
+                            <Link
+                              href={`/${city}/l/${cat.category_name}`}
+                              onClick={toggleClass}
+                              style={{ textDecoration: "none", color: "black" }}
+                            >
+                              <h4 className="category-title">
+                                {cat.category_name}
+                              </h4>
+                            </Link>
+                            <span className="category-dropIcon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="9"
+                                height="7"
+                                fill="none"
+                                viewBox="0 0 9 7"
                               >
-                                <Nav.Link
-                                  onClick={toggleClass}
-                                  href={`/products${formatUrl(
-                                    category.url_name
-                                  )}${formatUrl(subcategory.url_name)}`}
+                                <path
+                                  stroke="#000"
+                                  d="M8.177 1.25 4.355 5.663a.1.1 0 0 1-.15 0L.382 1.25"
+                                />
+                              </svg>
+                            </span>
+                          </div>
+
+                          <div
+                            className={
+                              !cat.json_sub_category
+                                ? "MobileSub_navbtn active"
+                                : "MobileSub_navbtn sub_navbtn"
+                            }
+                          >
+                            <Link
+                              href={`/${city}/l/${cat.category_name
+                                .split(" ")
+                                .join("-")}`}
+                              onClick={toggleClass}
+                            >
+                              <h4 className="category-title">
+                                {cat.category_name}
+                              </h4>
+                            </Link>
+                            <span
+                              onMouseLeave={handleMouseLeave}
+                              onClick={() => handleCategoryClick(cat)}
+                              className="category-dropIcon"
+                            >
+                              <i className="plus_Icon">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-plus"
+                                  viewBox="0 0 16 16"
                                 >
-                                  {subcategory.sub_category_name}
-                                </Nav.Link>
-                              </li>
-                            ))}
-                          </ul>
+                                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                </svg>
+                              </i>
+                              <i className="mins_Icon">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-dash"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                                </svg>
+                              </i>
+                            </span>
+                          </div>
+                          {cat.json_sub_category && (
+                            <div
+                              className={`subnav-content ${
+                                hoveredCategory === cat ? "active" : ""
+                              }`}
+                            >
+                              <ul className="submenu-list">
+                                {cat.json_sub_category.map((subcategory) => (
+                                  <li
+                                    className="category-sub-title"
+                                    key={subcategory.sub_category_id}
+                                  >
+                                    <Nav.Link
+                                      onClick={toggleClass}
+                                      href={`/${city}/l/${cat.category_name
+                                        .split(" ")
+                                        .join(
+                                          "-"
+                                        )}/${subcategory.sub_category_name
+                                        .split(" ")
+                                        .join("-")}`}
+                                    >
+                                      {subcategory.sub_category_name}
+                                    </Nav.Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  ))}
+                      ))
+                    : ""}
                 </div>
               </div>
             </div>

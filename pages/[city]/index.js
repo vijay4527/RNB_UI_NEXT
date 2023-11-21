@@ -54,8 +54,6 @@ const Index = ({ city }) => {
         />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
-      <Nav />
-
       <div className={styles.pdp_WrapContent}>
         {/* <div className={styles.common_header}>
           <div className={styles.container_fluid}>
@@ -125,12 +123,18 @@ const Index = ({ city }) => {
             </div>
             <div className="carousel-item">
               <img
-                src="banner Image1.png"
+                src="banner Image2.jpg"
                 className="d-block w-100"
                 alt="Slide 2"
               />
             </div>
-            {/* Add more carousel items as needed */}
+            <div className="carousel-item">
+              <img
+                src="banner image3.png"
+                className="d-block w-100"
+                alt="Slide 3"
+              />
+            </div>
           </div>
           <button
             className="carousel-control-prev"

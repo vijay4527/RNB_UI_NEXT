@@ -186,7 +186,7 @@ const CartPage = () => {
               ))}
               <h2>Cart Total: {grandTotal}</h2>
               <button
-                className="btn btn-sm btn-primary"
+                className="btn btn-sm btn-secondary"
                 onClick={handleProducts}
               >
                 want to checkout

@@ -78,7 +78,10 @@
   margin-right: auto;
   margin-left: auto;
 }
-
+.breadcrumb {
+  text-decoration: none !important;
+  background-color: transparent;
+}
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
