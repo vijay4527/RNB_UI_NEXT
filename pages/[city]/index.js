@@ -72,7 +72,7 @@ const Index = ({ city }) => {
         <Container fluid>
           <div className="testimonialsBody">
             <div className='testimonialsContent'>
-              <p> you said about us </p>
+              <p className='pb-4'> you said about us </p>
                   <h2>Testimonials</h2>
                   <div className="testimonialUnderLine">
                     <div className='testimonialUnder'>
@@ -199,7 +199,7 @@ const Index = ({ city }) => {
                 </div>
                </div>
                <div className='advInstaContent3'>
-                <h3>Where there is cake, there is hope. And there is always cake.</h3>
+                <div className=''><h3>Where there is cake, there is hope. And there is always cake.</h3></div>
                </div>
             </div>
           </Container>

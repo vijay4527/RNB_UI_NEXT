@@ -1,5 +1,6 @@
 /* App.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Handjet&family=Kenia&family=Nabla&family=Poppins:ital,wght@1,700&family=Whisper&display=swap');
 
 :root{
   --text-color: #1c1c1c;
@@ -255,7 +256,7 @@ img{
 }
 .sub_nav.show .subnav-content,
 .sub_nav:hover .subnav-content {
-  margin-top: 3px;
+  margin-top: -10px;
   display: grid;
   grid-template-columns: 1fr 0.5fr;
   max-height: 210px;
@@ -291,6 +292,7 @@ img{
   margin: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  height: 1%;
 }
 .category-sub-title {
   margin-bottom: 10px;
@@ -374,6 +376,16 @@ img{
       font-size: 17px;
     }
 }
+.subnav-img img {
+  border-radius: 10px;
+  width: 157px;
+  margin-top: 3%;
+  height: 181px;
+  margin-bottom: 5%;
+}
+.subnav .imgDiv {
+
+}
 
 .banner-body {
   display: grid;
@@ -387,7 +399,7 @@ img{
   margin-bottom: 30px;
 }
 .banner-wrap{
-  background-color: red;
+  background-color: rgb(253, 242, 225);
 }
 
 /*  */
@@ -397,6 +409,7 @@ img{
 .testimonialsContent {
   text-align: center;
 }
+
 .testimonialUnderLine{
   margin: 17px 0 16px
 }
@@ -681,13 +694,14 @@ img{
     width: 100%;
     vertical-align: middle;
     border: 1px solid #c19d56;
+
 }
 .advInstaContentBox:hover .advInstaContentBoxHover{
   display: block;
 }
 .advInstaContent3 {
   position: relative;
-    display: table-cell;
+    display: flex;
     height: 100%;
     width: 100%;
     vertical-align: middle;
