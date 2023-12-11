@@ -24,6 +24,16 @@ const options = {
   navText: ['<span class="arrow-prev-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>', '<span class="arrow-next-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
 };
 
+const optionsNewLunched = {
+  items: 4,
+  loop: true,
+  margin: 10,
+  autoplay: false,
+  nav: false, // Enable navigation arrows
+  dots: false, // Enable navigation dots
+  navText: ['<span class="arrow-prev-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>', '<span class="arrow-next-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
+};
+
 const optionsMedia = {
   items: 5,
   loop: true,
@@ -75,10 +85,10 @@ const Index = ({ city }) => {
         <Container>
           <div className="banner-body">
             <div className="banner-sec1">
-                <div className="banner-img" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <div className="banner-img banner-img1" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                   <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" />
                 </div>
-                <div className="banner-img" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <div className="banner-img banner-img2" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                   <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" />
                 </div>
             </div>
@@ -88,10 +98,10 @@ const Index = ({ city }) => {
                 </div>
             </div>
             <div className="banner-sec1">
-                <div className="banner-img" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <div className="banner-img banner-img3" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                   <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg" />
                 </div>
-                <div className="banner-img" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <div className="banner-img banner-img4" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                   <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg" />
                 </div>
             </div>
@@ -245,6 +255,7 @@ const Index = ({ city }) => {
           </Container>
       </div>
 
+
       <div className="testimonialsWrap">
         <Container fluid>
           <div className="testimonialsBody">
@@ -286,8 +297,52 @@ const Index = ({ city }) => {
         </Container>
       </div>
 
-      <div>
-
+      
+      <div className="advInstaWrap">
+        <Container fluid>
+        <div className='testimonialsContent'>
+                  <h2>New Launches</h2>
+                  <div className="testimonialUnderLine">
+                    <div className='testimonialUnder'>
+                      <div className="underLine"></div>
+                      <div className="shapLine"></div>
+                    </div>
+                  </div> 
+          {isMounted && (
+            <OwlCarousel className="owl-theme" {...optionsNewLunched}>
+              <div className="item">
+                <div className='itemNewLunch'>
+                  <div className='itemNewLunchImg'>
+                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                  </div>
+                </div>
+              </div>
+              <div className="item">
+                <div className='itemNewLunch'>
+                  <div className='itemNewLunchImg'>
+                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                  </div>
+                </div>
+              </div>
+              <div className="item">
+                <div className='itemNewLunch'>
+                  <div className='itemNewLunchImg'>
+                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                  </div>
+                </div>
+              </div>
+              <div className="item">
+                <div className='itemNewLunch'>
+                  <div className='itemNewLunchImg'>
+                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                  </div>
+                </div>
+              </div>
+            </OwlCarousel>
+          )}
+            
+          </div>
+        </Container>
       </div>
 
       <div className='cakeOfMonthWrap'>

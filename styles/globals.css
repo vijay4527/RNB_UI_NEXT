@@ -437,6 +437,29 @@ img{
 .banner-img {
   margin-bottom: 30px;
 }
+.banner-img1 img{
+  width: 75%;
+}
+.banner-img3 img {
+  width: 75%;
+  margin-top: 25px;
+}
+.banner-img-center img{
+  width: 90%;
+  margin-top: 75px;
+}
+.banner-img2 {
+  margin-top: 150px;
+}
+.banner-img2 img{
+  width: 85%;
+}
+.banner-img4 {
+  margin-top: 150px;
+}
+.banner-img4 img {
+  width: 85%;
+}
 /* .banner-img-center{
   transform: translateY(-236px);
 } */
@@ -445,6 +468,81 @@ img{
     padding: 85px 0px;
     background-image: url(https://fama.b-cdn.net/Stripes.jpg);
 }
+
+
+.itemNewLunch{
+  display: block;
+    overflow: hidden;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0;
+    background-clip: border-box;
+    padding: 15px;
+}
+.itemNewLunchImg{
+  position: relative;
+    display: block;
+    overflow: hidden;
+}
+.itemNewLunchImg:hover img {
+  -webkit-transform: scale(1.08);
+  -moz-transform: scale(1.08);
+  -ms-transform: scale(1.08);
+  -o-transform: scale(1.08);
+  transform: scale(1.08);
+  -webkit-transform: scale(1.3);
+  -moz-transform: scale(1.3);
+  -ms-transform: scale(1.3);
+  -o-transform: scale(1.3);
+  transform: scale(1.3);
+}
+.itemNewLunch img {
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  transition: all .4s ease;
+}
+.itemNewLunch img {
+  height: auto;
+  max-width: 100%;
+  border: none;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.itemNewLunchImg:after {
+  content: "";
+  width: 80%;
+  height: 80%;
+  display: block;
+  border: 1px solid #c19f5f;
+  border-color: #c19f5f;
+  border-color: #c19f5f;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%) rotate(15deg);
+  -moz-transform: translate(-50%,-50%) rotate(15deg);
+  -ms-transform: translate(-50%,-50%) rotate(15deg);
+  -o-transform: translate(-50%,-50%) rotate(15deg);
+  transform: translate(-50%,-50%) rotate(15deg);
+  pointer-events: none;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  transition: all .4s ease;
+}
+/* .itemNewLunchImg:hover img {
+  -webkit-transform: translate(-50%,-50%) rotate(0deg);
+    -moz-transform: translate(-50%,-50%) rotate(0deg);
+    -ms-transform: translate(-50%,-50%) rotate(0deg);
+    -o-transform: translate(-50%,-50%) rotate(0deg);
+    transform: translate(-50%,-50%) rotate(0deg);
+    width: 110%;
+    height: 110%;
+} */
+
 
 /*  */
 .testimonialsWrap {
