@@ -8,213 +8,167 @@ import Link from 'next/link';
 const brand = [
   {
     "cat_id": 1,
-    "name": "Our Brands",
-    "url_name": "/OurBrands",
+    "name": "Home",
+    "url_name": "/Home",
+    "sub_categories": null
+  },
+  {
+    "cat_id": 1,
+    "name": "About us",
+    "url_name": "/Aboutus",
+    "sub_categories": null
+  },
+  {
+    "cat_id": 1,
+    "name": "Occasional Cakes",
+    "url_name": "/OccasionalCakes",
     "sub_categories": [
       {
         "sub_id": 1,
-        "name": "Dayuri",
-        "url_name": "#Dayuri"
+        "name": "Wedding Day",
+        "url_name": "#WeddingDay"
       },
       {
         "sub_id": 2,
-        "name": "Yuri",
-        "url_name": "#Yuri"
+        "name": "Birthday Bash Cake",
+        "url_name": "#BirthdayBashCake"
       },
       {
         "sub_id": 3,
-        "name": "Gaocheng",
-        "url_name": "#GAOCHENG"
+        "name": "Dazzling Collection",
+        "url_name": "#DazzlingCollection"
       },
       {
         "sub_id": 4,
-        "name": "GC Power",
-        "url_name": "#GCPower"
+        "name": "Customised Cakes",
+        "url_name": "#CustomisedCakes"
       },
-      // {
-      //   "sub_id": 5,
-      //   "name": "EMTEX POWER TOOLS",
-      //   "url_name": "#EmtexPowerTools"
-      // },
+    ]
+  },
+  {
+    "cat_id": 1,
+    "name": "Our Products",
+    "url_name": "/OurProducts",
+    "sub_categories": [
+      {
+        "sub_id": 1,
+        "name": "Cheese Cake",
+        "url_name": "#CheeseCake"
+      },
+      {
+        "sub_id": 2,
+        "name": "Pastries",
+        "url_name": "#Pastries"
+      },
+      {
+        "sub_id": 3,
+        "name": "Biscuits",
+        "url_name": "#Biscuits"
+      },
+      {
+        "sub_id": 4,
+        "name": "Savoury",
+        "url_name": "#Savoury"
+      },
+      {
+        "sub_id": 5,
+        "name": "Donuts",
+        "url_name": "#Donuts"
+      },
       {
         "sub_id": 6,
-        "name": "Yuri Speed",
-        "url_name": "#YuriSpeed"
+        "name": "Desserts",
+        "url_name": "#Desserts"
       },
       {
         "sub_id": 7,
-        "name": "Workpro",
-        "url_name": "#Workpro"
+        "name": "Chocolates",
+        "url_name": "#Chocolates"
+      },
+      {
+        "sub_id": 8,
+        "name": "Wafers",
+        "url_name": "#Wafers"
+      },
+      {
+        "sub_id": 9,
+        "name": "Titbits",
+        "url_name": "#Titbits"
+      },
+      {
+        "sub_id": 10,
+        "name": "Breads",
+        "url_name": "#Breads"
+      },
+      {
+        "sub_id": 11,
+        "name": "Tea Time Cakes",
+        "url_name": "#TeaTimeCakes"
       }
     ]
   },
   {
     "cat_id": 1,
-    "name": "Our Brands",
-    "url_name": "/OurBrands",
+    "name": "Cakes",
+    "url_name": "/Cakes",
     "sub_categories": [
       {
         "sub_id": 1,
-        "name": "Dayuri",
-        "url_name": "#Dayuri"
+        "name": "Mithai Magic Collection",
+        "url_name": "#MithaiMagicCollection"
       },
       {
         "sub_id": 2,
-        "name": "Yuri",
-        "url_name": "#Yuri"
+        "name": "Ready Regulars ",
+        "url_name": "#ReadyRegulars "
       },
       {
         "sub_id": 3,
-        "name": "Gaocheng",
-        "url_name": "#GAOCHENG"
+        "name": "Sinful Collections",
+        "url_name": "#SinfulCollections"
       },
       {
         "sub_id": 4,
-        "name": "GC Power",
-        "url_name": "#GCPower"
+        "name": "Photo Cakes",
+        "url_name": "#PhotoCakes"
       },
-      // {
-      //   "sub_id": 5,
-      //   "name": "EMTEX POWER TOOLS",
-      //   "url_name": "#EmtexPowerTools"
-      // },
+      {
+        "sub_id": 5,
+        "name": "Signature Cakes",
+        "url_name": "#SignatureCakes"
+      },
       {
         "sub_id": 6,
-        "name": "Yuri Speed",
-        "url_name": "#YuriSpeed"
+        "name": "Fancy Cakes ",
+        "url_name": "#FancyCakes "
       },
       {
         "sub_id": 7,
-        "name": "Workpro",
-        "url_name": "#Workpro"
+        "name": "Sensational Cakes",
+        "url_name": "#SensationalCakes"
+      },
+      {
+        "sub_id": 8,
+        "name": "Cake of The Month",
+        "url_name": "#CakeofTheMonth"
+      },
+      {
+        "sub_id": 9,
+        "name": "Tall Wonder",
+        "url_name": "#TallWonder"
+      },
+      {
+        "sub_id": 10,
+        "name": "Tintastic",
+        "url_name": "#Tintastic"
       }
     ]
   },
   {
     "cat_id": 1,
-    "name": "Our Brands",
-    "url_name": "/OurBrands",
-    "sub_categories": [
-      {
-        "sub_id": 1,
-        "name": "Dayuri",
-        "url_name": "#Dayuri"
-      },
-      {
-        "sub_id": 2,
-        "name": "Yuri",
-        "url_name": "#Yuri"
-      },
-      {
-        "sub_id": 3,
-        "name": "Gaocheng",
-        "url_name": "#GAOCHENG"
-      },
-      {
-        "sub_id": 4,
-        "name": "GC Power",
-        "url_name": "#GCPower"
-      },
-      // {
-      //   "sub_id": 5,
-      //   "name": "EMTEX POWER TOOLS",
-      //   "url_name": "#EmtexPowerTools"
-      // },
-      {
-        "sub_id": 6,
-        "name": "Yuri Speed",
-        "url_name": "#YuriSpeed"
-      },
-      {
-        "sub_id": 7,
-        "name": "Workpro",
-        "url_name": "#Workpro"
-      }
-    ]
-  },
-  {
-    "cat_id": 1,
-    "name": "Our Brands",
-    "url_name": "/OurBrands",
-    "sub_categories": [
-      {
-        "sub_id": 1,
-        "name": "Dayuri",
-        "url_name": "#Dayuri"
-      },
-      {
-        "sub_id": 2,
-        "name": "Yuri",
-        "url_name": "#Yuri"
-      },
-      {
-        "sub_id": 3,
-        "name": "Gaocheng",
-        "url_name": "#GAOCHENG"
-      },
-      {
-        "sub_id": 4,
-        "name": "GC Power",
-        "url_name": "#GCPower"
-      },
-      // {
-      //   "sub_id": 5,
-      //   "name": "EMTEX POWER TOOLS",
-      //   "url_name": "#EmtexPowerTools"
-      // },
-      {
-        "sub_id": 6,
-        "name": "Yuri Speed",
-        "url_name": "#YuriSpeed"
-      },
-      {
-        "sub_id": 7,
-        "name": "Workpro",
-        "url_name": "#Workpro"
-      }
-    ]
-  },
-  {
-    "cat_id": 1,
-    "name": "Our Brands",
-    "url_name": "/OurBrands",
-    "sub_categories": [
-      {
-        "sub_id": 1,
-        "name": "Dayuri",
-        "url_name": "#Dayuri"
-      },
-      {
-        "sub_id": 2,
-        "name": "Yuri",
-        "url_name": "#Yuri"
-      },
-      {
-        "sub_id": 3,
-        "name": "Gaocheng",
-        "url_name": "#GAOCHENG"
-      },
-      {
-        "sub_id": 4,
-        "name": "GC Power",
-        "url_name": "#GCPower"
-      },
-      // {
-      //   "sub_id": 5,
-      //   "name": "EMTEX POWER TOOLS",
-      //   "url_name": "#EmtexPowerTools"
-      // },
-      {
-        "sub_id": 6,
-        "name": "Yuri Speed",
-        "url_name": "#YuriSpeed"
-      },
-      {
-        "sub_id": 7,
-        "name": "Workpro",
-        "url_name": "#Workpro"
-      }
-    ]
+    "name": "Get Franchise",
+    "url_name": "/GetFranchise",
+    "sub_categories": null
   },
 ]
 
@@ -264,7 +218,7 @@ export default function Header() {
               <div className='navbar_logo'>
                 <Navbar.Brand href="/">
                   <img
-                    src="https://ribbonsandballoons.com/frontassets/images/logo2.jpg"
+                    src="https://fama.b-cdn.net/RnB/Logo-Golden.png"
                     className="d-inline-block align-top"
                     alt="React Bootstrap logo"
                   />
@@ -275,7 +229,7 @@ export default function Header() {
                   <button className="navbar-toggler toggleButton" type="button" onClick={toggleClass}>
                     <span className="navbar-toggler-icon"></span>
                   </button>
-                  <div className={`navbar-collapse collapse ${isActive ? 'show' : ''}`}>
+                  <div className={`Navbar_content navbar-collapse collapse ${isActive ? 'show' : ''}`}>
                     <div className='navbar_MobileClose' onClick={toggleClass}>
                       <span>Close</span>
                       <button className="navbar-toggler toggleButton" type="button">
@@ -352,12 +306,16 @@ export default function Header() {
                     <ul>
                       <li>
                         <a>
-                          <img src='search.svg' />
+                          <span class="material-icons">
+                            search
+                          </span>
                         </a>
                       </li>
                       <li>
                         <a> 
-                          <img src='search.svg' />
+                        <span class="material-icons">
+shopping_bag
+</span>
                         </a>
                       </li>
                     </ul>
