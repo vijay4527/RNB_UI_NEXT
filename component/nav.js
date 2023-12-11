@@ -292,7 +292,10 @@ export default function Header() {
                                   ))}
                                 </ul>
                                 <div className='subnav-img'>
+                                  <div className='imgdiv'>
                                   <img src={`https://media.bakingo.com/gourmet_cake.jpg`} />
+
+                                  </div>
                                 </div>
                               </div>
 
