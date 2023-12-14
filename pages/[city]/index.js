@@ -82,19 +82,19 @@ const Index = ({ city }) => {
       </Head>
       
       <div className="banner-wrap">
-        <Container>
+        <Container fluid>
           <div className="banner-body">
             <div className="banner-sec1">
                 <div className="banner-img banner-img1" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                   <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" />
                 </div>
                 <div className="banner-img banner-img2" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" />
+                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" />
                 </div>
             </div>
-            <div className="banner-sec1">
-                <div className="banner-img banner-img-center" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * -2}px)` }}>
-                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" />
+            <div className="banner-sec1 banner-sec-center">
+                <div className="banner-img banner-img-center" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}>
+                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" />
                 </div>
             </div>
             <div className="banner-sec1">
@@ -113,7 +113,7 @@ const Index = ({ city }) => {
         <Container fluid>
           <div className="testimonialsBody">
             <div className='testimonialsContent'>
-              <p className='pb-4'> you said about us </p>
+              <p className=''> you said about us </p>
                   <h2>Testimonials</h2>
                   <div className="testimonialUnderLine">
                     <div className='testimonialUnder'>
@@ -320,21 +320,21 @@ const Index = ({ city }) => {
               <div className="item">
                 <div className='itemNewLunch'>
                   <div className='itemNewLunchImg'>
-                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-02-360x360.jpg" />
                   </div>
                 </div>
               </div>
               <div className="item">
                 <div className='itemNewLunch'>
                   <div className='itemNewLunchImg'>
-                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-03-360x360.jpg" />
                   </div>
                 </div>
               </div>
               <div className="item">
                 <div className='itemNewLunch'>
                   <div className='itemNewLunchImg'>
-                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-04-360x360.jpg" />
                   </div>
                 </div>
               </div>

@@ -208,11 +208,27 @@ export default function Header() {
     return `/${encodeURIComponent(url).replace(/%20/g, '-')}`;
   };
   
-  
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      setScrollPosition(scrollY);
+    };
+
+    // Attach the scroll event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <div>
-        <Navbar expand="lg" className="navbar_wrapper">
+        <Navbar expand="lg"  className={ `navbar_wrapper ${scrollPosition ? 'fixed_header' : ''}`}>
           <Container>
             <div className='navbar_body'>
               <div className='navbar_logo'>
