@@ -46,6 +46,70 @@ img{
   max-width: 100%;
   height: auto;
 }
+
+/* @media (min-width: 1200px){
+  body .container, body .container-lg, body .container-md, body .container-sm, body .container-xl {
+    width: 100%;
+    padding-right: 25px;
+    padding-left: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 100%;
+  }
+} */
+
+.flip-container {
+	-webkit-perspective: 1000;
+	width: 150px;
+}
+.flipper {
+	transition: 0.6s;
+	-webkit-transform-style: preserve-3d;
+	position: relative;
+	height: 75px;
+}
+.front,
+.back {
+	position: absolute;
+	left: 0;
+	top: 0;
+	-webkit-backface-visibility: hidden;
+	text-align: center;
+}
+.back {
+	-webkit-transform: rotateY(180deg);
+}
+.front {
+	z-index: 2;
+}
+/* Flip Animation */
+@keyframes flipX{
+  from {
+      -webkit-transform: rotateX(180deg);
+  }
+  
+  to {
+      -webkit-transform: rotateX(-180deg);
+  }
+  
+}
+@keyframes flipY{
+  from {
+      -webkit-transform: rotateY(180deg);
+  }
+  
+  to {
+      -webkit-transform: rotateY(-180deg);
+  }
+  
+}
+.flip-container .flipper {
+	animation: flipY 10s infinite;
+}
+.navbar_logo .navbar-brand{
+  padding: 0;
+  margin: 0;
+}
 .navbar_body {
   width: 100%;
   text-align: center;
@@ -192,7 +256,7 @@ img{
   text-align: center;
 }
 .navbar_logo img {
-  height: 75px;
+  height: 100%
 }
 
 .navbar_MobileClose{
@@ -212,10 +276,12 @@ img{
   left: 0;
   right: 0;
   width: 100%;
-  background-color: #25130f;
+  background-color: var(--theme-seconary);
   z-index: 50;
+  background-image: unset;
 }
 .subNavbar_wrapper {
+  padding-top: 5px;
   padding-bottom: 0 !important;
 }
 .Brands_navbody,
@@ -263,7 +329,7 @@ img{
 .sub_navbtn::after {
   position: absolute;
   content: "";
-  top: 100%;
+  top: 95%;
   left: 0;
   width: 100%;
   height: 0.125rem;
@@ -321,7 +387,7 @@ img{
 }
 .sub_nav.show .subnav-content,
 .sub_nav:hover .subnav-content {
-  margin-top: 1px;
+  margin-top: 0px;
   display: grid;
   grid-template-columns: 1fr 0.5fr;
   max-height: 310px;
@@ -612,8 +678,13 @@ img{
   background-image: url(https://fama.b-cdn.net/RnB/parallax-8.png);
     background-position: right bottom;
     background-repeat: no-repeat;
+    background-color: #0c0805;
 }
-.testimonialsContent {
+.mediaCollabWrap{
+  padding: 85px 0px;
+  background-color: #0c0805;
+}
+.headerTitle {
   text-align: center;
 }
 
@@ -659,14 +730,14 @@ img{
   -moz-transform: translate(-50%,-50%) rotate(45deg);
   transform: translate(-50%,-50%) rotate(45deg);
 }
-.testimonialsContent p {
+.headerTitle p {
   font-size: 53px;
     color: var(--theme-primary);
     line-height: 42px;
     margin-bottom: 0px;
     font-family: var(--font-family-Italianno);
 }
-.testimonialsContent h2 {
+.headerTitle h2 {
   text-transform: uppercase;
   color: #ffffff;
   -ms-word-wrap: break-word;
@@ -680,7 +751,7 @@ img{
     text-transform: uppercase;
     letter-spacing: 5.6px;
 }
-.testimonialsContent h6{
+.headerTitle h6{
   font-size: 1.7rem;
   font-weight: 400;
   color: #ffffff;
@@ -689,7 +760,7 @@ img{
   font-family: var(--font-family-Cormorant);
   font-style: italic;
 }
-.testimonialsContent h5 {
+.headerTitle h5 {
   margin-bottom: 0;
     margin-top: 20px;
     font-size: 1rem;
@@ -926,6 +997,10 @@ overflow: visible;
   padding: 85px 0px;
   background-color: #121213;
 }
+.newLaunchWrap{
+  padding: 85px 0px;
+  background-color: #0c0805;
+}
 
 .advInstaBody {
   display: grid;
@@ -1022,13 +1097,17 @@ overflow: visible;
 
 /*  */
 .cakeOfMonthWrap{
+  padding-top: 85px;
+  background-color: #121213;
+}
+.cakeOfMonthBody{
   width: 100%;
     height: 100%;
-    background: black;
+    background:  #121213;
     overflow: hidden;
 }
 .wrapper {
-  height: 500px;
+  height: 644px;
   width: 100%;
   margin: 0 auto;
   position: relative;
@@ -1040,7 +1119,11 @@ overflow: visible;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-image: linear-gradient(#000000, rgba(25,53,93,1) 90%, rgba(25,53,93,1));
+  /* background-image: linear-gradient(#000000, rgba(25,53,93,1) 90%, rgba(25,53,93,1)); */
+  background-image: url(https://fama.b-cdn.net/RnB/combg.png);
+  background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 .stage_floor {
   content: '';
@@ -1049,7 +1132,7 @@ overflow: visible;
   left: 0;
   right: 0;
   height: 150%;
-  background-image: radial-gradient(rgba(54,90,143,0.9), rgba(54,90,143,0));
+  background-image: radial-gradient(rgb(255 255 255 / 0%), rgba(54,90,143,0));
   transform: scale(1.0,0.3);
 }
 .stage_highlight {
@@ -1143,12 +1226,26 @@ overflow: visible;
 }
 
 /* footer */
+.footerWap:before {
+  background-image: url(//crems.like-themes.com/wp-content/uploads/2019/06/footer-bg-2.png) !important;
+}
+.footerWap:before{
+  content: "";
+    width: 100%;
+    height: 170px;
+    background-position: 50% 0;
+    background-size: cover;
+    display: block;
+    margin-bottom: 0;
+}
 .footerBody{
   padding: 102px 0 25px;
     border-top: 0 solid #dadada;
 }
 .footerLinks h2 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  font-family: Montserrat,sans-serif;
 }
 .footerLinks ul {
   margin: 0;
@@ -1159,6 +1256,7 @@ overflow: visible;
 .footerLinks a{
   cursor: pointer;
   border-left: 0;
+  font-family: Montserrat,sans-serif;
 }
 .footerLinks a:hover {
   border-left: 2px solid var(--theme-primary);
@@ -1168,11 +1266,16 @@ overflow: visible;
   -moz-transition: -moz-transform .8s ease-out;
   transition: transform .8s ease-out;
 }
+.footerLogos{
+  text-align: center;
+    margin-right: 25px;
+}
 .footerLogos img {
   height: 120px;
 }
 .footerLinks p {
   font-size: 1rem;
+  font-family: Montserrat,sans-serif;
 }
 .footerCopyRight{
   display: flex;
@@ -1185,13 +1288,101 @@ overflow: visible;
   justify-content: center;
   padding: 20px 0px;
   font-size: 1rem;
+  font-family: Montserrat,sans-serif;
 }
 .footerCopyRight a{
   margin-left: 5px;
-  color: #ffffff;
+  color: var(--theme-primary);
   text-decoration: none;
+  font-family: Montserrat,sans-serif;
+  text-transform: capitalize;
 }
 .footerCopyRight a:hover{
   color: #ffffff;
   text-decoration: none;
+}
+.NewsletterInput {
+  position: relative;
+}
+.NewsletterInput input{
+  background-color: transparent;
+    color: #ffffff;
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--theme-primary);
+    font-family: Montserrat,sans-serif;
+    font-size: 1rem;
+    padding: 0.5rem 0rem;
+}
+.NewsletterInput input::placeholder{
+  background-color: transparent;
+  color: #eeeeee;
+}
+.NewsletterInput input:hover,
+.NewsletterInput input:focus{
+  border: 0 !important;
+  border-bottom: 1px solid var(--theme-primary) !important;
+}
+.NewsletterInput .material-icons{
+  position: absolute;
+  right: 0;
+  top: 10px;
+  cursor: pointer;
+}
+.NewsletterInput .material-icons:hover{
+  color: var(--theme-primary);
+}
+.footerSocial{
+  margin-top: 25px;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footerSocial ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.footerSocial ul li{
+  
+}
+.footerSocial ul li a{
+  margin: 0px 25px 0px 0px;
+    width: 45px;
+    height: 45px;
+    line-height: 40px;
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgb(193, 157, 86);
+    border: 1px solid #c19d56;
+    text-align: center;
+    transform: rotate(45deg);
+    -webkit-transition: background-color .15s ease-in-out,border-color .15s ease-in-out;
+    -moz-transition: background-color .15s ease-in-out,border-color .15s ease-in-out;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footerSocial ul li a svg{
+  display: inline-block;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    transition: color .15s ease-in-out;
+    width: 20px;
+    height: 20px;
+}
+.footerSocial a svg path{
+  fill: var(--theme-primary);
+}
+.footerSocial a:hover svg path{
+  fill: #121213;
+}
+.footerSocial a:hover{
+  background-color: var(--theme-primary);
 }

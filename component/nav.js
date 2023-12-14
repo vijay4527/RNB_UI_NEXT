@@ -233,11 +233,26 @@ export default function Header() {
             <div className='navbar_body'>
               <div className='navbar_logo'>
                 <Navbar.Brand href="/">
-                  <img
-                    src="https://fama.b-cdn.net/RnB/Logo-Golden.png"
+                  <div className="flip-container">
+                    <div className="flipper">
+                        <div className="front">
+                        <img
+                        src="https://ribbonsandballoons.com/frontassets/images/logo3.png"
                     className="d-inline-block align-top"
                     alt="React Bootstrap logo"
                   />
+                        </div>
+                        <div className="back">
+                        <img
+                        src="https://fama.b-cdn.net/RnB/Logo-Golden.png"
+                    className="d-inline-block align-top"
+                    alt="React Bootstrap logo"
+                  />
+                        </div>
+                        <div className="clear"></div>
+                    </div>
+                  </div>
+                  
                 </Navbar.Brand>
               </div>
               <nav className="subNavbar_wrapper navbar navbar-expand-lg navbar-light">
@@ -325,14 +340,14 @@ export default function Header() {
                     <ul>
                       <li>
                         <a>
-                          <span class="material-icons">
+                          <span className="material-icons">
                             search
                           </span>
                         </a>
                       </li>
                       <li>
                         <a> 
-                        <span class="material-icons">
+                        <span className="material-icons">
 shopping_bag
 </span>
                         </a>

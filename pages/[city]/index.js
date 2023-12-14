@@ -77,33 +77,33 @@ const Index = ({ city }) => {
           rel="stylesheet"
         />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-        
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
       </Head>
-      
+
       <div className="banner-wrap">
         <Container fluid>
           <div className="banner-body">
             <div className="banner-sec1">
-                <div className="banner-img banner-img1" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" />
-                </div>
-                <div className="banner-img banner-img2" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" />
-                </div>
+              <div className="banner-img banner-img1" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" />
+              </div>
+              <div className="banner-img banner-img2" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" />
+              </div>
             </div>
             <div className="banner-sec1 banner-sec-center">
-                <div className="banner-img banner-img-center" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}>
-                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" />
-                </div>
+              <div className="banner-img banner-img-center" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}>
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" />
+              </div>
             </div>
             <div className="banner-sec1">
-                <div className="banner-img banner-img3" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg" />
-                </div>
-                <div className="banner-img banner-img4" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                  <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg" />
-                </div>
+              <div className="banner-img banner-img3" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg" />
+              </div>
+              <div className="banner-img banner-img4" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg" />
+              </div>
             </div>
           </div>
         </Container>
@@ -112,254 +112,262 @@ const Index = ({ city }) => {
       <div className="testimonialsWrap">
         <Container fluid>
           <div className="testimonialsBody">
-            <div className='testimonialsContent'>
+            <div className='headerTitle'>
               <p className=''> you said about us </p>
-                  <h2>Testimonials</h2>
-                  <div className="testimonialUnderLine">
-                    <div className='testimonialUnder'>
-                      <div className="underLine"></div>
-                      <div className="shapLine"></div>
-                    </div>
-                  </div>  
+              <h2>Testimonials</h2>
+              <div className="testimonialUnderLine">
+                <div className='testimonialUnder'>
+                  <div className="underLine"></div>
+                  <div className="shapLine"></div>
+                </div>
+              </div>
             </div>
-          {isMounted && (
-            <OwlCarousel className="owl-theme" {...options}>
-              <div className="item">
-                <div className="testimonialsContent">
-                  <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
-                  <h5>Roland Brown</h5>
-                  <div>Chef</div>
+            {isMounted && (
+              <OwlCarousel className="owl-theme" {...options}>
+                <div className="item">
+                  <div className="headerTitle">
+                    <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
+                    <h5>Roland Brown</h5>
+                    <div>Chef</div>
+                  </div>
                 </div>
-              </div>
-              <div className="item">
-                <div className="testimonialsContent">
-                  <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
-                  <h5>Roland Brown</h5>
-                  <div>Chef</div>
+                <div className="item">
+                  <div className="headerTitle">
+                    <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
+                    <h5>Roland Brown</h5>
+                    <div>Chef</div>
+                  </div>
                 </div>
-              </div>
-              <div className="item">
-                <div className="testimonialsContent">
-                  <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
-                  <h5>Roland Brown</h5>
-                  <div>Chef</div>
+                <div className="item">
+                  <div className="headerTitle">
+                    <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
+                    <h5>Roland Brown</h5>
+                    <div>Chef</div>
+                  </div>
                 </div>
-              </div>
-            </OwlCarousel>
-          )}
-            
+              </OwlCarousel>
+            )}
+
           </div>
         </Container>
       </div>
 
       <div className='advInstaWrap'>
-          <Container fluid>
-          <div className='testimonialsContent'>
-                  <h2>INSTAGRAM</h2>
-                  <div className="testimonialUnderLine">
-                    <div className='testimonialUnder'>
-                      <div className="underLine"></div>
-                      <div className="shapLine"></div>
-                    </div>
-                  </div>  
-            </div>
-            <div className='advInstaBody'>
-              <div className='advInstaContent'>
-                <div className='advInstaContentBox'>
-                  <div className='advInstaContentBoxImg'>
-                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-6-650x650.jpg" />
-                  </div>
-                  <div className='advInstaContentBoxHover'>
-                      <div className='advInstaContentBoxTrap'>
-                        <div className='advInstaContentBoxborder'>
-                          <div className="advInstaContentInfo">
-                            <img src='' />
-                            <h3>Calisson</h3>
-                            <p>$15</p>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-              </div>
-               <div className='advInstaContent2'>
-               <div className='advInstaContentBox'>
-                  <div className='advInstaContentBoxImg'>
-                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg" />
-                  </div>
-                  <div className='advInstaContentBoxHover'>
-                      <div className='advInstaContentBoxTrap'>
-                        <div className='advInstaContentBoxborder'>
-                          <div className="advInstaContentInfo">
-                            <img src='' />
-                            <h3>Calisson</h3>
-                            <p>$15</p>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-                <div className='advInstaContentBox'>
-                  <div className='advInstaContentBoxImg'>
-                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg" />
-                  </div>
-                  <div className='advInstaContentBoxHover'>
-                      <div className='advInstaContentBoxTrap'>
-                        <div className='advInstaContentBoxborder'>
-                          <div className="advInstaContentInfo">
-                            <img src='' />
-                            <h3>Calisson</h3>
-                            <p>$15</p>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-                <div className='advInstaContentBox'>
-                  <div className='advInstaContentBoxImg'>
-                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg" />
-                  </div>
-                  <div className='advInstaContentBoxHover'>
-                      <div className='advInstaContentBoxTrap'>
-                        <div className='advInstaContentBoxborder'>
-                          <div className="advInstaContentInfo">
-                            <img src='' />
-                            <h3>Calisson</h3>
-                            <p>$15</p>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-                <div className='advInstaContentBox'>
-                  <div className='advInstaContentBoxImg'>
-                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg" />
-                  </div>
-                  <div className='advInstaContentBoxHover'>
-                      <div className='advInstaContentBoxTrap'>
-                        <div className='advInstaContentBoxborder'>
-                          <div className="advInstaContentInfo">
-                            <img src='' />
-                            <h3>Calisson</h3>
-                            <p>$15</p>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-               </div>
-               <div className='advInstaContent3'>
-                <div className=''><h3>Where there is cake, there is hope. And there is always cake.</h3></div>
-               </div>
-            </div>
-          </Container>
-      </div>
-
-
-      <div className="testimonialsWrap">
         <Container fluid>
-          <div className="testimonialsBody">
-            <div className='testimonialsContent'>
-                  <h2>MEDIA COLLABORATIONS</h2>
-                  <div className="testimonialUnderLine">
-                    <div className='testimonialUnder'>
-                      <div className="underLine"></div>
-                      <div className="shapLine"></div>
-                    </div>
-                  </div>  
+          <div className='headerTitle'>
+            <h2>INSTAGRAM</h2>
+            <div className="testimonialUnderLine">
+              <div className='testimonialUnder'>
+                <div className="underLine"></div>
+                <div className="shapLine"></div>
+              </div>
             </div>
-          {isMounted && (
-            <OwlCarousel className="owl-theme" {...optionsMedia}>
-              <div className="item">
-                <div className='MediaContentImg'>
-                  <img src='https://eatnoto.com/cdn/shop/files/6_200x.png?v=1644062617' />
+          </div>
+          <div className='advInstaBody'>
+            <div className='advInstaContent'>
+              <div className='advInstaContentBox'>
+                <div className='advInstaContentBoxImg'>
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-6-650x650.jpg" />
+                </div>
+                <div className='advInstaContentBoxHover'>
+                  <div className='advInstaContentBoxTrap'>
+                    <div className='advInstaContentBoxborder'>
+                      <div className="advInstaContentInfo">
+                        <img src='' />
+                        <h3>Calisson</h3>
+                        <p>$15</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="item">
-                <div className='MediaContentImg'>
-                  <img src='https://eatnoto.com/cdn/shop/files/7_200x.png?v=1644062616' />
+            </div>
+            <div className='advInstaContent2'>
+              <div className='advInstaContentBox'>
+                <div className='advInstaContentBoxImg'>
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg" />
+                </div>
+                <div className='advInstaContentBoxHover'>
+                  <div className='advInstaContentBoxTrap'>
+                    <div className='advInstaContentBoxborder'>
+                      <div className="advInstaContentInfo">
+                        <img src='' />
+                        <h3>Calisson</h3>
+                        <p>$15</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="item">
-                <div className='MediaContentImg'>
-                  <img src='https://eatnoto.com/cdn/shop/files/5_200x.png?v=1644062616' />
+              <div className='advInstaContentBox'>
+                <div className='advInstaContentBoxImg'>
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg" />
+                </div>
+                <div className='advInstaContentBoxHover'>
+                  <div className='advInstaContentBoxTrap'>
+                    <div className='advInstaContentBoxborder'>
+                      <div className="advInstaContentInfo">
+                        <img src='' />
+                        <h3>Calisson</h3>
+                        <p>$15</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="item">
-                <div className='MediaContentImg'>
-                  <img src='https://eatnoto.com/cdn/shop/files/4_09344e61-a756-4134-8cc9-012052aa7e03_200x.png?v=1644062616' />
+              <div className='advInstaContentBox'>
+                <div className='advInstaContentBoxImg'>
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg" />
+                </div>
+                <div className='advInstaContentBoxHover'>
+                  <div className='advInstaContentBoxTrap'>
+                    <div className='advInstaContentBoxborder'>
+                      <div className="advInstaContentInfo">
+                        <img src='' />
+                        <h3>Calisson</h3>
+                        <p>$15</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </OwlCarousel>
-          )}
-            
+              <div className='advInstaContentBox'>
+                <div className='advInstaContentBoxImg'>
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg" />
+                </div>
+                <div className='advInstaContentBoxHover'>
+                  <div className='advInstaContentBoxTrap'>
+                    <div className='advInstaContentBoxborder'>
+                      <div className="advInstaContentInfo">
+                        <img src='' />
+                        <h3>Calisson</h3>
+                        <p>$15</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='advInstaContent3'>
+              <div className=''><h3>Where there is cake, there is hope. And there is always cake.</h3></div>
+            </div>
           </div>
         </Container>
       </div>
 
-      
-      <div className="advInstaWrap">
+      <div className="newLaunchWrap">
         <Container fluid>
-        <div className='testimonialsContent'>
-                  <h2>New Launches</h2>
-                  <div className="testimonialUnderLine">
-                    <div className='testimonialUnder'>
-                      <div className="underLine"></div>
-                      <div className="shapLine"></div>
+          <div className='headerTitle'>
+            <h2>New Launches</h2>
+            <div className="testimonialUnderLine">
+              <div className='testimonialUnder'>
+                <div className="underLine"></div>
+                <div className="shapLine"></div>
+              </div>
+            </div>
+            {isMounted && (
+              <OwlCarousel className="owl-theme" {...optionsNewLunched}>
+                <div className="item">
+                  <div className='itemNewLunch'>
+                    <div className='itemNewLunchImg'>
+                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
                     </div>
-                  </div> 
-          {isMounted && (
-            <OwlCarousel className="owl-theme" {...optionsNewLunched}>
-              <div className="item">
-                <div className='itemNewLunch'>
-                  <div className='itemNewLunchImg'>
-                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
                   </div>
                 </div>
-              </div>
-              <div className="item">
-                <div className='itemNewLunch'>
-                  <div className='itemNewLunchImg'>
-                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-02-360x360.jpg" />
+                <div className="item">
+                  <div className='itemNewLunch'>
+                    <div className='itemNewLunchImg'>
+                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-02-360x360.jpg" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="item">
-                <div className='itemNewLunch'>
-                  <div className='itemNewLunchImg'>
-                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-03-360x360.jpg" />
+                <div className="item">
+                  <div className='itemNewLunch'>
+                    <div className='itemNewLunchImg'>
+                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-03-360x360.jpg" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="item">
-                <div className='itemNewLunch'>
-                  <div className='itemNewLunchImg'>
-                    <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-04-360x360.jpg" />
+                <div className="item">
+                  <div className='itemNewLunch'>
+                    <div className='itemNewLunchImg'>
+                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-04-360x360.jpg" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </OwlCarousel>
-          )}
-            
+              </OwlCarousel>
+            )}
+
           </div>
         </Container>
       </div>
 
       <div className='cakeOfMonthWrap'>
-        <div className="wrapper">
-          <div className="backdrop"></div>
-          <div className="stage_floor"></div>
-          <div className="stage_highlight"></div>
-          <div className="spotlight_swivel">
-            <div className="lamp"></div>
-            <div className="spotlight"></div>
+        <div className='headerTitle'>
+          <h2>Cake of the month</h2>
+          <div className="testimonialUnderLine">
+            <div className='testimonialUnder'>
+              <div className="underLine"></div>
+              <div className="shapLine"></div>
+            </div>
           </div>
-          <div className='cakeOfMonthConent'>
-            <img src='https://fama.b-cdn.net/RnB/cakeMonth.png' />
+        </div>
+        <div className='cakeOfMonthBody'>
+          <div className="wrapper">
+            <div className="backdrop"></div>
+            <div className="stage_floor"></div>
+            <div className="stage_highlight"></div>
+            <div className="spotlight_swivel">
+              <div className="lamp"></div>
+              <div className="spotlight"></div>
+            </div>
+            {/* <div className='cakeOfMonthConent'>
+            <img src='https://fama.b-cdn.net/RnB/combg.png' />
+          </div> */}
           </div>
         </div>
       </div>
 
+      <div className="mediaCollabWrap">
+        <Container fluid>
+          <div className="testimonialsBody">
+            <div className='headerTitle'>
+              <h2>MEDIA COLLABORATIONS</h2>
+              <div className="testimonialUnderLine">
+                <div className='testimonialUnder'>
+                  <div className="underLine"></div>
+                  <div className="shapLine"></div>
+                </div>
+              </div>
+            </div>
+            {isMounted && (
+              <OwlCarousel className="owl-theme" {...optionsMedia}>
+                <div className="item">
+                  <div className='MediaContentImg'>
+                    <img src='https://eatnoto.com/cdn/shop/files/6_200x.png?v=1644062617' />
+                  </div>
+                </div>
+                <div className="item">
+                  <div className='MediaContentImg'>
+                    <img src='https://eatnoto.com/cdn/shop/files/7_200x.png?v=1644062616' />
+                  </div>
+                </div>
+                <div className="item">
+                  <div className='MediaContentImg'>
+                    <img src='https://eatnoto.com/cdn/shop/files/5_200x.png?v=1644062616' />
+                  </div>
+                </div>
+                <div className="item">
+                  <div className='MediaContentImg'>
+                    <img src='https://eatnoto.com/cdn/shop/files/4_09344e61-a756-4134-8cc9-012052aa7e03_200x.png?v=1644062616' />
+                  </div>
+                </div>
+              </OwlCarousel>
+            )}
+
+          </div>
+        </Container>
+      </div>
 
     </>
   );
