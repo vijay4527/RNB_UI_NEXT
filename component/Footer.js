@@ -86,7 +86,7 @@ export default function Footer() {
         </Container>
         <Container>
             <div className='footerCopyRight'>
-                © 2023 <a href="#">ribbons & balloons</a>, All Rights Reserved 
+                © 2023 <a href="https://ribbonsandballoons.com/" target='_blank'>ribbons & balloons</a>, All Rights Reserved 
             </div>
         </Container>
       </div>

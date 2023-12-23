@@ -3,7 +3,10 @@ import { getCookie, setCookie, removeCookie } from "@/cookieUtils";
 import Container from 'react-bootstrap/Container';
 import Head from "next/head";
 import dynamic from 'next/dynamic';
-// 
+import initAOS from '../../component/initAOS'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
 // Import OwlCarousel dynamically to prevent SSR issues
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false
@@ -50,6 +53,11 @@ const Index = ({ city }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    initAOS();
+  }, []); // Run the initialization only once when the component mounts
+
+
+  useEffect(() => {
     setIsMounted(true); // Set isMounted to true when component is mounted on the client-side
   }, []);
 
@@ -85,23 +93,28 @@ const Index = ({ city }) => {
         <Container fluid>
           <div className="banner-body">
             <div className="banner-sec1">
-              <div className="banner-img banner-img1" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+              <div className="banner-img banner-img1" 
+              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                 <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" />
               </div>
-              <div className="banner-img banner-img2" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+              <div className="banner-img banner-img2"
+              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                 <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" />
               </div>
             </div>
             <div className="banner-sec1 banner-sec-center">
-              <div className="banner-img banner-img-center" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}>
+              <div className="banner-img banner-img-center"
+              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}>
                 <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" />
               </div>
             </div>
             <div className="banner-sec1">
-              <div className="banner-img banner-img3" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+              <div className="banner-img banner-img3" 
+              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                 <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg" />
               </div>
-              <div className="banner-img banner-img4" id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
+              <div className="banner-img banner-img4"
+              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
                 <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg" />
               </div>
             </div>
@@ -256,6 +269,7 @@ const Index = ({ city }) => {
       </div>
 
       <div className="newLaunchWrap">
+        <div className='lte-background-overlay'></div>
         <Container fluid>
           <div className='headerTitle'>
             <h2>New Launches</h2>
@@ -326,6 +340,77 @@ const Index = ({ city }) => {
           </div> */}
           </div>
         </div>
+      </div>
+
+      <div className="enquiryWrap">
+          <Container fluid>
+            <div className="enquiryBody">
+              <div className='headerTitle'>
+                <h2>Enquiry Now</h2>
+                <div className="testimonialUnderLine">
+                  <div className='testimonialUnder'>
+                    <div className="underLine"></div>
+                    <div className="shapLine"></div>
+                  </div>
+                </div>
+              </div>
+              <div className='enquiryContent'>
+                <div className='enquiryContact'>
+                  <ul>
+                    <li>
+                      <a>
+                        <span class="material-icons">
+                          call
+                        </span>
+                        <h4>1234567890</h4>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="material-icons">
+                          email
+                        </span>
+                        <h4>abc@gmail.com</h4>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="material-icons">
+                          home
+                        </span>
+                        <h4>60+ Stores Pan India</h4>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div className='enquiryForm'>
+                  <div className='enquiryFormData'>
+                    <Form>
+                      <Form.Group controlId="formfirstname">
+                        <Form.Control type="text" placeholder="Enter firstname" />
+                      </Form.Group>
+                      <Form.Group controlId="formlastname">
+                        <Form.Control type="text" placeholder="Enter lastname" />
+                      </Form.Group>
+                      <Form.Group controlId="formemail">
+                        <Form.Control type="email" placeholder="Enter email" />
+                      </Form.Group>
+                      <Form.Group controlId="formfirstname">
+                      <Form.Control
+                            as="textarea"
+                            placeholder="Enter message"
+                            style={{ height: '100px' }}
+                          />
+                      </Form.Group>
+                      <Button variant="primary" type="submit">
+                        Submit
+                      </Button>
+                    </Form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Container>
       </div>
 
       <div className="mediaCollabWrap">
