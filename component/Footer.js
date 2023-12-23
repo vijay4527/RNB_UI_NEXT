@@ -17,7 +17,8 @@ export default function Footer() {
                 <Row>
                     <Col md={3}>
                         <div className='footerLogos'>
-                            <img src="https://fama.b-cdn.net/RnB/Logo-Golden.png" />
+                            <img src="https://fama.b-cdn.net/RnB/Logo-Golden.png" 
+                                alt="No image found"/>
                         </div>
                         <div className='footerSocial'>
                             <ul>

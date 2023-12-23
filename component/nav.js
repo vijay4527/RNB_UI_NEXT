@@ -332,7 +332,8 @@ export default function Header() {
                                 </ul>
                                 <div className='subnav-img'>
                                   <div className='imgdiv'>
-                                  <img src={`https://media.bakingo.com/gourmet_cake.jpg`} />
+                                  <img src={`https://media.bakingo.com/gourmet_cake.jpg`} 
+                                alt="No image found"/>
 
                                   </div>
                                 </div>
@@ -360,12 +361,14 @@ export default function Header() {
                         </div> */}
                         <div className='selectLocation' onClick={loactionToggle}>
                           <h4>Mumbai</h4>
-                          <img src="https://cdn-images.cure.fit/www-curefit-com/image/upload/c_fill,w_26,q_auto:eco,dpr_2,f_auto,fl_progressive/image/test/header/location.png" />
+                          <img src="https://cdn-images.cure.fit/www-curefit-com/image/upload/c_fill,w_26,q_auto:eco,dpr_2,f_auto,fl_progressive/image/test/header/location.png" 
+                                alt="No image found"/>
                         </div>
                         <div className={`selectLocationWrap ${isLoactionActive ? 'activeClass' : ''}`}>
                           <div className='selectLocationBody'>
                             <div className='selectLocationImg'>
-                              <img src="https://cdn-images.cure.fit/www-curefit-com/image/upload/e_replace_color:black,o_60//image/cities/mumbai_selected.png" />
+                              <img src="https://cdn-images.cure.fit/www-curefit-com/image/upload/e_replace_color:black,o_60//image/cities/mumbai_selected.png" 
+                                alt="No image found"/>
                             </div>
                             <h3>Select location preference</h3>
                             <p>Membership prices vary across these areas</p>
@@ -373,13 +376,15 @@ export default function Header() {
                               <li>
                                 <a>
                                   <h4>Mumbai</h4>
-                                  <img src="https://static.cure.fit/assets/images/back-arrow-white.svg" />
+                                  <img src="https://static.cure.fit/assets/images/back-arrow-white.svg" 
+                                alt="No image found"/>
                                 </a>
                               </li>
                               <li>
                                 <a>
                                   <h4>Navi Mumbai & Thane</h4>
-                                  <img src="https://static.cure.fit/assets/images/back-arrow-white.svg" />
+                                  <img src="https://static.cure.fit/assets/images/back-arrow-white.svg" 
+                                alt="No image found"/>
                                 </a>
                               </li>
                             </ul>

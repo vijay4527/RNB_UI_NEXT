@@ -80,6 +80,16 @@ const Index = ({ city }) => {
   return (
     <>
       <Head>
+      <meta charset="utf-8"></meta>
+      <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title>
+      <meta name="description" content="Online Cakes Shop in Mumbai, Pune and Mangalore . Online Cakes Delivery . Buy,Order &amp; Send Birthday, Wedding Anniversary &amp; Chocolate Cakes anywhere in Mumbai from best Cake Shop Ribbons &amp; Balloons."></meta>
+      <meta name="keywords" content="Ribbons and Balloons, Buy Cakes Online, Online Cake delivery, Cakes Mumbai, Cakes to Mumbai, order cakes online, cake delivery in mumbai, Send Cakes to Mumbai, Mumbai Cake Shop, Online Cakes to Mumbai, Cakes Mumbai, Cake delivery to Mumbai, Chocolate Cakes Mumbai, Heart Shape Cakes, Eggless Cakes, Occasion Cakes, birthday cakes online delivery, Send Birthday Cakes, Congratulations Cakes, Missing You Cakes, Baby and Kids Cakes, Anniversary Cakes Online, Thank You Cakes, House Warming Cakes, Wedding Cakes Mumbai, customised cakes in mumbai, cup cakes mumbai, Online Cakes Shop Mumbai, valentine special cakes mumbai, plum cakes mumbai, fresh fruit cakes online"></meta>
+      <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"></meta>
+      <link rel="icon" href="https://ribbonsandballoons.com/frontassets/images/fav.png" type="image/x-icon" />
+      <meta name="google-site-verification" content="hj44_Ud2995b4jkL3My7hTX96_sALd3yQ7tlf0El0IE"></meta>
+      <meta name="p:domain_verify" content="e35c0804c87b42f9187c00fa30ff64f9"></meta>
+      <meta name="facebook-domain-verification" content="1cpqqtudq8imtqkiwxpq0vd20x3b69"></meta>
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -95,27 +105,32 @@ const Index = ({ city }) => {
             <div className="banner-sec1">
               <div className="banner-img banner-img1" 
               id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" />
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" 
+                                alt="No image found"/>
               </div>
               <div className="banner-img banner-img2"
               id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" />
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" 
+                                alt="No image found"/>
               </div>
             </div>
             <div className="banner-sec1 banner-sec-center">
               <div className="banner-img banner-img-center"
               id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" />
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" 
+                                alt="No image found"/>
               </div>
             </div>
             <div className="banner-sec1">
               <div className="banner-img banner-img3" 
               id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg" />
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg" 
+                                alt="No image found"/>
               </div>
               <div className="banner-img banner-img4"
               id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg" />
+                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg" 
+                                alt="No image found"/>
               </div>
             </div>
           </div>
@@ -180,13 +195,15 @@ const Index = ({ city }) => {
             <div className='advInstaContent'>
               <div className='advInstaContentBox'>
                 <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-6-650x650.jpg" />
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-6-650x650.jpg" 
+                                alt="No image found"/>
                 </div>
                 <div className='advInstaContentBoxHover'>
                   <div className='advInstaContentBoxTrap'>
                     <div className='advInstaContentBoxborder'>
                       <div className="advInstaContentInfo">
-                        <img src='' />
+                        <img src='' 
+                                alt="No image found"/>
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -198,13 +215,15 @@ const Index = ({ city }) => {
             <div className='advInstaContent2'>
               <div className='advInstaContentBox'>
                 <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg" />
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg" 
+                                alt="No image found"/>
                 </div>
                 <div className='advInstaContentBoxHover'>
                   <div className='advInstaContentBoxTrap'>
                     <div className='advInstaContentBoxborder'>
                       <div className="advInstaContentInfo">
-                        <img src='' />
+                        <img src='' 
+                                alt="No image found"/>
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -214,13 +233,15 @@ const Index = ({ city }) => {
               </div>
               <div className='advInstaContentBox'>
                 <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg" />
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg" 
+                                alt="No image found"/>
                 </div>
                 <div className='advInstaContentBoxHover'>
                   <div className='advInstaContentBoxTrap'>
                     <div className='advInstaContentBoxborder'>
                       <div className="advInstaContentInfo">
-                        <img src='' />
+                        <img src='' 
+                                alt="No image found"/>
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -230,13 +251,15 @@ const Index = ({ city }) => {
               </div>
               <div className='advInstaContentBox'>
                 <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg" />
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg" 
+                                alt="No image found"/>
                 </div>
                 <div className='advInstaContentBoxHover'>
                   <div className='advInstaContentBoxTrap'>
                     <div className='advInstaContentBoxborder'>
                       <div className="advInstaContentInfo">
-                        <img src='' />
+                        <img src='' 
+                                alt="No image found"/>
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -246,13 +269,15 @@ const Index = ({ city }) => {
               </div>
               <div className='advInstaContentBox'>
                 <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg" />
+                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg" 
+                                alt="No image found"/>
                 </div>
                 <div className='advInstaContentBoxHover'>
                   <div className='advInstaContentBoxTrap'>
                     <div className='advInstaContentBoxborder'>
                       <div className="advInstaContentInfo">
-                        <img src='' />
+                        <img src='' 
+                                alt="No image found"/>
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -284,28 +309,32 @@ const Index = ({ city }) => {
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln1.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln1.jpg" 
+                                alt="No image found"/>
                     </div>
                   </div>
                 </div>
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln2.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln2.jpg" 
+                                alt="No image found"/>
                     </div>
                   </div>
                 </div>
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln3.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln3.jpg" 
+                                alt="No image found"/>
                     </div>
                   </div>
                 </div>
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln4.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln4.jpg" 
+                                alt="No image found"/>
                     </div>
                   </div>
                 </div>
@@ -429,17 +458,20 @@ const Index = ({ city }) => {
               <OwlCarousel className="owl-theme" {...optionsMedia}>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media2.png' />
+                    <img src='https://fama.b-cdn.net/RnB/media2.png' 
+                                alt="No image found"/>
                   </div>
                 </div>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media1.png' />
+                    <img src='https://fama.b-cdn.net/RnB/media1.png' 
+                                alt="No image found"/>
                   </div>
                 </div>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media3.png' />
+                    <img src='https://fama.b-cdn.net/RnB/media3.png' 
+                                alt="No image found"/>
                   </div>
                 </div>
                 <div className="item">

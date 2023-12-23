@@ -92,7 +92,7 @@ const productbyname = ({ data }) => {
                     <div className={styles.pdp_ProductImg}>
                       <img
                         src={AppConfig.cdn + "products/" + image[0]}
-                        alt=""
+                        alt="No image found"
                       />
                     </div>
                     <div className={styles.pdp_ProductImgs}>
@@ -104,7 +104,7 @@ const productbyname = ({ data }) => {
                           >
                             <img
                               src={AppConfig.cdn + "products/" + item}
-                              alt=""
+                              alt="No image found"
                             />
                           </li>
                         ))}
@@ -121,7 +121,8 @@ const productbyname = ({ data }) => {
         </div>
       ) : (
         <>
-          <img src="https://static.vecteezy.com/system/resources/thumbnails/006/549/647/small/404-landing-page-free-vector.jpg" />
+          <img src="https://static.vecteezy.com/system/resources/thumbnails/006/549/647/small/404-landing-page-free-vector.jpg" 
+                                alt="No image found"/>
           <span>Product not found</span>
         </>
       )}

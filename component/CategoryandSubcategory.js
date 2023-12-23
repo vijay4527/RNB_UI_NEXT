@@ -150,6 +150,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                               <img
                                 src={`${AppConfig.cdn}products/${image[0]}`}
                                 className={styles.fc__thumb}
+                                alt="No image found"
                               />
                               <div className={styles.fc__content}>
                                 <h1>{item.product_name}</h1>
@@ -179,7 +180,8 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                       <span className="text-center">
                         No Products Found for {categoryName}
                       </span>
-                      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/549/647/small/404-landing-page-free-vector.jpg" />
+                      <img src="https://static.vecteezy.com/system/resources/thumbnails/006/549/647/small/404-landing-page-free-vector.jpg" 
+                                alt="No image found"/>
                     </div>
                   </>
                 )}
