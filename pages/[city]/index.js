@@ -284,28 +284,28 @@ const Index = ({ city }) => {
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-01-e1597251883779-360x360.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln1.jpg" />
                     </div>
                   </div>
                 </div>
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-02-360x360.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln2.jpg" />
                     </div>
                   </div>
                 </div>
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-03-360x360.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln3.jpg" />
                     </div>
                   </div>
                 </div>
                 <div className="item">
                   <div className='itemNewLunch'>
                     <div className='itemNewLunchImg'>
-                      <img src="http://crems.like-themes.com/wp-content/uploads/2019/06/gallery-04-360x360.jpg" />
+                      <img src="https://fama.b-cdn.net/RnB/Ln4.jpg" />
                     </div>
                   </div>
                 </div>
@@ -429,22 +429,22 @@ const Index = ({ city }) => {
               <OwlCarousel className="owl-theme" {...optionsMedia}>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://eatnoto.com/cdn/shop/files/6_200x.png?v=1644062617' />
+                    <img src='https://fama.b-cdn.net/RnB/media2.png' />
                   </div>
                 </div>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://eatnoto.com/cdn/shop/files/7_200x.png?v=1644062616' />
+                    <img src='https://fama.b-cdn.net/RnB/media1.png' />
                   </div>
                 </div>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://eatnoto.com/cdn/shop/files/5_200x.png?v=1644062616' />
+                    <img src='https://fama.b-cdn.net/RnB/media3.png' />
                   </div>
                 </div>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://eatnoto.com/cdn/shop/files/4_09344e61-a756-4134-8cc9-012052aa7e03_200x.png?v=1644062616' />
+                    <img src='https://fama.b-cdn.net/RnB/media4.png' />
                   </div>
                 </div>
               </OwlCarousel>

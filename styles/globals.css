@@ -1329,7 +1329,7 @@ overflow: visible;
     font-family: "Great Vibes",cursive;
     font-style: normal;
     box-sizing: border-box;
-    padding: 0 30%;
+    padding: 15% 30%;
 }
 
 /*  */
@@ -1464,7 +1464,7 @@ overflow: visible;
 
 /* footer */
 .footerWap:before {
-  background-image: url(//crems.like-themes.com/wp-content/uploads/2019/06/footer-bg-2.png) !important;
+  background-image: url(https://fama.b-cdn.net/RnB/footer_image.png) !important;
 }
 .footerWap:before{
   content: "";
