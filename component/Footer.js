@@ -17,7 +17,8 @@ export default function Footer() {
                 <Row>
                     <Col md={3}>
                         <div className='footerLogos'>
-                            <img src="https://fama.b-cdn.net/RnB/Logo-Golden.png" />
+                            <img src="https://fama.b-cdn.net/RnB/Logo-Golden.png" 
+                                alt="No image found"/>
                         </div>
                         <div className='footerSocial'>
                             <ul>
@@ -86,7 +87,7 @@ export default function Footer() {
         </Container>
         <Container>
             <div className='footerCopyRight'>
-                © 2023 <a href="#">ribbons & balloons</a>, All Rights Reserved 
+                © 2023 <a href="https://ribbonsandballoons.com/" target='_blank'>ribbons & balloons</a>, All Rights Reserved 
             </div>
         </Container>
       </div>

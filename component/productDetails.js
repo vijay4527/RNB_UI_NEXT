@@ -564,14 +564,15 @@ function getProductDetails({ data }) {
                 <div>
                   <img
                     src="https://bkmedia.bakingo.com/images/common/upload.svg"
-                    alt=""
+                    alt="No image found"
                   />
                 </div>
               </div>
             </label>
             <div className={styles.photo_uploaded}>
               <div className={styles.Photo_UploadedImg}>
-                <img src="https://media.bakingo.com/bk/photo-cake/1693661314.423.jpeg" />
+                <img src="https://media.bakingo.com/bk/photo-cake/1693661314.423.jpeg" 
+                                alt="No image found"/>
               </div>
               <div className={styles.Photo_UploadedAction}>
                 <div className={styles.Photo_UploadedText}>Photo Uploaded</div>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import AppConfig from '../AppConfig';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import Link from 'next/link';
 
 const brand = [
@@ -173,6 +174,13 @@ const brand = [
 ]
 
 export default function Header() {
+  // location
+
+  const [isLoactionActive, setIsLoactionActive] = useState(false);
+
+  const loactionToggle = () => {
+    setIsLoactionActive(!isLoactionActive);
+  };
 
   const [isActive, setIsActive] = useState(false);
 
@@ -324,7 +332,8 @@ export default function Header() {
                                 </ul>
                                 <div className='subnav-img'>
                                   <div className='imgdiv'>
-                                  <img src={`https://media.bakingo.com/gourmet_cake.jpg`} />
+                                  <img src={`https://media.bakingo.com/gourmet_cake.jpg`} 
+                                alt="No image found"/>
 
                                   </div>
                                 </div>
@@ -339,6 +348,51 @@ export default function Header() {
                   <div className='navAction'>
                     <ul>
                       <li>
+                        {/* <div>
+                          <DropdownButton
+                            as={ButtonGroup}
+                            align={{ lg: 'end' }}
+                            title="Left-aligned but right aligned when large screen"
+                            id="dropdown-menu-align-responsive-1"
+                          >
+                            <Dropdown.Item eventKey="1">Action 1</Dropdown.Item>
+                            <Dropdown.Item eventKey="2">Action 2</Dropdown.Item>
+                          </DropdownButton>
+                        </div> */}
+                        <div className='selectLocation' onClick={loactionToggle}>
+                          <h4>Mumbai</h4>
+                          <img src="https://cdn-images.cure.fit/www-curefit-com/image/upload/c_fill,w_26,q_auto:eco,dpr_2,f_auto,fl_progressive/image/test/header/location.png" 
+                                alt="No image found"/>
+                        </div>
+                        <div className={`selectLocationWrap ${isLoactionActive ? 'activeClass' : ''}`}>
+                          <div className='selectLocationBody'>
+                            <div className='selectLocationImg'>
+                              <img src="https://cdn-images.cure.fit/www-curefit-com/image/upload/e_replace_color:black,o_60//image/cities/mumbai_selected.png" 
+                                alt="No image found"/>
+                            </div>
+                            <h3>Select location preference</h3>
+                            <p>Membership prices vary across these areas</p>
+                            <ul className='selectLocationOption'>
+                              <li>
+                                <a>
+                                  <h4>Mumbai</h4>
+                                  <img src="https://static.cure.fit/assets/images/back-arrow-white.svg" 
+                                alt="No image found"/>
+                                </a>
+                              </li>
+                              <li>
+                                <a>
+                                  <h4>Navi Mumbai & Thane</h4>
+                                  <img src="https://static.cure.fit/assets/images/back-arrow-white.svg" 
+                                alt="No image found"/>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div className={`backdropLoaction ${isLoactionActive ? 'activeClass' : ''}`}  onClick={loactionToggle}></div>
+                      </li>
+                      <li>
                         <a>
                           <span className="material-icons">
                             search
@@ -347,9 +401,9 @@ export default function Header() {
                       </li>
                       <li>
                         <a> 
-                        <span className="material-icons">
-shopping_bag
-</span>
+                          <span className="material-icons">
+                            shopping_bag
+                          </span>
                         </a>
                       </li>
                     </ul>
