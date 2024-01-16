@@ -199,10 +199,10 @@
 .pdp_ProductImg{
   width: calc(100% - 131px);
 }
-.pdp_ProductImg img{
+/* .pdp_ProductImg img{
   height: auto;
     width: 100%;
-}
+} */
 
 .pdp_ProductImgs ul{
   list-style: none;

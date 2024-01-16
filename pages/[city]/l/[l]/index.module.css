@@ -554,6 +554,7 @@
     background-attachment: fixed !important;
     transition: background 0s !important;
     background-size: 100%;
+    padding-bottom: 100px;
   }
   .plpPageWrap{
     display: flex;

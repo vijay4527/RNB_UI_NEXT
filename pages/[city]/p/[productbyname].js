@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from 'react';
 import axios from "axios";
 import { getCookie } from "@/cookieUtils";
 import styles from "./productbyname.module.css";
 import AddToCart from "@/component/addToCartButton";
 import ReviewDetails from "@/component/ReviewDetails"
 import ProducDetails from "@/component/productDetails";
+import ProductImageZoom from "@/component/productImageZoom"
 import https from "https";
 import AppConfig from "@/AppConfig";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import { useRouter } from "next/router";
 import Head from "next/head";
+
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
@@ -18,6 +20,11 @@ const productbyname = ({ data }) => {
   let image = data.product_image.split(",");
   const router = useRouter();
   const { city } = router.query;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleThumbnailClick = (index) => {
+    setActiveIndex(index);
+  };
   return (
     <>
     <Head>
@@ -73,33 +80,33 @@ const productbyname = ({ data }) => {
             <div className={styles.pdp_DetailBody}>
               <div className={styles.pdp_detailImgs}>
                 <div className={styles.pdp_DetailImg}>
-                  {image ? (
-                    <>
-                      <div className={styles.pdp_ProductImgs}>
-                        <ul>
-                          {image.slice(1).map((item, index) => (
-                            <li
-                              key={item}
-                              className={index === 0 ? styles.active : ""}
-                            >
-                              <img
-                                src={AppConfig.cdn + "products/" + item}
-                                alt="No image found"
-                              />
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className={styles.pdp_ProductImg}>
-                        <img
-                          src={AppConfig.cdn + "products/" + image[0]}
-                          alt="No image found"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
+                {image ? (
+        <>
+          <div className={styles.pdp_ProductImgs}>
+            <ul>
+              {image.slice(1).map((item, index) => (
+                <li
+                  key={item}
+                  className={index === activeIndex ? styles.active : ""}
+                  onClick={() => handleThumbnailClick(index)}
+                >
+                  <img
+                    src={AppConfig.cdn + "products/" + item}
+                    alt="No image found"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className={styles.pdp_ProductImg}>
+            <ProductImageZoom
+              imageSrc={AppConfig.cdn + "products/" + image[activeIndex]}
+            />
+          </div>
+        </>
+      ) : (
+        <p>No images available</p>
+      )}
                 </div>
               </div>
               <div className={styles.pdp_detailDesc}>

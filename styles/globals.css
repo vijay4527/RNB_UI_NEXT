@@ -7,6 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant&display=swap');
 @import url('react-range-slider-input/dist/style.css');
 
+
 :root{
   --text-color: #ffffff;
   --body-text-color: #ffffff;
@@ -897,6 +898,7 @@ img{
 }
 .mediaCollabWrap{
   padding: 85px 0px;
+  margin-bottom: 85px;
   background-color: #0c0805;
 }
 .headerTitle {
@@ -1465,6 +1467,13 @@ overflow: visible;
 }
 
 /* footer */
+.footerWap {
+  position: relative;
+  margin-top: -100px;
+}
+.footerbg{
+  background-color: #0b0a0b;
+}
 .footerWap:before {
   background-image: url(https://fama.b-cdn.net/RnB/footer_image.png) !important;
 }
