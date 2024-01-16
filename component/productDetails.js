@@ -561,7 +561,7 @@ function getProductDetails({ data }) {
                   <span></span>
                   Choose file
                 </div>
-                <div>
+                <div className={styles.image_uploading_Icon}>
                   <img
                     src="https://bkmedia.bakingo.com/images/common/upload.svg"
                     alt="No image found"
