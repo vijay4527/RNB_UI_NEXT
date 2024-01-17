@@ -1,0 +1,108 @@
+.tabsLinksReview {
+    padding: 0;
+    margin: 142px 0 0;
+    font-family: var(--font-family);
+}
+.tabsLinkReview{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+.tabsLinkReview li {
+    position: relative;
+    display: block;
+    float: left;
+    border-bottom: 1px solid #e3e3e3;
+    -webkit-transition: border-color,.3s ease;
+    -moz-transition: border-color,.3s ease;
+    transition: border-color,.3s ease;
+}
+.tabsLinkReview li:hover,
+.tabsLinkReview li.active{
+    border-bottom-color: var(--theme-primary)
+}
+.reviewWraper h4{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding: 6px 62px 6px 0;
+    font-family: Montserrat,sans-serif;
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: .19em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin: 0;
+}
+.tabsContentReview{
+    padding: auto;
+}
+.tabsBody {
+    padding: 18px 0 20px;
+}
+.tabsContent {
+    padding: auto;
+    display: none;
+}
+.tabsContent.show {
+   display: block;
+}
+.reviewContentInfo {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.reviewDesc {
+    display: flex;
+    margin-bottom: 25px;
+}
+.reviewInfo{
+    padding-left: 15px;
+}
+.reviewStart {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+.reviewStart span{
+    display: flex;
+    align-items: flex-start;
+    margin-right: 5px;
+}
+.reviewStart span svg{
+    fill: #c19d56;
+}
+.reviewCounts{
+    font-size: 18px;
+    line-height: 24px;
+    margin: 8px 0 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+.reviewInfo h4{
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-family: var(--font-family);
+    margin: 0;
+}
+.reviewInfo h4 span{
+    font-family: Cormorant,serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 2.1rem;
+    line-height: 31px;
+    color: #a8a8a8;
+}
+.tabsBody p{
+    font-style: italic;
+}

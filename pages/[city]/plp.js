@@ -130,7 +130,7 @@ function plpPage() {
                           </a>
                         </div>
                       </div>
-                      <img src={cake.imageUrl} alt={cake.name} />
+                      <img className={styles.plpProdctImg} src={cake.imageUrl} alt={cake.name} />
                     </div>
                     <div className={styles.itemDesc}>
                       <a>{cake.name}</a>
