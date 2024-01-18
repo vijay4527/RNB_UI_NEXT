@@ -57,7 +57,7 @@ function plpPage() {
 
       </div>
       <section className={styles.plpPageMain}>
-        <Container>
+        <Container fluid>
           <div className={styles.plpPageWrap}>
             <div className={styles.plpPageFilter}>
                 <div className={styles.plpFilterAction}>

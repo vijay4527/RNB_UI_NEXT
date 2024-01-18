@@ -76,7 +76,7 @@ const productbyname = ({ data }) => {
       </div>
       {data ? (
         <div className={styles.pdp_Wrap}>
-          <div className={styles.container}>
+          <div className={styles.container_fluid}>
             <div className={styles.pdp_DetailBody}>
               <div className={styles.pdp_detailImgs}>
                 <div className={styles.pdp_DetailImg}>
@@ -146,7 +146,8 @@ const productbyname = ({ data }) => {
                 <ProducDetails data={data}></ProducDetails>
               </div>
             </div>
-
+          </div>
+          <div className={styles.container}>
             <div className={styles.reviewSection}>
               <ReviewDetails></ReviewDetails>
             </div>

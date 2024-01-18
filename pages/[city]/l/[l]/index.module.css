@@ -584,7 +584,7 @@
   }
   .plpTiles{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 15px;
     grid-row-gap: 30px;
   }
@@ -601,6 +601,9 @@
   }
   .plpFilterDescAction{
     padding: 25px 15px;
+  }
+  .plpFilterDescAction .range-slider{
+    width: 75%;
   }
   .plpFilterDescAction ul{
     margin: 0;
