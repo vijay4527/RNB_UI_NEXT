@@ -309,7 +309,26 @@ function getProductDetails({ data }) {
         {product.type_id == 1 && (
           <>
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+                <div className={styles.pdp_shortInfo_Box}>
+                  <h5 className={styles.pdp_shortInfo_Icon}>
+                    Serving info
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><g stroke="#888" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" clip-path="url(#clip0_4555_10382)"><path d="M8 14.667A6.667 6.667 0 1 0 8 1.334a6.667 6.667 0 0 0 0 13.333ZM8 10.667V8M8 5.333h.006"/></g><defs><clipPath id="clip0_4555_10382"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+                    </span>
+                  </h5>
+                  <div className={styles.pdp_shortInfo_BoxItem}>
+                    <h5>Serving Information</h5>
+                    <ul>
+                      <li><h4>0.5Kg</h4><p>4 - 6 Persons</p></li>
+                      <li><h4>1Kg</h4><p>10 - 12 Persons</p></li>
+                      <li><h4>1.5Kg</h4><p>14 - 16 Persons</p></li>
+                      <li><h4>2Kg</h4><p>20 - 22 Persons</p></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   <li
@@ -329,7 +348,9 @@ function getProductDetails({ data }) {
             </div>
 
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   <li className={styles.active}>
@@ -343,7 +364,9 @@ function getProductDetails({ data }) {
         {product.type_id == 2 && (
           <>
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   {generateWeightOptions(
@@ -355,7 +378,9 @@ function getProductDetails({ data }) {
             </div>
 
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   <li className={styles.active}>
@@ -369,7 +394,9 @@ function getProductDetails({ data }) {
         {product.type_id == 3 && (
           <>
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   {product.productTypeData ? (
@@ -395,7 +422,9 @@ function getProductDetails({ data }) {
         {product.type_id == 4 && (
           <>
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Weight</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   {generateWeightOptions(
@@ -407,7 +436,9 @@ function getProductDetails({ data }) {
             </div>
 
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   {product.productTypeData ? (
@@ -434,7 +465,9 @@ function getProductDetails({ data }) {
         {product.type_id == 5 && (
           <>
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Pieces</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Pieces</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <div className="input-group">
                   <span
@@ -478,7 +511,9 @@ function getProductDetails({ data }) {
         {product.type_id == 6 && (
           <>
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Pieces</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Pieces</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <div className="input-group">
                   <span
@@ -519,7 +554,9 @@ function getProductDetails({ data }) {
             </div>
 
             <div className={styles.pdp_SelectInfo}>
-              <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Select Flavour</h4>
+              </div>
               <div className={styles.pdp_SelectFlavour}>
                 <ul>
                   {product.productTypeData ? (
@@ -545,7 +582,9 @@ function getProductDetails({ data }) {
         )}
 
         <div className={styles.pdp_SelectInfo}>
-          <h4 className={styles.pdp_DetailInfoTitle}>Upload Image*</h4>
+          <div className={styles.pdp_shortInfo}>
+                <h4 className={styles.pdp_DetailInfoTitle}>Upload Image*</h4>
+          </div>
           <div className={styles.pdp_SelectUploadImage}>
             <label
               htmlFor="FileUpload"
@@ -584,7 +623,10 @@ function getProductDetails({ data }) {
           </div>
         </div>
         <div className={styles.pdp_SelectInfo}>
-          <h4 className={styles.pdp_DetailInfoTitle}>Message</h4>
+          <div className={styles.pdp_shortInfo}>
+              <h4 className={styles.pdp_DetailInfoTitle}>Message</h4>
+              <p>0/25</p>
+          </div>
           <div className={styles.pdp_SelectMessage}>
             <textarea
               type="text"
@@ -594,6 +636,9 @@ function getProductDetails({ data }) {
               onChange={(e) => handleMessage(e.target.value)}
             ></textarea>
           </div>
+        </div>
+        <div className={styles.fassalDiv}>
+          <img src="https://media.bakingo.com/bakingo-ssr/static/media/Info-1.aa9d95cd.png"></img>
         </div>
       </div>
     );

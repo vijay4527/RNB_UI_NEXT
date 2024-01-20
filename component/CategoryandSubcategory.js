@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import styles from "../pages/[city]/l/[l]/index.module.css";
+import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getCookie } from "@/cookieUtils";
@@ -56,7 +57,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
 
       </div>
       <section className={styles.plpPageMain}>
-        <Container fluid>
+        <div className={homeStyles["container_fluid"]}>
           <div className={styles.plpPageWrap}>
             <div className={styles.plpPageFilter}>
                 <div className={styles.plpFilterAction}>
@@ -160,7 +161,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
               </div>  
             </div>
           </div>
-        </Container>
+        </div>
       </section>
     </>
     // <div className={styles.gkh}>

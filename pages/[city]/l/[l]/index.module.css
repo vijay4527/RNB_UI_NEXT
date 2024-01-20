@@ -602,7 +602,7 @@
   .plpFilterDescAction{
     padding: 25px 15px;
   }
-  .plpFilterDescAction .range-slider{
+  .plpFilterDescAction [data-testid="element"]{
     width: 75%;
   }
   .plpFilterDescAction ul{
@@ -613,7 +613,7 @@
   }
   .plpFilterDescAction ul a{
     position: relative;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-family: Montserrat,sans-serif;
     cursor: pointer;
   }

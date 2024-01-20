@@ -1,45 +1,5 @@
 
-.container,
-.container_fluid,
-.container-xxl,
-.container-xl,
-.container-lg,
-.container-md,
-.container-sm {
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 0;
-  width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5);
-  padding-left: calc(var(--bs-gutter-x) * 0.5);
-  margin-right: auto;
-  margin-left: auto;
-}
 
-@media (min-width: 576px) {
-  .container-sm, .container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .container-md, .container-sm, .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .container-lg, .container-md, .container-sm, .container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1140px;
-  }
-}
-@media (min-width: 1400px) {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1320px;
-  }
-}
 .breadcrumb {
   --bs-breadcrumb-padding-x: 0;
   --bs-breadcrumb-padding-y: 0;
@@ -151,12 +111,12 @@
 
 .pdp_DetailBody{
   display: grid;
-  grid-template-columns:55% 45%;
+  grid-template-columns:620px calc(100% - 620px);
   padding-top: 55px;
 }
 
 .pdp_ProductName{
-  font-size: 50px;
+  font-size: 2.5rem;
   font-family: var(--font-family);
   letter-spacing: 2px;
   font-weight: 600;
@@ -198,12 +158,16 @@
 } */
 .pdp_ProductImg{
   width: calc(100% - 131px);
+  width: 470px;
+    height: 470px;
 }
 /* .pdp_ProductImg img{
   height: auto;
     width: 100%;
 } */
-
+.pdp_detailDesc {
+  width: 75%;
+}
 .pdp_ProductImgs ul{
   list-style: none;
   margin: 0;
@@ -222,10 +186,12 @@
   border: 1px solid var(--theme-primary);
   color: var(--theme-primary);
     background-color: transparent;
+    border-radius: 5px;
 }
 .pdp_ProductImgs li img{
-  height: 100%;
-    width: 100%;
+  width: 100px;
+    height: 100px;
+    border-radius: 5px;
 }
 
 
@@ -303,7 +269,7 @@
   .pdp_SelectMessage textarea{
     border-radius: 4px;
     border: 1px solid #ced4da;
-    width: 486px;
+    width: 100%;
     height: 56px;
     padding: 10px 15px;
     font-size: 16px;
@@ -313,10 +279,81 @@
   .pdp_DetailInfoTitle{
     font-size: 19px;
     font-weight: 600;
-    line-height: 1.71;
     color: var(--text-color);
+    margin: 0px;
+  }
+  .pdp_shortInfo{
+    display: flex;
+    justify-content: space-between;
     margin-top: 25px;
+    margin-bottom: 10px;
     font-family: var(--font-family);
+  }
+  .pdp_shortInfo_Icon{
+    font-size: 1.4rem;
+    margin: 0px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .pdp_shortInfo_Box{
+    position: relative;
+  }
+  .pdp_shortInfo_BoxItem{
+    display: none;
+    position: absolute;
+    width: 26rem;
+    border: 1px solid;
+    right: 0;
+    top: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 0 rgb(0 0 0/10%), 0 0 0 0 rgb(255 255 255), 0.3em 0.3em 1em rgb(0 0 0/30%);
+  }
+  .pdp_shortInfo_Box:hover .pdp_shortInfo_BoxItem{
+    display: block;
+  }
+  .pdp_shortInfo_BoxItem h5{
+    font-weight: 600;
+    font-size: 14px;
+    padding:0.9rem 1rem;
+    background: #f4f4f4;
+    border-radius: 10px 10px 0 0;
+    margin: 0;
+    color: var(--body-bg-color);
+  }
+  .pdp_shortInfo_BoxItem ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: var(--body-bg-color);
+  }
+
+  .pdp_shortInfo_BoxItem ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.625rem 1rem;
+  }
+  .pdp_shortInfo_BoxItem ul li:not(:last-child){
+    border-bottom: 1px solid #f4f4fd;
+  }
+  .pdp_shortInfo_BoxItem ul li h4{
+    margin: 0;
+    line-height: unset;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .pdp_shortInfo_BoxItem ul li p{
+    margin: 0;
+    line-height: unset;
+    color: grey;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .pdp_shortInfo_Icon span{
+    margin-left: 4px;
+  }
+  .pdp_shortInfo_Icon span svg g{
+    stroke: var(--text-color);
   }
   .pdp_SelectUploadInput{
     display: none;
@@ -378,6 +415,12 @@
   }
   .reUploadImg{
     font-size: 14px;
+  }
+  .fassalDiv {
+    width: 380px;
+    margin-top: 40px;
+    background-color: white;
+    border-radius: 5px;
   }
   .pdp_ProductContentButton{
     display: flex;
@@ -663,6 +706,23 @@
       transform: scaleX(0);
       transition: .4s cubic-bezier(.165,.84,.44,1);
   }
+  
+  .reviewProductWrap{
+    display: flex;
+  }
+  .reviewProductWrap h4{
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    line-height: 10px;
+  }
+  .underLineSeperator{
+    width: 486px;
+    background: url(https://media.bakingo.com/bakingo-ssr/static/media/dasehdLine.1f8abb2a.svg);
+    height: 1px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
   .imgHvr {
     position: relative;
     overflow: hidden;
@@ -945,8 +1005,4 @@
 .imgHvr.hvr3:hover .text {
   opacity: 1;
   background: #e9cc6d91;
-}
-
-.reviewWrap {
-  
 }
