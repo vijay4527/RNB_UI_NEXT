@@ -355,6 +355,9 @@
   .pdp_shortInfo_Icon span svg g{
     stroke: var(--text-color);
   }
+  .pdp_msgCount{
+    margin: 0;
+  }
   .pdp_SelectUploadInput{
     display: none;
   }
