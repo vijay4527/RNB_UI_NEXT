@@ -527,6 +527,9 @@ img{
 .category-dropIcon path{
   stroke: #ffffff;
 }
+.sub_nav .subnav-content.active{
+  opacity: 1;
+}
 .sub_nav.show .subnav-content,
 .sub_nav:hover .subnav-content {
   margin-top: 0px;
@@ -537,7 +540,6 @@ img{
     overflow-y: auto;
     background-color: #121213;
     height: 310px;
-    transition: opacity .2s ease-out;
 }
 .subNavbar_body .sub_nav:last-child .subnav-content{
   left: unset;
@@ -565,6 +567,9 @@ img{
   z-index: 5;
   list-style: none;
   background-color: #fff;
+  overflow: hidden;
+  height: 0;
+  transition: height 0.3s ease-in-out;
 }
 .submenu-list {
   width: 100%;

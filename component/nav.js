@@ -111,7 +111,7 @@ const brand = [
   {
     "cat_id": 1,
     "name": "Cakes",
-    "url_name": "/Cakes",
+    "url_name": "/mumbai/l/Cakes",
     "sub_categories": [
       {
         "sub_id": 1,
@@ -213,7 +213,7 @@ export default function Header() {
   };
 
   const formatUrl = (url) => {
-    return `/${encodeURIComponent(url).replace(/%20/g, '-')}`;
+    return `${encodeURIComponent(url).replace(/%20F/g, '-')}`;
   };
   
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -286,7 +286,7 @@ export default function Header() {
                               onMouseEnter={() => handleMouseEnter(category)}
                               onMouseLeave={handleMouseLeave}
                               className={(!category.sub_categories) ? "sub_navbtn active" : "sub_navbtn"}>
-                              <Link href={`/products${formatUrl(category.url_name)}`} onClick={toggleClass}>
+                              <Link href={`/${formatUrl(category.url_name)}`} onClick={toggleClass}>
                                 <h4 className="category-title">{category.name}</h4>
                               </Link>
                               <span className="category-dropIcon" >
