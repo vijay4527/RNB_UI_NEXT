@@ -172,11 +172,11 @@
   font-family: var(--font-family);
 }
 .breadcrumb {
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
+  border-radius: var(--border-radius);
+  -webkit-border-radius: var(--border-radius);
+  -moz-border-radius: var(--border-radius);
+  -ms-border-radius: var(--border-radius);
+  -o-border-radius: var(--border-radius);
   margin: 0!important;
   color: #ff9800;
   padding: 0;
@@ -482,7 +482,7 @@
 }
 
 #stars {
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   width: 1px;
   height: 1px;
   background: transparent;
@@ -500,7 +500,7 @@
 }
 
 #stars2 {
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   width: 2px;
   height: 2px;
   background: transparent;
@@ -518,7 +518,7 @@
 }
 
 #stars3 {
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   width: 3px;
   height: 3px;
   background: transparent;

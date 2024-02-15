@@ -62,7 +62,7 @@
   cursor: pointer;
   padding: 4px 8px;
   background: #ecedeb;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   color: #000;
   font-size: 14px;
   line-height: 20px;
@@ -142,4 +142,15 @@
 }
 .cartPriceBox button{
   width: 100%;
+}
+.cartOrderSummary{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.6rem;
+}
+.cartOrderSummary h4{
+  font-size: 2rem;
+    text-align: center;
+    color: var(--theme-primary);
+    text-transform: uppercase;
 }
