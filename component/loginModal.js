@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
+import Modal from 'react-bootstrap/Modal';
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -7,13 +7,14 @@ import { axiosGet, axiosPost } from "@/api";
 import { getCookie } from "@/cookieUtils";
 import * as yup from "yup";
 import { loginSchema, registrationSchema } from "./validation";
-const modalStyle = {
-  content: {
-    width: "60%",
-    marginLeft: "17.5%",
-    zIndex: 9999,
-  },
-};
+import homeStyles from "../styles/Home.module.css";
+// const modalStyle = {
+//   content: {
+//     width: "60%",
+//     margin: "auto",
+//     zIndex: 9999,
+//   },
+// };
 
 const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -171,10 +172,9 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   return (
     <div>
       <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Login Modal"
-        style={modalStyle}
+      show={modalIsOpen} onHide={closeModal}
+        className={homeStyles["loginModal"]}
+        centered
       >
         <div className="container container-fluid">
           {showLoginSection ? (

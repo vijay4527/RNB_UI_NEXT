@@ -42,7 +42,67 @@
     max-width: 1320px;
   }
 }
-
+/* start button */
+.btn {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  min-width: 150px;
+  padding: 5px;
+  font-family: var(--font-family);
+}
+.btn.btn-primary::before {
+  top: 0;
+  left: 0;
+  border-left: 1px solid var(--theme-primary);
+  border-top: 1px solid var(--theme-primary);
+}
+.btn-primary::before, .btn-primary::after {
+  position: absolute;
+  content: "";
+}
+.btn.btn-primary:hover::before, 
+.btn.btn-primary:hover::after {
+  width: 99%;
+  height: 98%;
+}
+.btn.btn-primary::before, .btn.btn-primary::after {
+  width: 10%;
+  height: 25%;
+  transition: 0.35s;
+}
+.btn-primary::before, .btn-primary::after {
+  background: transparent;
+  z-index: 2;
+}
+.btn.btn-primary::after {
+  bottom: 0;
+  right: 0;
+  border-right: 1px solid var(--theme-primary);
+  border-bottom: 1px solid var(--theme-primary);
+}
+.btn-primary span {
+  color: var(--theme-seconary);
+  background-color: var(--theme-primary);
+}
+.btn span {
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 40px;
+  transition: 0.3s;
+}
+/* btn btn-primary */
 .main {
   display: flex;
   flex-direction: column;
@@ -273,4 +333,38 @@
   }
 }
 
+.form_group label{
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+}
+.form_group input{
+  width: 100%;
+    border: 1px solid #c8c9c6;
+    display: block;
+    outline: none;
+    line-height: 1.5;
+    border-radius: 2px;
+  height: 48px;
+    padding: 13px 16px;
+    font-size: 14px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
 
+.loginModal{
+  width: 60%;
+    margin: auto;
+    height: 100%;
+    color: #000;
+    font-family: var(--font-family);
+}
+.loginModalOverlay{
+  position: fixed;
+    inset: 0px;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+.loginModalWrap .ReactModal__Overlay{
+  z-index: 50;
+}

@@ -2,12 +2,14 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./cart.module.css";
+import homeStyles from "../.././../styles/Home.module.css";
 import { useRouter } from "next/router";
 import { getCookie } from "@/cookieUtils";
 import LoginModal from "@/component/loginModal";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import AppConfig from "@/AppConfig";
+import Head from "next/head";
 const CartPage = () => {
   const { data, status } = useSession();
   const [cart, setCart] = useState([]);
@@ -106,40 +108,104 @@ const CartPage = () => {
     setCityModalOpen(false);
   };
 
+  const totalPrice = cart.reduce((acc, item) => acc + item.cost, 0);
+
+
   return (
     <>
-      <div className={styles.plp_WrapContent} id={styles.title}>
-        <div className={styles.common_header}>
-          <div className={styles.container_fluid}>
-            <div className={styles.content_heading}>
-              <div className={styles.content_title_heading}>
-                <span className={styles.back_to_shop}>
-                  {/* {categoryName ? categoryName : ""} */}
-                  Cart
-                </span>
-                {/* <h1 className={styles.text_title_heading}>
-                 {categoryName ? categoryName : ""} 
-                  Cart
-                </h1> */}
-              </div>
-              <div className={styles.breadcrumb}>
-                <div className={styles.breadcrumb}>
-                  <a href="/">
-                    {/* {categoryName && subcategoryName ? categoryName : ""} */}
-                    {/* {subcategoryName ? (
-                       <span className={styles.delimiter}>
-                      <span>{subcategoryName}</span>
-                    ) : (
-                      ""
-                    )} */}
-                  </a>
+    <Head>
+    <meta charset="utf-8"></meta>
+    <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title>
+    <meta name="description" content="Online Cakes Shop in Mumbai, Pune and Mangalore . Online Cakes Delivery . Buy,Order &amp; Send Birthday, Wedding Anniversary &amp; Chocolate Cakes anywhere in Mumbai from best Cake Shop Ribbons &amp; Balloons."></meta>
+    <meta name="keywords" content="Ribbons and Balloons, Buy Cakes Online, Online Cake delivery, Cakes Mumbai, Cakes to Mumbai, order cakes online, cake delivery in mumbai, Send Cakes to Mumbai, Mumbai Cake Shop, Online Cakes to Mumbai, Cakes Mumbai, Cake delivery to Mumbai, Chocolate Cakes Mumbai, Heart Shape Cakes, Eggless Cakes, Occasion Cakes, birthday cakes online delivery, Send Birthday Cakes, Congratulations Cakes, Missing You Cakes, Baby and Kids Cakes, Anniversary Cakes Online, Thank You Cakes, House Warming Cakes, Wedding Cakes Mumbai, customised cakes in mumbai, cup cakes mumbai, Online Cakes Shop Mumbai, valentine special cakes mumbai, plum cakes mumbai, fresh fruit cakes online"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"></meta>
+    <link rel="icon" href="https://ribbonsandballoons.com/frontassets/images/fav.png" type="image/x-icon" />
+    <meta name="google-site-verification" content="hj44_Ud2995b4jkL3My7hTX96_sALd3yQ7tlf0El0IE"></meta>
+    <meta name="p:domain_verify" content="e35c0804c87b42f9187c00fa30ff64f9"></meta>
+    <meta name="facebook-domain-verification" content="1cpqqtudq8imtqkiwxpq0vd20x3b69"></meta>
+    </Head>
+      <div className={styles.cartMainWrap} id={styles.title}>
+        
+      <div className={homeStyles["container_fluid"]}>
+        <div>
+          <div className={styles.cartHeading}>Your Shopping Cart</div>
+          <hr className={styles.cartHrDivider}></hr>
+          <div className={styles.cartTotalCount}>{cart.length} Products</div>
+          <div className={styles.cartMainBody}>
+            <div>
+              <div className={styles.cartBoxItems}>
+                {cart.length > 0 ? (
+            <>
+              {cart.map((item) => (
+                <div className={styles.cartBoxItem} key={item.cp_id}>
+                <div className={styles.cartBoxContent}>
+                  <div className={styles.cartBoxImg}>
+                    <img src={
+                        AppConfig.cdn + "products/" + item.image.split(",")[0]
+                      } />
+                  </div>
+                  <div className={styles.cartBoxInfo}>
+                    <h4>{item.product_name}</h4>
+                    <h5>
+                      {/* <span className={styles.cartBoxDiscount}>₹{item.cost * 2}</span> */}
+                      <span className={styles.cartBoxPrice}>₹{item.cost}</span>
+                      {/* <span className={styles.cartBoxSaveAmt}>₹{item.cost * 2} saved</span> */}
+                    </h5>
+                    <h4>
+                      {item.product_type == 3 ? (
+                        <>{item.value}</>
+                      ) : (
+                        <>{item.value + " " + item.unit}</>
+                      )}  
+                    </h4>
+                    {/* <p>Qty: 1 <span>▼</span></p> */}
+                  </div>
                 </div>
+                <div className={styles.cartBoxAction}>
+                  <div className={styles.cartBoxButtonAction} onClick={() => removeFromCart(item.cp_id, item.cost)}>Remove</div>
+                  <div className={styles.cartBoxButtonAction}>Move to favourites</div>
+                </div>
+              </div>
+              ))}
+              {/* <div className={styles.cartBoxChkButton}>
+                <button className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`} onClick={handleProducts}>
+                  <span>Checkout</span>
+                </button>
+              </div> */}
+            </>
+          ) : (
+            <h1>Your Cart is Empty!</h1>
+          )}
+              </div>
+            </div>
+            <div>
+              <div className={styles.cartPriceBox}>
+                <ul className={styles.cartPriceAmt}>
+                  {cart.map((item)=> (
+                    <li>
+                      <h4>{item.product_name}
+                      <span>({item.product_type == 3 ? (
+                      <>{item.value}</>
+                    ) : (
+                      <>{item.value + " " + item.unit}</>
+                    )})</span>
+                      </h4>
+                    <h5>₹{item.cost}</h5></li>
+                  ))}
+                </ul>
+                <div className={styles.cartPriceTotalAmt}>
+                  <h4>Total</h4><h5>₹{totalPrice}</h5>
+                </div>
+                <button className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`} onClick={handleProducts}>
+                  <span>Checkout</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <div className={styles.container}>
-          {cart.length > 0 ? (
+
+          {/* {cart.length > 0 ? (
             <>
               <div className={styles.header}>
                 <div>Image</div>
@@ -195,7 +261,7 @@ const CartPage = () => {
             </>
           ) : (
             <h1>Your Cart is Empty!</h1>
-          )}
+          )} */}
         </div>
         {!isLoggedIn && (
           <LoginModal

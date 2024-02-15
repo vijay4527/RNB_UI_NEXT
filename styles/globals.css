@@ -1476,12 +1476,12 @@ overflow: visible;
 /* footer */
 .footerWap {
   position: relative;
-  margin-top: -100px;
+  /* margin-top: -100px; */
 }
 .footerbg{
   background-color: #0b0a0b;
 }
-.footerWap:before {
+/* .footerWap:before {
   background-image: url(https://fama.b-cdn.net/RnB/footer_image.png) !important;
 }
 .footerWap:before{
@@ -1492,7 +1492,7 @@ overflow: visible;
     background-size: cover;
     display: block;
     margin-bottom: 0;
-}
+} */
 .footerBody{
   padding: 102px 0 25px;
     border-top: 0 solid #dadada;
