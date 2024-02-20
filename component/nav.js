@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Link from 'next/link';
-
+import { useRouter } from 'next/router';
 const brand = [
   {
     "cat_id": 1,
@@ -175,7 +175,8 @@ const brand = [
 
 export default function Header() {
   // location
-
+  const router = useRouter()
+  const {city} = router.query
   const [isLoactionActive, setIsLoactionActive] = useState(false);
 
   const loactionToggle = () => {
@@ -329,6 +330,12 @@ export default function Header() {
                                       </Nav.Link>
                                     </li>
                                   ))}
+                                  <li className="category-sub-title" >
+                                      <Nav.Link onClick={toggleClass}
+                                        href={`/${city}/l/Cakes`}>
+                                        All Cakes
+                                      </Nav.Link>
+                                    </li>
                                 </ul>
                                 <div className='subnav-img'>
                                   <div className='imgdiv'>
