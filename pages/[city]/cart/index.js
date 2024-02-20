@@ -23,22 +23,31 @@ const CartPage = () => {
   const { city } = router.query;
   const [isCityModalOpen, setCityModalOpen] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
-
+useEffect(()=>{
+   if(data){
+    setUser(data)
+    console.log("data of the google",data)
+   }
+},[data])
   let cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
   const userObject =
     typeof window !== "undefined"
       ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
-  useEffect(() => {
-    var userInfo =
-      typeof window !== "undefined"
-        ? sessionStorage.getItem("userData")
-        : data
-        ? data.user
-        : "";
-    setUser(userInfo);
-  }, []);
+      useEffect(() => {
+        var userInfo =
+          typeof window !== "undefined"
+            ? sessionStorage.getItem("userData")
+            : sessionStorage.getItem("userData")
+            ? data.user
+            : "";
+        setUser(userInfo);
+              if (userInfo) {
+          GetAllCart();
+        }
+      }, []); 
+      
 
   useEffect(() => {
     GetAllCart();

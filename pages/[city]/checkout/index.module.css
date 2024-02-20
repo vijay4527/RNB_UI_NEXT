@@ -241,3 +241,13 @@
   .cartPriceBox button{
     width: 100%;
   }
+
+  .address-container {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+  }
+  
+  .address-container input {
+    margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
