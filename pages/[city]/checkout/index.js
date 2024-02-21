@@ -683,27 +683,20 @@ const CheckoutPage = () => {
               <div className={styles.checkoutQctOrderSummary}>
                 <div className={styles.cartPriceBox}>
                   <ul className={styles.cartPriceAmt}>
-                    <li>
-                      <h4>
-                        Black Forest Cake
-                        <span>(0.5 KG)</span>
-                      </h4>
-                      <h5>₹450</h5>
-                    </li>
-                    <li>
-                      <h4>
-                        Black Forest Cake
-                        <span>(1 KG)</span>
-                      </h4>
-                      <h5>₹550</h5>
-                    </li>
-                    <li>
-                      <h4>
-                        Black Forest Cake
-                        <span>(1.5 KG)</span>
-                      </h4>
-                      <h5>₹650</h5>
-                    </li>
+                    {
+                      products && products.length > 0 ? (
+                      products.map((ele)=>{
+                        <li>
+                        <h4>
+                          {ele.product_namex}
+                          <span>(0.5 KG)</span>
+                        </h4>
+                        <h5>₹450</h5>
+                      </li>
+                      })
+                      ): ("")
+                    }
+                  
                   </ul>
                   <div className={styles.cartPriceTotalAmt}>
                     <h4>Total</h4>
