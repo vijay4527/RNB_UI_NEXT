@@ -250,4 +250,12 @@
   .address-container input {
     margin-right: 10px; /* Adjust the margin as needed */
   }
+
+
+  .addressInfo p{
+    font-size: 1.4rem;
+    color: #faa619;
+    font-weight: 400;
+    margin: 0;
+}
   

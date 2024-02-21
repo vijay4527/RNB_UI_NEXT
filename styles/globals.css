@@ -1578,6 +1578,7 @@ overflow: visible;
   right: 0;
   top: 10px;
   cursor: pointer;
+  text-decoration: none !important;
 }
 .NewsletterInput .material-icons:hover{
   color: var(--theme-primary);

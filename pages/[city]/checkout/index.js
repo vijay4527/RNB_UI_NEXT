@@ -160,9 +160,9 @@ const CheckoutPage = () => {
     const url = `https://www.google.com/maps?q=${lat},${long}`;
     window.open(url, "_blank");
   };
-  useEffect(()=>{
-    GetAddress()
-  },[user])
+  useEffect(() => {
+    GetAddress();
+  }, [user]);
 
   const GetAddress = async () => {
     try {
@@ -204,6 +204,11 @@ const CheckoutPage = () => {
     setSelectedFranchise(storeid);
   };
 
+  const addressSelection = (shippingId) => {
+    console.log("shiiping adress hit")
+    setSelectedAddress(shippingId);
+    console.log("shipping address is",shippingId )
+  };
   const saveShippingAddress = async () => {
     try {
       await validationSchema.validate(formValues, { abortEarly: false });
@@ -246,11 +251,7 @@ const CheckoutPage = () => {
     }
   };
 
-
-  const selectAdd = (add)=>{
-      setSelectedAddress(add.shipping_address_id)
-      console.log("shipping address id", add.shipping_address_id)
-  }
+ 
 
   return (
     <>
@@ -479,32 +480,93 @@ const CheckoutPage = () => {
                             <span>ADD ADDRESS</span>
                           </button>
                         </div>
+
                         <div>
                           <h4>Select Shipping Address</h4>
-                          <div className="mb-4">
+
+                          <div className={styles.pickUpSearchResult}>
                             {userAddress && userAddress.length > 0 ? (
-                              userAddress.map((address, index) => (
-                                <div key={index} className={styles["address-container"]}>
-                                  <input type="radio" onChange={()=>{selectAdd(address)}} name="address"/>
-                                  <div className={styles["address-details"]}>
-                                    <p>
-                                      {address.first_name} {address.last_name}
-                                    </p>
-                                    <p>{address.address}</p>
-                                    <p>
-                                      {address.city}-{address.pincode}
-                                    </p>
-                                    <p>
-                                      {address.state}, {address.country}
-                                    </p>
-                                    <p>Mobile no: {address.mobile_number}</p>
+                              userAddress.map((res) => (
+                                <label
+                                  for={`Address${res.shipping_address_id}`}
+                                  className={`${
+                                    styles.pickUpSearchResultItem
+                                  } ${
+                                    selectedAddress === res.shipping_address_id
+                                      ? `${styles.active}`
+                                      : ""
+                                  }`}
+                                  key={res.shipping_address_id}
+                                >
+                                  <div className={styles.pickUpFranchiseInput}>
+                                    <input
+                                      id={`Address${res.shipping_address_id}`}
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="address"
+                                      checked={
+                                        selectedAddress ===
+                                        res.shipping_address_id
+                                      }
+                                      onChange={() => {
+                                        addressSelection(
+                                          res.shipping_address_id
+                                        );
+                                      }}
+                                    />
+                                    <div
+                                      className={
+                                        styles.pickUpFranchiseInputIcon
+                                      }
+                                    >
+                                      <svg
+                                        className={styles.roundedIcon}
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                      >
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
+                                      </svg>
+                                      <svg
+                                        className={styles.solidIcon}
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                      >
+                                        <path d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"></path>
+                                      </svg>
+                                    </div>
                                   </div>
-                                </div>
+                                  <div
+                                    className={styles.pickUpFranchiseDetails}
+                                  >
+                                    <div className={styles.addressInfo}>
+                                      <h4>
+                                        <p>
+                                          {res.first_name} {res.last_name},
+                                        </p>
+
+                                        <p>
+                                          {res.address},{res.city}-{res.pincode}
+                                        </p>
+                                        <p>
+                                          {res.state}, {res.country}
+                                        </p>
+                                        <p>Mobile no: {res.mobile_number}</p>
+                                      </h4>
+                                    </div>
+                                    
+                                  </div>
+                                </label>
                               ))
                             ) : (
-                              <p>No addresses available</p>
+                              <div>
+                                <h5>No Address to Show</h5>
+                              </div>
                             )}
                           </div>
+
+                          
                         </div>
                       </div>
 
@@ -648,7 +710,7 @@ const CheckoutPage = () => {
                     <h5>₹1250</h5>
                   </div>
                   <button
-                    className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`}
+                    className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`} onClick={createOrder}
                   >
                     <span>PROCEED TO PAYMENT</span>
                   </button>

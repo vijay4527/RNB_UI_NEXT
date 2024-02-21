@@ -152,7 +152,7 @@ useEffect(()=>{
                   <div className={styles.cartBoxImg}>
                     <img src={
                         AppConfig.cdn + "products/" + item.image.split(",")[0]
-                      } />
+                      } alt={item.product_name}/>
                   </div>
                   <div className={styles.cartBoxInfo}>
                     <h4>{item.product_name}</h4>
@@ -169,7 +169,7 @@ useEffect(()=>{
                       )}  
                     </h4>
                     {/* <p>Qty: 1 <span>▼</span></p> */}
-                  </div>
+                  </div >
                 </div>
                 <div className={styles.cartBoxAction}>
                   <div className={styles.cartBoxButtonAction} onClick={() => removeFromCart(item.cp_id, item.cost)}>Remove</div>

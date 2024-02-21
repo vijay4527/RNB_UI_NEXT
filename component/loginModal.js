@@ -74,7 +74,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
         if (userData.resp === true) {
           sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
           setModalIsOpen(false);
-          router.push(currentPath);
+          // router.push(currentPath);
+          router.push("/")
         } else {
           setLoginError(userData.respMsg);
         }

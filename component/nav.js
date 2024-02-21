@@ -111,7 +111,7 @@ const brand = [
   {
     cat_id: 1,
     name: "Cakes",
-    url_name: "/mumbai/l/Cakes",
+    url_name: `/mumbai/l/Cakes`,
     sub_categories: [
       {
         sub_id: 1,
@@ -213,9 +213,9 @@ export default function Header() {
     }
   };
 
-  const formatUrl = (url) => {
-    return `${encodeURIComponent(url).replace(/%20F/g, "-")}`;
-  };
+  // const formatUrl = (url) => {
+  //   return `${encodeURIComponent(url).replace(/%20F/g, "-")}`;
+  // };
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -313,7 +313,7 @@ export default function Header() {
                               }
                             >
                               <Link
-                                href={`/${formatUrl(category.url_name)}`}
+                                href={`/${category.url_name}`}
                                 onClick={toggleClass}
                               >
                                 <h4 className="category-title">
@@ -344,9 +344,7 @@ export default function Header() {
                               }
                             >
                               <Link
-                                href={`/products${formatUrl(
-                                  category.url_name
-                                )}`}
+                                href={`/products${category.url_name}`}
                                 onClick={toggleClass}
                               >
                                 <h4 className="category-title">
@@ -399,9 +397,9 @@ export default function Header() {
                                         key={subcategory.sub_id}
                                       >
                                         <Link
-                                          href={`/products${formatUrl(
+                                          href={`/products${
                                             category.url_name
-                                          )}${formatUrl(subcategory.url_name)}`}
+                                          }${subcategory.url_name}`}
                                         >
                                           <span
                                           onClick={toggleClass}
@@ -510,9 +508,10 @@ export default function Header() {
                         </a>
                       </li>
                       <li>
-                        <a>
-                          <span className="material-icons">shopping_bag</span>
-                        </a>
+                          <Link href={`/${city}/cart`} style={{textDecoration:"none !important",color:"white"}}>
+                          <span className="material-icons"  >shopping_bag</span>
+                          </Link>
+                          
                       </li>
                     </ul>
                   </div>
