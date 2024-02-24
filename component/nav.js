@@ -4,8 +4,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Facebook from "next-auth/providers/facebook";
 const brand = [
   {
     cat_id: 1,
@@ -174,10 +176,10 @@ const brand = [
 ];
 
 export default function Header() {
-  // location
   const router = useRouter();
   const { city } = router.query;
   const [isLoactionActive, setIsLoactionActive] = useState(false);
+  const { data, status } = useSession();
 
   const loactionToggle = () => {
     setIsLoactionActive(!isLoactionActive);
@@ -194,7 +196,6 @@ export default function Header() {
     setIsClicked(!isClicked);
     // searchInputRef.current.focus();
   };
-  // hover
   const [hoveredCategory, setHoveredCategory] = useState(null);
 
   const handleMouseEnter = (category) => {
@@ -213,10 +214,6 @@ export default function Header() {
     }
   };
 
-  // const formatUrl = (url) => {
-  //   return `${encodeURIComponent(url).replace(/%20F/g, "-")}`;
-  // };
-
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
@@ -225,10 +222,8 @@ export default function Header() {
       setScrollPosition(scrollY);
     };
 
-    // Attach the scroll event listener when the component mounts
     window.addEventListener("scroll", handleScroll);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -236,6 +231,8 @@ export default function Header() {
 
   const Logout = ()=>{
     sessionStorage.clear()
+    signOut("google")
+    signOut("facebook")
     router.push("/mumbai")
   }
 
@@ -253,6 +250,21 @@ export default function Header() {
     </a>
   ));
 
+
+  const [isLoggedIn,setIsLoggedIn] = useState(false)
+  useEffect(() => {
+    const userObject =
+      typeof window !== "undefined"
+        ? JSON.parse(sessionStorage.getItem("userData")) || null
+        : null;
+
+    if (data || userObject) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [data, typeof window !== "undefined" ? sessionStorage.getItem("userData") : ""]);
+  
   return (
     <>
       <div>
@@ -450,6 +462,11 @@ export default function Header() {
                     <ul>
                       <li>
                       {/* <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button> */}
+                        {
+                          isLoggedIn && (
+                            <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button>
+                          )
+                        }
                         {/* <div>
                           <DropdownButton
                             as={ButtonGroup}

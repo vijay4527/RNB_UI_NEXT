@@ -4,18 +4,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { axiosGet, axiosPost } from "@/api";
-import { getCookie } from "@/cookieUtils";
 import * as yup from "yup";
 import { loginSchema, registrationSchema } from "./validation";
 import homeStyles from "../styles/Home.module.css";
-// const modalStyle = {
-//   content: {
-//     width: "60%",
-//     margin: "auto",
-//     zIndex: 9999,
-//   },
-// };
-
 const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mobile, setMobile] = useState("");
@@ -74,8 +65,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
         if (userData.resp === true) {
           sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
           setModalIsOpen(false);
-          // router.push(currentPath);
-          router.push("/")
+           router.push(currentPath);
+          // router.push("/")
         } else {
           setLoginError(userData.respMsg);
         }
@@ -313,13 +304,13 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
           )}
 
           {showOtpSection ? (
-            <div class="otp-container">
+            <div className="otp-container">
               <header>
-                <i class="bx bxs-check-shield"></i>
+                <i className="bx bxs-check-shield"></i>
               </header>
               <h4>Enter OTP Code</h4>
-              <form action="#" class="otp-form">
-                <div class="input-field">
+              <form action="#" className="otp-form">
+                <div className="input-field">
                   {otp.map((digit, index) => (
                     <input
                       key={index}
