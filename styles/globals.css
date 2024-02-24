@@ -404,6 +404,26 @@ img{
 .SvgIcons {
 
 }
+.cartButton,
+.cartButton:hover,
+.cartButton:focus,
+.cartButton:active,
+.cartButton.active{
+  color: var(--text-color);
+}
+.cartCountNotification{
+  position: absolute;
+    border-radius: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ef5350;
+    width: 18px;
+    height: 18px;
+    font-size: 1.6rem;
+    right: -8px;
+    top: -4px;
+}
 .SvgIcons svg{
   height: 20px;
   width: 20px;
