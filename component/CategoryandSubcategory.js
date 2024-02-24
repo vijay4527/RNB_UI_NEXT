@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import AppConfig from "../AppConfig";
 import RangeSlider from 'react-range-slider-input';
 import Container from 'react-bootstrap/Container';
-import AddToFavoriteButton from "./addToFavoritesButton";
+import AddToFavoriteButton from "./AddToFavoritesButton";
 
 function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   // const productData = data;
@@ -101,7 +101,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
             </div>
             <div className={styles.plpPageBody}>
               <div className={styles.plpPagetemsAction}>
-                <h4 className={styles.plpItemsCount}>Showing 1-8 of 38 results</h4>
+                <h4 className={styles.plpItemsCount}>Showing 1-{data.length} of {data.length} results</h4>
                 <div className={styles.plpSortby}>
                   <select className={"form-control"}>
                     <option selected>Default sorting</option>
