@@ -13,7 +13,7 @@ import AppConfig from "@/AppConfig";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import AddToFavoritesButton from '@/component/addToFavoritesButton';
+import AddToFavoritesButton from '@/component/AddToFavoritesButton';
 
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
