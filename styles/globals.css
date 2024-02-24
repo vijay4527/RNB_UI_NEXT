@@ -17,6 +17,7 @@
   --theme-btn-bg: #e9cc6d;
   --theme-btn-color: #ffffff;
   --theme-btn-border: #e9cc6d;
+  --border-radius: 0px;
   --font-family: 'Montserrat', sans-serif;
   --font-family-Italianno: 'Great Vibes', cursive;
   --font-family-Cormorant: 'Cormorant', serif;
@@ -139,7 +140,7 @@ img{
   justify-content: center;
   width: 100%;
   height: 250px;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   font-size: 30px;
   position: relative;
   vertical-align: top;
@@ -210,7 +211,7 @@ img{
   bottom: 20px;
   right: 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   z-index: 1000; 
   width: 50px;
@@ -287,8 +288,8 @@ img{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 15px;
-  border-radius: 5px;
+  /* padding: 7px 15px; */
+  border-radius: var(--border-radius);
   transition: all 100ms ease;
 }
 .selectLocationWrap.activeClass{
@@ -299,9 +300,7 @@ img{
   position: absolute;
     right: 15%;
     top: 100%;
-    background-color: rgb(23, 26, 38);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    background-color: var(--theme-seconary);
     z-index: 30; 
 }
 .selectLocationBody{
@@ -323,6 +322,7 @@ img{
   overflow: hidden;
   position: relative;
   height: 89px;
+  filter: invert(1);
 }
 .selectLocationImg {
   display: flex;
@@ -363,7 +363,7 @@ img{
   height: 60px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(30px);
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   margin: auto;
   align-items: center;
   cursor: pointer;
@@ -400,6 +400,33 @@ img{
 .backdropLoaction.activeClass{
   display: block;
   opacity: 0.6;
+}
+.SvgIcons {
+
+}
+.cartButton,
+.cartButton:hover,
+.cartButton:focus,
+.cartButton:active,
+.cartButton.active{
+  color: var(--text-color);
+}
+.cartCountNotification{
+  position: absolute;
+    border-radius: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ef5350;
+    width: 18px;
+    height: 18px;
+    font-size: 1.6rem;
+    right: -8px;
+    top: -4px;
+}
+.SvgIcons svg{
+  height: 20px;
+  width: 20px;
 }
 /*  */
 .navbar_wrapper{
@@ -451,7 +478,7 @@ img{
   height: 100%;
   justify-content: center;
   margin-right: 20px;
-  z-index: 2;
+  z-index: 4;
 }
 .sub_navbtn {
   flex-direction: row;
@@ -538,7 +565,7 @@ img{
   max-height: 310px;
     overflow: hidden;
     overflow-y: auto;
-    background-color: #121213;
+    background-color: var(--theme-seconary);
     height: 310px;
 }
 .subNavbar_body .sub_nav:last-child .subnav-content{
@@ -552,7 +579,7 @@ img{
 .subnav-img img {
   height: 100%;
     width: 100%;
-    border-radius: 10px
+    border-radius: var(--border-radius);
 }
 .subnav-content {
   top: 100%;
@@ -665,7 +692,7 @@ img{
     }
 }
 .subnav-img img {
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   width: 157px;
   margin-top: 3%;
   height: 181px;
@@ -738,9 +765,9 @@ img{
 .itemNewLunch{
   display: block;
     overflow: hidden;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0;
+    -webkit-border-radius: var(--border-radius);
+    -moz-border-radius: var(--border-radius);
+    border-radius: var(--border-radius);
     background-clip: border-box;
     padding: 15px;
     position: relative;
@@ -786,8 +813,8 @@ img{
   height: auto;
   max-width: 100%;
   border: none;
-  -webkit-border-radius: 0;
-  border-radius: 0;
+  -webkit-border-radius: var(--border-radius);
+  border-radius: var(--border-radius);
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -827,7 +854,12 @@ img{
 /*  */
 .enquiryWrap{
   padding: 85px 0px;
-  background-color: #121213;
+  /* background-color: #121213; */
+  
+  background-image: url(https://fama.b-cdn.net/Stripes.jpg);
+  background-attachment: fixed !important;
+  transition: background 0s !important;
+  background-size: 100%;
 }
 .enquiryContent {
   display: grid;
@@ -847,7 +879,7 @@ img{
   max-width: 400px;
   border: 1px solid var(--theme-primary);
   padding: 16px 20px;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   margin: 20px auto;
   cursor: pointer;
 }
@@ -858,7 +890,7 @@ img{
     height: 50px;
     line-height: 50px;
     text-align: center;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-right: 20px;
 }
 .enquiryContact ul li a h4{
@@ -869,13 +901,13 @@ img{
   max-width: 650px;
   margin-left: auto;
   padding: 60px 50px;
-  border-radius: 14px;
+  border-radius: var(--border-radius);
   background-color: var(--theme-primary);
   margin: auto;
 }
 .enquiryFormData .form-control{
   width: 100%;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     border: none;
     padding: 16px 20px;
     margin-bottom: 22px;
@@ -889,7 +921,7 @@ img{
     margin: 0 auto;
     display: block;
     padding: 10px 25px;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     background-color: var(--theme-seconary) !important;
     box-shadow: 0 0 4px #25130f4a !important;
     font-family: var(--font-family);
@@ -898,15 +930,23 @@ img{
 /*  */
 .testimonialsWrap {
   padding: 85px 0px;
-  background-image: url(https://fama.b-cdn.net/RnB/parallax-8.png);
+  /* background-image: url(https://fama.b-cdn.net/RnB/parallax-8.png);
     background-position: right bottom;
     background-repeat: no-repeat;
-    background-color: #0c0805;
+    background-color: #0c0805; */
+    background-image: url(https://fama.b-cdn.net/Stripes.jpg);
+    background-attachment: fixed !important;
+    transition: background 0s !important;
+    background-size: 100%;
 }
 .mediaCollabWrap{
   padding: 85px 0px;
-  margin-bottom: 85px;
-  background-color: #0c0805;
+  /* background-color: #0c0805; */
+  
+  background-image: url(https://fama.b-cdn.net/Stripes.jpg);
+  background-attachment: fixed !important;
+  transition: background 0s !important;
+  background-size: 100%;
 }
 .headerTitle {
   text-align: center;
@@ -949,7 +989,7 @@ img{
   width: 8px;
   height: 8px;
   background-color: var(--theme-primary);
-  border-radius: 0;
+  border-radius: var(--border-radius);
   -webkit-transform: translate(-50%,-50%) rotate(45deg);
   -moz-transform: translate(-50%,-50%) rotate(45deg);
   transform: translate(-50%,-50%) rotate(45deg);
@@ -1192,7 +1232,7 @@ padding: 0;
 margin: 0 8px;
 background: 0 0;
 border: 0;
-border-radius: 0;
+border-radius: var(--border-radius);
 outline: 0;
 -webkit-appearance: none;
 overflow: visible;
@@ -1202,7 +1242,7 @@ overflow: visible;
   vertical-align: middle;
   width: 10px;
   height: 10px;
-  border-radius: 0;
+  border-radius: var(--border-radius);
   background-color: transparent;
   border: 1px solid #c19d56;
   box-sizing: border-box;
@@ -1219,7 +1259,12 @@ overflow: visible;
 }
 .advInstaWrap {
   padding: 85px 0px;
-  background-color: #121213;
+  /* background-color: #121213; */
+  
+  background-image: url(https://fama.b-cdn.net/Stripes.jpg);
+  background-attachment: fixed !important;
+  transition: background 0s !important;
+  background-size: 100%;
 }
 .newLaunchWrap{
   padding: 85px 0px;
@@ -1250,7 +1295,7 @@ overflow: visible;
 
 .advInstaBody {
   display: grid;
-  grid-template-columns: 1fr 1fr 0.5fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 30px;
 }
 .advInstaContent2 {
@@ -1346,7 +1391,12 @@ overflow: visible;
 /*  */
 .cakeOfMonthWrap{
   padding-top: 85px;
-  background-color: #121213;
+  /* background-color: #121213; */
+  
+  background-image: url(https://fama.b-cdn.net/Stripes.jpg);
+  background-attachment: fixed !important;
+  transition: background 0s !important;
+  background-size: 100%;
 }
 .cakeOfMonthBody{
   width: 100%;
@@ -1479,7 +1529,12 @@ overflow: visible;
   /* margin-top: -100px; */
 }
 .footerbg{
-  background-color: #0b0a0b;
+  /* background-color: #0b0a0b; */
+  
+  background-image: url(https://fama.b-cdn.net/Stripes.jpg);
+  background-attachment: fixed !important;
+  transition: background 0s !important;
+  background-size: 100%;
 }
 /* .footerWap:before {
   background-image: url(https://fama.b-cdn.net/RnB/footer_image.png) !important;
@@ -1651,6 +1706,8 @@ overflow: visible;
 .range-slider .range-slider__thumb {
     background: #faa307;
     transition: transform .3s;
+    border-radius: var(--border-radius);
+    z-index: 2;
 }
 .range-slider .range-slider__thumb[data-active] {
     transform: translate(-50%, -50%) scale(1.25);

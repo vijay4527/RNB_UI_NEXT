@@ -72,11 +72,11 @@
   font-family: var(--font-family);
 }
 .breadcrumb {
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
+  border-radius: var(--border-radius);
+  -webkit-border-radius: var(--border-radius);
+  -moz-border-radius: var(--border-radius);
+  -ms-border-radius: var(--border-radius);
+  -o-border-radius: var(--border-radius);
   margin: 0!important;
   color: #fff;
   padding: 0;
@@ -160,6 +160,7 @@
   width: calc(100% - 131px);
   width: 470px;
     height: 470px;
+    position: relative;
 }
 /* .pdp_ProductImg img{
   height: auto;
@@ -186,12 +187,12 @@
   border: 1px solid var(--theme-primary);
   color: var(--theme-primary);
     background-color: transparent;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
 }
 .pdp_ProductImgs li img{
   width: 100px;
     height: 100px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
 }
 
 
@@ -213,7 +214,7 @@
   background-color: #bdc3c7;
   width: 300px;
   height: 5px;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   margin: 0 auto;
   outline: 0;
 }
@@ -248,7 +249,7 @@
 }
 .pdp_SelectFlavour li{
   margin-right: 10px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     padding: 7px;
     border: 1px solid var(--text-color);
     color: var(--text-color);
@@ -267,7 +268,7 @@
     background-color: var(--theme-primary);
 }
   .pdp_SelectMessage textarea{
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     border: 1px solid #ced4da;
     width: 100%;
     height: 56px;
@@ -301,12 +302,13 @@
   .pdp_shortInfo_BoxItem{
     display: none;
     position: absolute;
+    z-index: 1;
     width: 26rem;
     border: 1px solid;
     right: 0;
     top: 100%;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     box-shadow: 0 0 0 rgb(0 0 0/10%), 0 0 0 0 rgb(255 255 255), 0.3em 0.3em 1em rgb(0 0 0/30%);
   }
   .pdp_shortInfo_Box:hover .pdp_shortInfo_BoxItem{
@@ -371,7 +373,7 @@
   .pdp_SelectUploadImage{
     border: 1px solid #ced4da;
     background-color: transparent;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     margin-top: 8px;
     margin-bottom: 0.5rem;
     padding: 8px 15px;
@@ -423,7 +425,7 @@
     width: 380px;
     margin-top: 40px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
   }
   .pdp_ProductContentButton{
     display: flex;
@@ -447,7 +449,7 @@
     border: none;
     background: none;
     padding: 8px 28px;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent;
     -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -479,7 +481,7 @@
     content: "";
     width: var(--w, 2px);
     height: var(--h, 14px);
-    border-radius: 1px;
+    border-radius: var(--border-radius);
     position: absolute;
     left: var(--l, 8px);
     top: var(--t, 6px);
@@ -652,6 +654,26 @@
     font-size: 1.6rem;
     color: #000;
     font-family: Montserrat,sans-serif;
+    border-radius: var(--border-radius);
+  }
+  .plpSortby select{
+    background-color: white;
+    border: thin solid blue;
+    display: inline-block;
+    line-height: 1.5em;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 36px;
+  }
+  .plpSortby select{
+    background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), radial-gradient(#ddd 70%, transparent 72%);
+    background-position: calc(100% - 20px) calc(1em + -1px), calc(100% - 16px) calc(1em + -1px), calc(100% - 0.5em) 0.5rem;
+    background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
+    background-repeat: no-repeat;
   }
   .plpPageFilter{
     width: 25%;

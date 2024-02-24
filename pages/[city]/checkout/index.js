@@ -19,6 +19,7 @@ import {
 import { useRouter } from "next/router";
 import * as yup from "yup";
 import AppConfig from "@/AppConfig";
+import ServingInfo from "@/component/ServingInfo";
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
@@ -682,6 +683,10 @@ const CheckoutPage = () => {
               </div>
               <div className={styles.checkoutQctOrderSummary}>
                 <div className={styles.cartPriceBox}>
+                <div className={styles.cartOrderSummary}>
+                  <h4>Order summary</h4>
+                  <ServingInfo/>
+                </div>
                   <ul className={styles.cartPriceAmt}>
                     {
                       products && products.length > 0 ? (

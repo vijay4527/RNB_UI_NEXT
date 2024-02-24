@@ -28,8 +28,6 @@
     width: calc(65% - 1.6rem);
     margin-right: 1.6rem;
     border: 1px solid #ecedeb;
-    background-color: #FFFFFF;
-    color: #000;
 }
 .checkoutQctOrderSummary{
     width: 35%;
@@ -41,6 +39,8 @@
     font-size: 20px;
     font-weight: 400;
     line-height: 28px;
+    color: var(--theme-primary);
+    text-transform: uppercase;
 }
 .checkoutQctShippingTabs{
     padding: 0;
@@ -54,8 +54,10 @@
 .checkoutQctShippingTabs li{
     height: 70px;
     cursor: pointer;
+    position: relative;
 }
 .checkoutQctShippingTabs li.active{
+    bottom: -0.1px;
     border-bottom: 5px solid var(--theme-primary);
 }
 .checkoutQctShippingTabs h4{
@@ -201,8 +203,6 @@
     border: 1px solid #ecedeb;
     padding: 1.6rem;
     font-family: var(--font-family);
-    background-color: #fff;
-    color: #000;
   }
   .cartPriceAmt{
     padding: 0;
@@ -259,3 +259,15 @@
     margin: 0;
 }
   
+  
+  .cartOrderSummary{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.6rem;
+  }
+.cartOrderSummary h4{
+    font-size: 2rem;
+      text-align: center;
+      color: var(--theme-primary);
+      text-transform: uppercase;
+  }

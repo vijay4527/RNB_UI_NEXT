@@ -13,6 +13,7 @@ import AppConfig from "@/AppConfig";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import AddToFavoritesButton from '@/component/addToFavoritesButton';
 
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
@@ -101,6 +102,7 @@ const productbyname = ({ data }) => {
             </ul>
           </div>
           <div className={styles.pdp_ProductImg}>
+            <AddToFavoritesButton/>
             <ProductImageZoom
               imageSrc={AppConfig.cdn + "products/" + image[activeIndex]}
             />

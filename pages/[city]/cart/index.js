@@ -10,6 +10,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import AppConfig from "@/AppConfig";
 import Head from "next/head";
+import ServingInfo from "@/component/ServingInfo";
 const CartPage = () => {
   const { data, status } = useSession();
   const [cart, setCart] = useState([]);
@@ -190,6 +191,10 @@ useEffect(()=>{
             </div>
             <div>
               <div className={styles.cartPriceBox}>
+                <div className={styles.cartOrderSummary}>
+                <h4>Order summary</h4>
+                  <ServingInfo/>
+                </div>
                 <ul className={styles.cartPriceAmt}>
                   {cart.map((item)=> (
                     <li>

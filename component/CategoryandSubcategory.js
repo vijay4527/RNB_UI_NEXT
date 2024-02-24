@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import AppConfig from "../AppConfig";
 import RangeSlider from 'react-range-slider-input';
 import Container from 'react-bootstrap/Container';
+import AddToFavoriteButton from "./addToFavoritesButton";
 
 function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   // const productData = data;
@@ -125,14 +126,8 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                       >
                         <div className={styles.item}>
                           <div className={styles.itemInfo}>
-                            <div className={`${styles.imgHvr} ${styles.hvr10}`}>
-                              <div className={styles.inner}>
-                                <div className={styles.text}>
-                                  <button href="#" className={styles.add_to_cart_button} aria-label={`Add to your cart`}>
-                                    Add to cart
-                                  </button>
-                                </div>
-                              </div>
+                            <AddToFavoriteButton/>
+                            <div className={`${styles.imgHvr}`}>
                               <img className={styles.plpProdctImg}
                                 src={`${AppConfig.cdn}products/${image[0]}`}
                                 alt="No image found"/>
