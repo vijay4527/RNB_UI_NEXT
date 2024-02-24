@@ -55,6 +55,8 @@ const CheckoutPage = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [user, setUser] = useState({});
+  const [grandTotal, setGrandTotal] = useState(0);
+
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -206,9 +208,9 @@ const CheckoutPage = () => {
   };
 
   const addressSelection = (shippingId) => {
-    console.log("shiiping adress hit")
+    console.log("shiiping adress hit");
     setSelectedAddress(shippingId);
-    console.log("shipping address is",shippingId )
+    console.log("shipping address is", shippingId);
   };
   const saveShippingAddress = async () => {
     try {
@@ -252,7 +254,7 @@ const CheckoutPage = () => {
     }
   };
 
- 
+  const totalPrice = products.reduce((acc, item) => acc + item.cost, 0);
 
   return (
     <>
@@ -556,7 +558,6 @@ const CheckoutPage = () => {
                                         <p>Mobile no: {res.mobile_number}</p>
                                       </h4>
                                     </div>
-                                    
                                   </div>
                                 </label>
                               ))
@@ -566,8 +567,6 @@ const CheckoutPage = () => {
                               </div>
                             )}
                           </div>
-
-                          
                         </div>
                       </div>
 
@@ -682,10 +681,11 @@ const CheckoutPage = () => {
                 </div>
               </div>
               <div className={styles.checkoutQctOrderSummary}>
-                <div className={styles.cartPriceBox}>
+                {/* <div className={styles.cartPriceBox}>
                 <div className={styles.cartOrderSummary}>
                   <h4>Order summary</h4>
                   <ServingInfo/>
+                  
                 </div>
                   <ul className={styles.cartPriceAmt}>
                     {
@@ -693,10 +693,10 @@ const CheckoutPage = () => {
                       products.map((ele)=>{
                         <li>
                         <h4>
-                          {ele.product_namex}
-                          <span>(0.5 KG)</span>
+                          {ele.product_name}
+                          <span>{ele.value}</span>
                         </h4>
-                        <h5>₹450</h5>
+                        <h5>{ele.cost}</h5>
                       </li>
                       })
                       ): ("")
@@ -711,6 +711,40 @@ const CheckoutPage = () => {
                     className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`} onClick={createOrder}
                   >
                     <span>PROCEED TO PAYMENT</span>
+                  </button>
+                </div> */}
+                <div className={styles.cartPriceBox}>
+                  <div className={styles.cartOrderSummary}>
+                    <h4>Order summary</h4>
+                    <ServingInfo />
+                  </div>
+                  <ul className={styles.cartPriceAmt}>
+                    {products.map((item) => (
+                      <li>
+                        <h4>
+                          {item.product_name}
+                          <span>
+                            (
+                            {item.product_type == 3 ? (
+                              <>{item.value}</>
+                            ) : (
+                              <>{item.value + " " + item.unit}</>
+                            )}
+                            )
+                          </span>
+                        </h4>
+                        <h5>₹{item.cost}</h5>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className={styles.cartPriceTotalAmt}>
+                    <h4>Total</h4>
+                    <h5>₹{totalPrice}</h5>
+                  </div>
+                  <button
+                    className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`} onClick={createOrder}
+                  >
+                    <span>Checkout</span>
                   </button>
                 </div>
               </div>
