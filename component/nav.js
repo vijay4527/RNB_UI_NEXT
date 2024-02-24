@@ -462,11 +462,11 @@ export default function Header() {
                     <ul>
                       <li>
                       {/* <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button> */}
-                        {
+                        {/* {
                           isLoggedIn && (
                             <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button>
                           )
-                        }
+                        } */}
                         {/* <div>
                           <DropdownButton
                             as={ButtonGroup}
