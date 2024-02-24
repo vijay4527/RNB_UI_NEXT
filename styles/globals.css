@@ -123,6 +123,10 @@ img{
   width: 100%;
   text-align: center;
 }
+.dropdown-menu-lg-end[data-bs-popper] {
+  left: auto;
+  right: 0;
+}
 .dropdown-item.active, .dropdown-item:active,
 .dropdown-item:focus, .dropdown-item:hover{
   color: var(--theme-btn-color);
@@ -257,8 +261,8 @@ img{
   align-items: center;
   position: relative;
 }
-.navAction ul li a {
-  margin-left: 15px;
+.navAction ul li {
+  margin-left: 2rem;
   cursor: pointer;
 }
 .nav-content {
@@ -357,6 +361,9 @@ img{
   font-family: var(--font-family);
   width: 100%;
 }
+ul.selectLocationOption li{
+  margin: 0;
+}
 .selectLocationOption li a{
   display: flex;
   width: 100%;
@@ -401,14 +408,33 @@ img{
   display: block;
   opacity: 0.6;
 }
+.myProfileItems {
+
+}
+.myProfileItems .dropdown-menu{
+  font-family: var(--font-family);
+  font-size: 1.4rem;
+  background-color: var(--theme-seconary);
+  width: 176px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+}
+.myProfileItems .dropdown-item:focus,
+.myProfileItems .dropdown-item:hover{
+  color: var(--theme-btn-color);
+    text-decoration: none;
+    background-color: var(--theme-btn-bg);
+}
+.myProfileItems .dropdown-divider {
+  background-color: #ecedeb;
+}
 .SvgIcons {
 
 }
-.cartButton,
-.cartButton:hover,
-.cartButton:focus,
-.cartButton:active,
-.cartButton.active{
+.navAction a,
+.navAction a:hover,
+.navAction a:focus,
+.navAction a:active,
+.navAction a.active{
   color: var(--text-color);
 }
 .cartCountNotification{
@@ -429,6 +455,7 @@ img{
   width: 20px;
 }
 /*  */
+
 .navbar_wrapper{
   background-color: #121213;
   color: #ffffff;
@@ -628,7 +655,114 @@ img{
 .MobileSub_navbtn{
   display: none;
 }
+.mob_backdrop{
+  display: none;
+}
 @media screen and (max-width: 768px) {
+  .category-title{
+    color: var(--body-bg-color);
+  }
+  .mob_backdrop {
+    display: block;
+  }
+  .navbar-collapse.show, .navbar-collapsing {
+    visibility: visible;
+    transform: translateZ(0);
+    box-shadow: 0 1px 12px 2px hsla(0,0%,56%,.3);
+}
+.navbar_MobileClose {
+  background: var(--theme-primary);
+  height: 55px;
+  padding: 0 20px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.subNavbar_wrapper .navbar-toggler.toggleButton {
+  position: absolute;
+  top: -55px;
+  left: 15px;
+  padding: 0;
+  border: 0;
+  font-size: 20px;
+  color: var(--text-color);
+}
+.navbar_MobileClose .navbar-toggler:before {
+  content: "\f00d";
+  font-family: FontAwesome;
+  line-height: 25px;
+  margin-left: 10px;
+  color: #fff;
+}
+.navbar-collapse {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  color: var(--body-bg-color);
+  width: 280px;
+  z-index: 999999;
+  overflow-x: hidden;
+  overflow-y: auto;
+  visibility: hidden;
+  border-width: 1px 0 0 1px;
+  transform: translate3d(-280px,0,0);
+  transition: all .5s ease-in-out 0s;
+}
+.Brands_navbody, .subNavbar_body {
+  flex-wrap: wrap;
+  align-items: start;
+  height: unset;
+}
+.Brands_navbody, .subNavbar_body {
+  flex-wrap: wrap;
+  align-items: start;
+  height: unset;
+}
+.subNavbar_body .sub_nav {
+  margin-right: 0;
+  width: 100%;
+  justify-content: start;
+  z-index: unset;
+  border-bottom: 1px solid rgb(128 0 0/9%);
+  position: relative;
+}
+.MobileSub_navbtn {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+}
+.subnav-content.active{
+
+}
+.category-title {
+  padding: 0 0 0 15px;
+}
+.sub_nav:hover .subnav-content, .sub_navbtn {
+  display: none;
+}
+.category-dropIcon {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+.sub_nav .category-dropIcon .plus_Icon, .sub_nav.show .category-dropIcon .mins_Icon {
+  display: block;
+}
+.category-dropIcon svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--text-color);
+}  
   .sub_nav:hover .subnav-content {
     display: none;
   }
@@ -644,6 +778,10 @@ img{
     .sub_nav.show .subnav-content {
       display: block;
     }
+    .subnav-content {
+      height: 100vh!important;
+      width: 100%!important;
+  }
     .sub_nav .subnav-content {
       display: none;
     }
@@ -666,7 +804,10 @@ img{
     .category-dropIcon svg {
       width: 22px;
       height: 22px;
-      fill: var(--text-color);
+      fill: var(--body-bg-color);
+    }
+    .category-dropIcon path{
+      stroke: var(--body-bg-color);
     }
     .search-product input{
       display: none;

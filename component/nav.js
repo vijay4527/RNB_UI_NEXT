@@ -239,6 +239,20 @@ export default function Header() {
     router.push("/mumbai")
   }
 
+  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <a role="button" className='profileButton' onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}> 
+        <span className="SvgIcons">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+        </span>
+    </a>
+  ));
+
   return (
     <>
       <div>
@@ -435,7 +449,7 @@ export default function Header() {
                   <div className="navAction">
                     <ul>
                       <li>
-                      <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button>
+                      {/* <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button> */}
                         {/* <div>
                           <DropdownButton
                             as={ButtonGroup}
@@ -510,6 +524,20 @@ export default function Header() {
                             </svg>
                           </span>
                         </a>
+                      </li>
+                      <li className="myProfileItems">
+                        <Dropdown>
+                          <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                            Dropdown Button
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu  align={{ lg: 'end' }}>
+                            <Dropdown.Item href={`/${city}/cart`}>My Account</Dropdown.Item>
+                            <Dropdown.Item>Order History</Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={Logout}>Sign Out</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
                       </li>
                       <li>
                         <Link href={`/${city}/cart`} className='cartButton'> 

@@ -774,7 +774,7 @@
     display: block;
   }
   .HeartSolid{
-    color: var(--theme-primary);
+    color: #ef5350;
     display: none;
   }
   .addToFavButton:hover .HeartBordered{
