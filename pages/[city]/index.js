@@ -24,7 +24,7 @@ const options = {
   autoplayHoverPause: true,
   nav: true, // Enable navigation arrows
   dots: true, // Enable navigation dots
-  navText: ['<span class="arrow-prev-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>', '<span class="arrow-next-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
+  navText: ['<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>', '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
 };
 
 const optionsNewLunched = {
@@ -34,7 +34,7 @@ const optionsNewLunched = {
   autoplay: false,
   nav: false, // Enable navigation arrows
   dots: false, // Enable navigation dots
-  navText: ['<span class="arrow-prev-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>', '<span class="arrow-next-icon"><span class="arrow-top-part"></span><span class="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
+  navText: ['<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>', '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
 };
 
 const optionsMedia = {
@@ -388,7 +388,7 @@ const Index = ({ city }) => {
                   <ul>
                     <li>
                       <a>
-                        <span class="material-icons">
+                        <span className="material-icons">
                           call
                         </span>
                         <h4>1234567890</h4>
@@ -396,7 +396,7 @@ const Index = ({ city }) => {
                     </li>
                     <li>
                       <a>
-                        <span class="material-icons">
+                        <span className="material-icons">
                           email
                         </span>
                         <h4>abc@gmail.com</h4>
@@ -404,7 +404,7 @@ const Index = ({ city }) => {
                     </li>
                     <li>
                       <a>
-                        <span class="material-icons">
+                        <span className="material-icons">
                           home
                         </span>
                         <h4>60+ Stores Pan India</h4>

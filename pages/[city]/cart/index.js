@@ -19,7 +19,6 @@ const CartPage = () => {
   // const [selectedProducts, setSelectedProducts] = useState([]);
   const router = useRouter();
   // const api_url = process.env.API_URL;
-  // const city = getCookie("userCity");
   const { city } = router.query;
   const [isCityModalOpen, setCityModalOpen] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
