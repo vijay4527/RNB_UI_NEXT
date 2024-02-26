@@ -11,6 +11,9 @@ import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import AppConfig from "@/AppConfig";
 import Head from "next/head";
 import ServingInfo from "@/component/ServingInfo";
+import { apiBaseUrl } from "next-auth/client/_utils";
+
+
 const CartPage = () => {
   const { data, status } = useSession();
   const [cart, setCart] = useState([]);
@@ -118,21 +121,33 @@ useEffect(()=>{
   };
 
   const totalPrice = cart.reduce((acc, item) => acc + item.cost, 0);
+  
+const addToFavourite = async(data)=>{
+  console.log("data added to favourites", data)
 
-
+  try {
+    const favouriteData  =await axios.post(apiBaseUrl+ "addTOFavourite",productData)
+    if(favouriteData.resp == true){
+      toast("Product added to favourites",{autoClose : 3000,closeButton: true})
+    }
+  }
+  catch(erro){
+    console.log("error while adding product to favourites",error)
+  }
+}
   return (
     <>
     <Head>
-    <meta charset="utf-8"></meta>
+    {/* <meta charset="utf-8"></meta>
     <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title>
     <meta name="description" content="Online Cakes Shop in Mumbai, Pune and Mangalore . Online Cakes Delivery . Buy,Order &amp; Send Birthday, Wedding Anniversary &amp; Chocolate Cakes anywhere in Mumbai from best Cake Shop Ribbons &amp; Balloons."></meta>
     <meta name="keywords" content="Ribbons and Balloons, Buy Cakes Online, Online Cake delivery, Cakes Mumbai, Cakes to Mumbai, order cakes online, cake delivery in mumbai, Send Cakes to Mumbai, Mumbai Cake Shop, Online Cakes to Mumbai, Cakes Mumbai, Cake delivery to Mumbai, Chocolate Cakes Mumbai, Heart Shape Cakes, Eggless Cakes, Occasion Cakes, birthday cakes online delivery, Send Birthday Cakes, Congratulations Cakes, Missing You Cakes, Baby and Kids Cakes, Anniversary Cakes Online, Thank You Cakes, House Warming Cakes, Wedding Cakes Mumbai, customised cakes in mumbai, cup cakes mumbai, Online Cakes Shop Mumbai, valentine special cakes mumbai, plum cakes mumbai, fresh fruit cakes online"></meta>
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta> */}
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"></meta>
     <link rel="icon" href="https://ribbonsandballoons.com/frontassets/images/fav.png" type="image/x-icon" />
-    <meta name="google-site-verification" content="hj44_Ud2995b4jkL3My7hTX96_sALd3yQ7tlf0El0IE"></meta>
+    {/* <meta name="google-site-verification" content="hj44_Ud2995b4jkL3My7hTX96_sALd3yQ7tlf0El0IE"></meta>
     <meta name="p:domain_verify" content="e35c0804c87b42f9187c00fa30ff64f9"></meta>
-    <meta name="facebook-domain-verification" content="1cpqqtudq8imtqkiwxpq0vd20x3b69"></meta>
+    <meta name="facebook-domain-verification" content="1cpqqtudq8imtqkiwxpq0vd20x3b69"></meta> */}
     </Head>
       <div className={styles.cartMainWrap} id={styles.title}>
         
@@ -148,14 +163,15 @@ useEffect(()=>{
             <>
               {cart.map((item) => (
                 <div className={styles.cartBoxItem} key={item.cp_id}>
-                <div className={styles.cartBoxContent}>
+                <div className={styles.cartBoxContent} >
                   <div className={styles.cartBoxImg}>
                     <img src={
                         AppConfig.cdn + "products/" + item.image.split(",")[0]
                       } alt={item.product_name}/>
                   </div>
-                  <div className={styles.cartBoxInfo}>
+                  <div className={styles.cartBoxInfo} >
                     <h4>{item.product_name}</h4>
+                    <h4>Message on Cake : {item.msg_cake}</h4>
                     <h5>
                       {/* <span className={styles.cartBoxDiscount}>₹{item.cost * 2}</span> */}
                       <span className={styles.cartBoxPrice}>₹{item.cost}</span>
@@ -173,7 +189,7 @@ useEffect(()=>{
                 </div>
                 <div className={styles.cartBoxAction}>
                   <div className={styles.cartBoxButtonAction} onClick={() => removeFromCart(item.cp_id, item.cost)}>Remove</div>
-                  <div className={styles.cartBoxButtonAction}>Move to favourites</div>
+                  <div className={styles.cartBoxButtonAction}  onClick={()=>addToFavourite(item)}>Move to favourites</div>
                 </div>
               </div>
               ))}
@@ -195,8 +211,8 @@ useEffect(()=>{
                   <ServingInfo/>
                 </div>
                 <ul className={styles.cartPriceAmt}>
-                  {cart.map((item)=> (
-                    <li>
+                  {cart.map((item,index)=> (
+                    <li key={index}>
                       <h4>{item.product_name}
                       <span>({item.product_type == 3 ? (
                       <>{item.value}</>

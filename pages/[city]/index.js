@@ -99,6 +99,7 @@ const Index = ({ city }) => {
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
       </Head>
 
+
       <div className="banner-wrap">
         <Container fluid>
           <div className="banner-body">
@@ -462,7 +463,7 @@ const Index = ({ city }) => {
                 <div className='enquiryContact'>
                   <ul>
                     <li>
-                      <a>
+                      <a href="/">
                         <span className="material-icons">
                           call
                         </span>
@@ -470,7 +471,7 @@ const Index = ({ city }) => {
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a href="/">
                         <span className="material-icons">
                           email
                         </span>
@@ -478,7 +479,7 @@ const Index = ({ city }) => {
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a href="/">
                         <span className="material-icons">
                           home
                         </span>
@@ -491,19 +492,20 @@ const Index = ({ city }) => {
                   <div className='enquiryFormData'>
                     <Form>
                       <Form.Group controlId="formfirstname">
-                        <Form.Control type="text" placeholder="Enter firstname" />
+                        <Form.Control type="text" placeholder="Enter firstname"/>
                       </Form.Group>
                       <Form.Group controlId="formlastname">
-                        <Form.Control type="text" placeholder="Enter lastname" />
+                        <Form.Control type="text" placeholder="Enter lastname"/>
                       </Form.Group>
                       <Form.Group controlId="formemail">
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder="Enter email"/>
                       </Form.Group>
-                      <Form.Group controlId="formfirstname">
+                      <Form.Group controlId="formmessage" >
                       <Form.Control
                             as="textarea"
                             placeholder="Enter message"
                             style={{ height: '100px' }}
+                            htmlFor="message on"
                           />
                       </Form.Group>
                       <Button variant="primary" type="submit">
@@ -551,7 +553,7 @@ const Index = ({ city }) => {
                 </div>
                 <div className="item">
                   <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media4.png' />
+                    <img src='https://fama.b-cdn.net/RnB/media4.png' alt="mediaImage" />
                   </div>
                 </div>
               </OwlCarousel>

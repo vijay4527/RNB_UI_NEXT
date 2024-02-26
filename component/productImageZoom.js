@@ -4,7 +4,6 @@ import InnerImageZoom from 'react-inner-image-zoom';
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css';
 
 const ProductImageZoom = ({ imageSrc }) => {
-    console.log("Image Source:", imageSrc);
     return (
         <InnerImageZoom
             src={imageSrc}

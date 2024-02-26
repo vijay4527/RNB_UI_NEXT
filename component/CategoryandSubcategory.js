@@ -52,6 +52,8 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   // const handleChange = (newValue) => {
   //   setValue(newValue);
   // };
+
+
   return (
     <>
       <div className={styles.breadcrumb}>
@@ -103,8 +105,8 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
               <div className={styles.plpPagetemsAction}>
                 <h4 className={styles.plpItemsCount}>Showing 1-{data.length} of {data.length} results</h4>
                 <div className={styles.plpSortby}>
-                  <select className={"form-control"}>
-                    <option selected>Default sorting</option>
+                  <select className={"form-control"}  defaultValue="Default sorting">
+                    <option>Default sorting</option>
                     <option>Sort by popularity</option>
                     <option>Sort by average rating</option>
                     <option>Sort by latest</option>
@@ -126,7 +128,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                       >
                         <div className={styles.item}>
                           <div className={styles.itemInfo}>
-                            <AddToFavoriteButton/>
+                            <AddToFavoriteButton  productData={item}/>
                             <div className={`${styles.imgHvr}`}>
                               <img className={styles.plpProdctImg}
                                 src={`${AppConfig.cdn}products/${image[0]}`}

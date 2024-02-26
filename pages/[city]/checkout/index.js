@@ -259,7 +259,7 @@ const CheckoutPage = () => {
   return (
     <>
       <Head>
-        <meta charset="utf-8"></meta>
+        {/* <meta charset="utf-8"></meta>
         <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title>
         <meta
           name="description"
@@ -276,13 +276,13 @@ const CheckoutPage = () => {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-        ></meta>
+        ></meta> */}
         <link
           rel="icon"
           href="https://ribbonsandballoons.com/frontassets/images/fav.png"
           type="image/x-icon"
         />
-        <meta
+        {/* <meta
           name="google-site-verification"
           content="hj44_Ud2995b4jkL3My7hTX96_sALd3yQ7tlf0El0IE"
         ></meta>
@@ -293,7 +293,7 @@ const CheckoutPage = () => {
         <meta
           name="facebook-domain-verification"
           content="1cpqqtudq8imtqkiwxpq0vd20x3b69"
-        ></meta>
+        ></meta> */}
         <script
           src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBpti7QuC_QXwWE90MT0RkfMPlET1KbhS4&libraries=places`}
         ></script>
@@ -491,7 +491,7 @@ const CheckoutPage = () => {
                             {userAddress && userAddress.length > 0 ? (
                               userAddress.map((res) => (
                                 <label
-                                  for={`Address${res.shipping_address_id}`}
+                                  htmlFor={`Address${res.shipping_address_id}`}
                                   className={`${
                                     styles.pickUpSearchResultItem
                                   } ${
@@ -603,7 +603,7 @@ const CheckoutPage = () => {
                             {franchise.length >= 1 ? (
                               franchise.map((res) => (
                                 <label
-                                  for={`Franchise${res.store_id}`}
+                                  htmlFor={`Franchise${res.store_id}`}
                                   className={`${
                                     styles.pickUpSearchResultItem
                                   } ${

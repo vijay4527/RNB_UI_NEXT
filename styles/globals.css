@@ -1023,6 +1023,8 @@ ul.selectLocationOption li{
   border-radius: var(--border-radius);
   margin: 20px auto;
   cursor: pointer;
+  color: white;
+  text-decoration: none;
 }
 .enquiryContact ul li a span{
   background-color: var(--theme-primary);
@@ -1708,6 +1710,8 @@ overflow: visible;
   cursor: pointer;
   border-left: 0;
   font-family: Montserrat,sans-serif;
+  text-decoration: none;
+  color: white
 }
 .footerLinks a:hover {
   border-left: 2px solid var(--theme-primary);

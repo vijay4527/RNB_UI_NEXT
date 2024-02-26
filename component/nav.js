@@ -8,23 +8,24 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Facebook from "next-auth/providers/facebook";
+import LoginModal from "@/component/loginModal";
 const brand = [
   {
     cat_id: 1,
     name: "Home",
-    url_name: "/mumbai",
+    url_name: "mumbai",
     sub_categories: null,
   },
   {
     cat_id: 1,
     name: "About us",
-    url_name: "mumbai/bout-us",
+    url_name: "mumbai/about-us",
     sub_categories: null,
   },
   {
     cat_id: 1,
     name: "Occasional Cakes",
-    url_name: "/OccasionalCakes",
+    url_name: "OccasionalCakes",
     sub_categories: [
       {
         sub_id: 1,
@@ -51,7 +52,7 @@ const brand = [
   {
     cat_id: 1,
     name: "Our Products",
-    url_name: "/OurProducts",
+    url_name: "OurProducts",
     sub_categories: [
       {
         sub_id: 1,
@@ -113,7 +114,7 @@ const brand = [
   {
     cat_id: 1,
     name: "Cakes",
-    url_name: `/mumbai/l/Cakes`,
+    url_name: `mumbai/l/Cakes`,
     sub_categories: [
       {
         sub_id: 1,
@@ -170,7 +171,7 @@ const brand = [
   {
     cat_id: 1,
     name: "Get Franchise",
-    url_name: "/GetFranchise",
+    url_name: "GetFranchise",
     sub_categories: null,
   },
 ];
@@ -179,24 +180,26 @@ export default function Header() {
   const router = useRouter();
   const { city } = router.query;
   const [isLoactionActive, setIsLoactionActive] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { data, status } = useSession();
 
   const loactionToggle = () => {
     setIsLoactionActive(!isLoactionActive);
   };
 
-  const [isActive, setIsActive] = useState(false);
-
   const toggleClass = () => {
     setIsActive(!isActive);
   };
 
-  const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
     setIsClicked(!isClicked);
     // searchInputRef.current.focus();
   };
-  const [hoveredCategory, setHoveredCategory] = useState(null);
 
   const handleMouseEnter = (category) => {
     setHoveredCategory(category);
@@ -214,8 +217,6 @@ export default function Header() {
     }
   };
 
-  const [scrollPosition, setScrollPosition] = useState(0);
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY || window.pageYOffset;
@@ -229,29 +230,42 @@ export default function Header() {
     };
   }, []);
 
-  const Logout = ()=>{
-    sessionStorage.clear()
-    signOut("google")
-    signOut("facebook")
-    router.push("/mumbai")
-  }
+  const Logout = () => {
+    sessionStorage.clear();
+    signOut("google");
+    signOut("facebook");
+    router.push("/mumbai");
+  };
 
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <a role="button" className='profileButton' onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
-    }}> 
-        <span className="SvgIcons">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-          </svg>
-        </span>
+    <a
+      role="button"
+      className="profileButton"
+      aria-label="profilebutton"
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+    >
+      <span className="SvgIcons">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          className="bi bi-person-circle"
+          viewBox="0 0 16 16"
+        >
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+          <path
+            fillRule="evenodd"
+            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+          />
+        </svg>
+      </span>
     </a>
   ));
 
-
-  const [isLoggedIn,setIsLoggedIn] = useState(false)
   useEffect(() => {
     const userObject =
       typeof window !== "undefined"
@@ -263,8 +277,11 @@ export default function Header() {
     } else {
       setIsLoggedIn(false);
     }
-  }, [data, typeof window !== "undefined" ? sessionStorage.getItem("userData") : ""]);
-  
+  }, [
+    data,
+    typeof window !== "undefined" ? sessionStorage.getItem("userData") : "",
+  ]);
+
   return (
     <>
       <div>
@@ -303,6 +320,7 @@ export default function Header() {
                     className="navbar-toggler toggleButton"
                     type="button"
                     onClick={toggleClass}
+                    aria-label="button"
                   >
                     <span className="navbar-toggler-icon"></span>
                   </button>
@@ -316,18 +334,19 @@ export default function Header() {
                       <button
                         className="navbar-toggler toggleButton"
                         type="button"
+                        aria-label="closeButton"
                       >
                         <span className="navbar-toggler-icon"></span>
                       </button>
                     </div>
                     <div className="Brands_navbody">
                       <div className="subNavbar_body">
-                        {brand.map((category) => (
+                        {brand.map((category, index) => (
                           <div
                             className={`sub_nav ${
                               hoveredCategory === category ? "show" : ""
                             }`}
-                            key={category.cat_id}
+                            key={index}
                           >
                             <div
                               onMouseEnter={() => handleMouseEnter(category)}
@@ -423,15 +442,10 @@ export default function Header() {
                                         key={subcategory.sub_id}
                                       >
                                         <Link
-                                          href={`/products${
-                                            category.url_name
-                                          }${subcategory.url_name}`}
+                                          href={`/products${category.url_name}${subcategory.url_name}`}
                                         >
-                                          <span
-                                          onClick={toggleClass}
-                                          
-                                        >
-                                          {subcategory.name}
+                                          <span onClick={toggleClass}>
+                                            {subcategory.name}
                                           </span>
                                         </Link>
                                       </li>
@@ -461,23 +475,6 @@ export default function Header() {
                   <div className="navAction">
                     <ul>
                       <li>
-                      {/* <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button> */}
-                        {/* {
-                          isLoggedIn && (
-                            <button className="btn btn-sm btn-primary mr-2" onClick={Logout}>Logout</button>
-                          )
-                        } */}
-                        {/* <div>
-                          <DropdownButton
-                            as={ButtonGroup}
-                            align={{ lg: 'end' }}
-                            title="Left-aligned but right aligned when large screen"
-                            id="dropdown-menu-align-responsive-1"
-                          >
-                            <Dropdown.Item eventKey="1">Action 1</Dropdown.Item>
-                            <Dropdown.Item eventKey="2">Action 2</Dropdown.Item>
-                          </DropdownButton>
-                        </div> */}
                         <div
                           className="selectLocation"
                           onClick={loactionToggle}
@@ -504,26 +501,20 @@ export default function Header() {
                             <p>Membership prices vary across these areas</p>
                             <ul className="selectLocationOption">
                               <li>
-                                <a>
                                   <h4>Mumbai</h4>
                                   <img
                                     src="https://static.cure.fit/assets/images/back-arrow-white.svg"
                                     alt="No image found"
                                   />
-                                </a>
                               </li>
                               <li>
-                                <a>
                                   <h4>Navi Mumbai & Thane</h4>
                                   <img
                                     src="https://static.cure.fit/assets/images/back-arrow-white.svg"
                                     alt="No image found"
                                   />
-                                </a>
                               </li>
-                            
                             </ul>
-                            
                           </div>
                         </div>
                         <div
@@ -534,36 +525,62 @@ export default function Header() {
                         ></div>
                       </li>
                       <li>
-                        <a>
                           <span className="SvgIcons">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              className="bi bi-search"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                             </svg>
                           </span>
-                        </a>
                       </li>
                       <li className="myProfileItems">
                         <Dropdown>
-                          <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                          <Dropdown.Toggle
+                            as={CustomToggle}
+                            id="dropdown-custom-components"
+                          >
                             Dropdown Button
                           </Dropdown.Toggle>
 
-                          <Dropdown.Menu  align={{ lg: 'end' }}>
-                            <Dropdown.Item href={`/${city}/cart`}>My Account</Dropdown.Item>
+                          <Dropdown.Menu align={{ lg: "end" }}>
+                            <Dropdown.Item href={`/${city}/cart`}>
+                              My Account
+                            </Dropdown.Item>
                             <Dropdown.Item>Order History</Dropdown.Item>
                             <Dropdown.Divider />
-                            <Dropdown.Item onClick={Logout}>Sign Out</Dropdown.Item>
+                            {!isLoggedIn && (
+                              <Dropdown.Item
+                                onClick={() => setIsLoginModalOpen(true)}
+                              >
+                                Sign In
+                              </Dropdown.Item>
+                            )}
+                            <Dropdown.Item onClick={Logout}>
+                              Sign Out
+                            </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </li>
                       <li>
-                        <Link href={`/${city}/cart`} className='cartButton'> 
+                        <Link href={`/${city}/cart`} className="cartButton">
                           <span className="SvgIcons">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              className="bi bi-cart"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                             </svg>
                           </span>
-                          <span className='cartCountNotification'>2</span>
+                          <span className="cartCountNotification">2</span>
                         </Link>
                       </li>
                     </ul>
@@ -580,6 +597,14 @@ export default function Header() {
             onClick={toggleClass}
           ></div>
         </div>
+
+        {!isLoggedIn && (
+          <LoginModal
+            isOpen={isLoginModalOpen}
+            onRequestClose={() => setIsLoginModalOpen(false)}
+            closeLoginModal={() => setIsLoginModalOpen(false)}
+          />
+        )}
       </div>
     </>
   );

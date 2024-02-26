@@ -77,14 +77,14 @@ const MyOrder = () => {
                       <div className="MuiBox-root jss2413 jss2400">
                         <button
                           className="MuiButtonBase-root MuiButton-root MuiButton-text jss2402"
-                          tabindex="0"
+                          tabIndex="0"
                           type="button"
                         >
                           <span className="MuiButton-label">Delivery</span>
                         </button>
                         <button
                           className="MuiButtonBase-root MuiButton-root MuiButton-text jss2401"
-                          tabindex="0"
+                          tabIndex="0"
                           type="button"
                         >
                           <span className="MuiButton-label"></span>
@@ -97,7 +97,7 @@ const MyOrder = () => {
                         </h6>
                         <button
                           className="MuiButtonBase-root MuiButton-root MuiButton-text jss2398 "
-                          tabindex="0"
+                          tabIndex="0"
                           type="button"
                         >
                           <span className="MuiButton-label">
@@ -108,7 +108,7 @@ const MyOrder = () => {
                         </button>
                         <button
                           className="MuiButtonBase-root MuiButton-root MuiButton-text jss2398 "
-                          tabindex="0"
+                          tabIndex="0"
                           type="button"
                         >
                           <span className="MuiButton-label">
@@ -119,7 +119,7 @@ const MyOrder = () => {
                         </button>
                         <button
                           className="MuiButtonBase-root MuiButton-root MuiButton-text jss2398 "
-                          tabindex="0"
+                          tabIndex="0"
                           type="button"
                         >
                           <span className="MuiButton-label">
@@ -130,7 +130,7 @@ const MyOrder = () => {
                         </button>
                         <button
                           className="MuiButtonBase-root MuiButton-root MuiButton-text jss2398 "
-                          tabindex="0"
+                          tabIndex="0"
                           type="button"
                         >
                           <span className="MuiButton-label">
@@ -141,7 +141,7 @@ const MyOrder = () => {
                         </button>
                         <button
                           className="MuiButtonBase-root MuiButton-root MuiButton-text jss2398 jss2399"
-                          tabindex="0"
+                          tabIndex="0"
                           type="button"
                         >
                           <span className="MuiButton-label">
@@ -222,7 +222,7 @@ const MyOrder = () => {
                                                 <div className="MuiBox-root jss2462">
                                                   <button
                                                     className="MuiButtonBase-root MuiIconButton-root jss2436"
-                                                    tabindex="0"
+                                                    tabIndex="0"
                                                     type="button"
                                                     aria-label="positive-order-icon"
                                                   >
@@ -256,7 +256,7 @@ const MyOrder = () => {
                                               <div className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2">
                                                 <button
                                                   className="MuiButtonBase-root MuiIconButton-root jss2438"
-                                                  tabindex="0"
+                                                  tabIndex="0"
                                                   type="button"
                                                   aria-label="right-arrow-icon"
                                                 >

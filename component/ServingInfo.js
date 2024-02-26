@@ -9,7 +9,7 @@ export default function ServingInfo() {
         <h5 className={styles.pdp_shortInfo_Icon}>
         Serving info
         <span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><g stroke="#888" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" clip-path="url(#clip0_4555_10382)"><path d="M8 14.667A6.667 6.667 0 1 0 8 1.334a6.667 6.667 0 0 0 0 13.333ZM8 10.667V8M8 5.333h.006"/></g><defs><clipPath id="clip0_4555_10382"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><g stroke="#888" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" clipPath="url(#clip0_4555_10382)"><path d="M8 14.667A6.667 6.667 0 1 0 8 1.334a6.667 6.667 0 0 0 0 13.333ZM8 10.667V8M8 5.333h.006"/></g><defs><clipPath id="clip0_4555_10382"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
         </span>
         </h5>
         <div className={styles.pdp_shortInfo_BoxItem}>

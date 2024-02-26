@@ -11,8 +11,8 @@ import Head from "next/head";
 import { Container } from "react-bootstrap";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 const index = () => {
-  const [shops, setShops] = useState([]); // Retailer data from API
-  const [selectedRetailer, setSelectedRetailer] = useState(null); // Selected retailer for InfoWindow
+  const [shops, setShops] = useState([]); 
+  const [selectedRetailer, setSelectedRetailer] = useState(null);
   const city = getCookie("userCity");
   console.log(city);
   const fetchRetailersCurrent = () => {

@@ -28,7 +28,7 @@ const ReviewDetails = () => {
                             <h4 className={styles.reviewCounts}>1 REVIEW FOR ORANGE TWIST</h4>
                             <ul className={styles.reviewContentInfo}>
                                 <li className={styles.reviewDesc}>
-                                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/blog-user-img-2-1-100x100.jpg" alt="" />
+                                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/blog-user-img-2-1-100x100.jpg" alt="review" />
                                     <div className={styles.reviewInfo}>
                                         <div className={styles.reviewStart}>
                                             <span>
@@ -62,7 +62,7 @@ const ReviewDetails = () => {
                                     </div>
                                 </li>
                                 <li className={styles.reviewDesc}>
-                                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/blog-user-img-2-1-100x100.jpg" alt="" />
+                                    <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/blog-user-img-2-1-100x100.jpg" alt="rewview description" />
                                     <div className={styles.reviewInfo}>
                                         <div className={styles.reviewStart}>
                                             <span>

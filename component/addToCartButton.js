@@ -6,6 +6,9 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import { useSession } from "next-auth/react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const addToCartButton = ({ data }) => {
   const { Variable, Variety, Unit, Value, Message } = useSharedStore();
   const { session } = useSession();
@@ -68,16 +71,19 @@ const addToCartButton = ({ data }) => {
     };
     const response = await axiosPost(`/CartMaster/SaveCartDetails`, cartItem);
     if (response.resp == true) {
-      try {
-        if (!cartId) {
-          sessionStorage.setItem("cartId", response.respObj.cart_id);
+      toast("Your Product added to cart", { autoClose: 3000, closeButton: true }); 
+      setTimeout(() => {
+        try {
+          if (!cartId) {
+            sessionStorage.setItem("cartId", response.respObj.cart_id);
+          }
+          router.push({
+            pathname: `/${city}/cart`,
+          });
+        } catch (error) {
+          console.error("Error storing cartId in session storage:", error);
         }
-        router.push({
-          pathname: `/${city}/cart`,
-        });
-      } catch (error) {
-        console.error("Error storing cartId in session storage:", error);
-      }
+      }, 3000);
     }
   };
   return (
@@ -101,6 +107,8 @@ const addToCartButton = ({ data }) => {
           </div>
         </button>
       </div>
+      <ToastContainer />
+
     </div>
   );
 };
