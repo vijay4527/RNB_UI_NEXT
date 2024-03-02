@@ -11,7 +11,7 @@ import SEOConfig from '../next-seo.config';
 if (typeof window !== "undefined") {
   ReactModal.setAppElement("#__next");
 }
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps,session }) {
   const [isLoginModalOpen, setLoginModalOpen] = React.useState(false);
 
   const openLoginModal = () => {
@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
     setLoginModalOpen(false);
   };
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       <DefaultSeo {...SEOConfig} />
       <Nav></Nav>
       <Component {...pageProps} />

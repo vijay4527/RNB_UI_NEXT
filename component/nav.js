@@ -234,6 +234,7 @@ export default function Header() {
     sessionStorage.clear();
     signOut("google");
     signOut("facebook");
+    setIsLoggedIn(false)
     router.push("/mumbai");
   };
 
@@ -538,34 +539,39 @@ export default function Header() {
                             </svg>
                           </span>
                       </li>
-                      <li className="myProfileItems">
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            as={CustomToggle}
-                            id="dropdown-custom-components"
-                          >
-                            Dropdown Button
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu align={{ lg: "end" }}>
-                            <Dropdown.Item href={`/${city}/cart`}>
-                              My Account
-                            </Dropdown.Item>
-                            <Dropdown.Item>Order History</Dropdown.Item>
-                            <Dropdown.Divider />
-                            {!isLoggedIn && (
-                              <Dropdown.Item
-                                onClick={() => setIsLoginModalOpen(true)}
-                              >
-                                Sign In
+                      {
+                        isLoggedIn && (
+                          <li className="myProfileItems">
+                          <Dropdown>
+                            <Dropdown.Toggle
+                              as={CustomToggle}
+                              id="dropdown-custom-components"
+                            >
+                              Dropdown Button
+                            </Dropdown.Toggle>
+  
+                            <Dropdown.Menu align={{ lg: "end" }}>
+                              <Dropdown.Item href={`/${city}/cart`}>
+                                My Account
                               </Dropdown.Item>
-                            )}
-                            <Dropdown.Item onClick={Logout}>
-                              Sign Out
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </li>
+                              <Dropdown.Item>Order History</Dropdown.Item>
+                              <Dropdown.Divider />
+                              {!isLoggedIn && (
+                                <Dropdown.Item
+                                  onClick={() => setIsLoginModalOpen(true)}
+                                >
+                                  Sign In
+                                </Dropdown.Item>
+                              )}
+                              <Dropdown.Item onClick={Logout}>
+                                Sign Out
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </li>
+                        )
+                      }
+                     
                       <li>
                         <Link href={`/${city}/cart`} className="cartButton">
                           <span className="SvgIcons">

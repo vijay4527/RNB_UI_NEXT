@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import * as yup from "yup";
 import AppConfig from "@/AppConfig";
 import ServingInfo from "@/component/ServingInfo";
+import OrderSummary from "@/component/OrderSummary";
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
@@ -713,7 +714,7 @@ const CheckoutPage = () => {
                     <span>PROCEED TO PAYMENT</span>
                   </button>
                 </div> */}
-                <div className={styles.cartPriceBox}>
+                {/* <div className={styles.cartPriceBox}>
                   <div className={styles.cartOrderSummary}>
                     <h4>Order summary</h4>
                     <ServingInfo />
@@ -746,7 +747,8 @@ const CheckoutPage = () => {
                   >
                     <span>Checkout</span>
                   </button>
-                </div>
+                </div> */}
+                <OrderSummary cart={products}/>
               </div>
             </div>
           </div>

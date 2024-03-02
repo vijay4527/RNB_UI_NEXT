@@ -28,16 +28,12 @@ export default NextAuth({
       if (account) {
         console.log(account);
         token.accessToken = account.access_token;
+      
       }
       return token;
     },
     async session({ session, token, user }) {
-      // console.log("session - " + JSON.stringify(session));
-      // console.log("user - " + JSON.stringify(user));
-      // console.log("token - " + JSON.stringify(token));
-      // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken;
-      // console.log(session);
       return session;
     },
   },

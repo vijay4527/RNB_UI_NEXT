@@ -1860,3 +1860,8 @@ overflow: visible;
 .range-slider .range-slider__range[data-active] {
     height: 16px;
 }
+
+
+.loginInput{
+  margin-bottom: 1 rem !important;
+}

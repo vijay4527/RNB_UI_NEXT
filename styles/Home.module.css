@@ -366,3 +366,27 @@
 .loginModalWrap .ReactModal__Overlay{
   z-index: 50;
 }
+
+
+.input {
+  width: 52px;
+  height: 32px;
+  text-align: center;
+  border: none;
+  border-bottom: 1.5px solid #d2d2d2;
+  margin: 0 10px;
+}
+.input:focus {
+  border-bottom: 1.5px solid #00bfff;
+  outline: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.otp-input input:hover,
+.otp-input input:focus{
+  border: 0 !important;
+  border-bottom: 1px solid var(--theme-primary) !important;
+}

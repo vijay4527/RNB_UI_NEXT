@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from "../pages/[city]/p/productbyname.module.css";
 
 
-export default function ServingInfo() {
+export default function ServingInfo({servingData}) {
+  console.log("serving data",servingData)
   return (
     <>
       <div className={styles.pdp_shortInfo_Box}>
