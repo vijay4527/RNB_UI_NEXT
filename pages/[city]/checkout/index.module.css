@@ -84,6 +84,9 @@
     font-weight: 600;
     margin: 0;
 }
+.checkoutQctShippingContentTitle:hover{
+    cursor: pointer;
+}
 .checkoutQctShippingAddress{
     padding: 1.6rem 0;
 }
@@ -270,4 +273,13 @@
       text-align: center;
       color: var(--theme-primary);
       text-transform: uppercase;
+  }
+
+
+  .newAddress{
+    display: flex !important;
+  }
+
+  .closeButton {
+    margin-left: auto;
   }

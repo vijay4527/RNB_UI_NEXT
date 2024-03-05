@@ -12,7 +12,7 @@ import AppConfig from "@/AppConfig";
 import Head from "next/head";
 import ServingInfo from "@/component/ServingInfo";
 import { apiBaseUrl } from "next-auth/client/_utils";
-
+import OrderSummary from "@/component/OrderSummary";
 
 const CartPage = () => {
   const { data, status } = useSession();
@@ -210,7 +210,7 @@ const addToFavourite = async(data)=>{
                 <h4>Order summary</h4>
                   <ServingInfo/>
                 </div>
-                <ul className={styles.cartPriceAmt}>
+                {/* <ul className={styles.cartPriceAmt}>
                   {cart.map((item,index)=> (
                     <li key={index}>
                       <h4>{item.product_name}
@@ -225,7 +225,8 @@ const addToFavourite = async(data)=>{
                 </ul>
                 <div className={styles.cartPriceTotalAmt}>
                   <h4>Total</h4><h5>₹{totalPrice}</h5>
-                </div>
+                </div> */}
+                <OrderSummary data={cart}/>
                 <button className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`} onClick={handleProducts}>
                   <span>Checkout</span>
                 </button>

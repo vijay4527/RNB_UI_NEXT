@@ -57,6 +57,7 @@ const CheckoutPage = () => {
   const [selectedAddress, setSelectedAddress] = useState("");
   const [user, setUser] = useState({});
   const [grandTotal, setGrandTotal] = useState(0);
+  const [enableAddress, setEnableAddress] = useState(false);
 
   const [formValues, setFormValues] = useState({
     firstName: "",
@@ -256,6 +257,13 @@ const CheckoutPage = () => {
   };
 
   const totalPrice = products.reduce((acc, item) => acc + item.cost, 0);
+  const enableAddAddredd = () => {
+    setEnableAddress(true);
+  };
+
+  const handleClose = () => {
+    setEnableAddress(false);
+  };
 
   return (
     <>
@@ -339,151 +347,174 @@ const CheckoutPage = () => {
                           selectedOption === "pickup" ? `${styles.active}` : ""
                         }`}
                       >
-                        <h4 className={styles.checkoutQctShippingContentTitle}>
-                          Add new address
-                        </h4>
-                        <div className={styles.checkoutQctShippingForm}>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="firstName"
-                              value={formValues.firstName}
-                              onChange={handleInputChange}
-                              placeholder="Enter first name"
-                              required
-                            />
-                            {errors.firstName && (
-                              <div className="text-danger">
-                                {errors.firstName}
-                              </div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="lastName"
-                              value={formValues.lastName}
-                              onChange={handleInputChange}
-                              placeholder="Enter last name"
-                              required
-                            />
-                            {errors.lastName && (
-                              <div className="text-danger">
-                                {errors.lastName}
-                              </div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="email"
-                              value={formValues.email}
-                              onChange={handleInputChange}
-                              placeholder="Enter email"
-                            />
-                            {errors.email && (
-                              <div className="text-danger">{errors.email}</div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>Contact</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="+91"
-                              name="contact"
-                              value={formValues.contact}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            {errors.contact && (
-                              <div className="text-danger">
-                                {errors.contact}
-                              </div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>Address</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="address"
-                              value={formValues.address}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            {errors.address && (
-                              <div className="text-danger">
-                                {errors.address}
-                              </div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>Zip Code</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="pinCode"
-                              value={formValues.pinCode}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            {errors.pinCode && (
-                              <div className="text-danger">
-                                {errors.pinCode}
-                              </div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>City</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="city"
-                              value={formValues.city}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            {errors.city && (
-                              <div className="text-danger">{errors.city}</div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>State</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="state"
-                              value={formValues.state}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            {errors.state && (
-                              <div className="text-danger">{errors.state}</div>
-                            )}
-                          </div>
-                          <div className={homeStyles["form_group"]}>
-                            <Form.Label>Country</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="country"
-                              value={formValues.country}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            {errors.country && (
-                              <div className="text-danger">
-                                {errors.country}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <div className={styles.checkoutQctShippingAddress}>
-                          <button
-                            className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`}
-                            onClick={saveShippingAddress}
+                        <div className={styles.newAddress}>
+                          <h4
+                            className={`${styles.checkoutQctShippingContentTitle}`}
+                            onClick={enableAddAddredd}
                           >
-                            <span>ADD ADDRESS</span>
-                          </button>
+                            Add new address
+                          </h4>
+                          {enableAddress && (
+                            <button
+                              className={`${styles.closeButton}`}
+                              onClick={handleClose}
+                            >
+                              Close
+                            </button>
+                          )}
                         </div>
+                        {enableAddress && (
+                          <>
+                            <div className={styles.checkoutQctShippingForm}>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>First Name</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="firstName"
+                                  value={formValues.firstName}
+                                  onChange={handleInputChange}
+                                  placeholder="Enter first name"
+                                  required
+                                />
+                                {errors.firstName && (
+                                  <div className="text-danger">
+                                    {errors.firstName}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>Last Name</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="lastName"
+                                  value={formValues.lastName}
+                                  onChange={handleInputChange}
+                                  placeholder="Enter last name"
+                                  required
+                                />
+                                {errors.lastName && (
+                                  <div className="text-danger">
+                                    {errors.lastName}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="email"
+                                  value={formValues.email}
+                                  onChange={handleInputChange}
+                                  placeholder="Enter email"
+                                />
+                                {errors.email && (
+                                  <div className="text-danger">
+                                    {errors.email}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>Contact</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  placeholder="+91"
+                                  name="contact"
+                                  value={formValues.contact}
+                                  onChange={handleInputChange}
+                                  required
+                                />
+                                {errors.contact && (
+                                  <div className="text-danger">
+                                    {errors.contact}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>Address</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="address"
+                                  value={formValues.address}
+                                  onChange={handleInputChange}
+                                  required
+                                />
+                                {errors.address && (
+                                  <div className="text-danger">
+                                    {errors.address}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>Zip Code</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="pinCode"
+                                  value={formValues.pinCode}
+                                  onChange={handleInputChange}
+                                  required
+                                />
+                                {errors.pinCode && (
+                                  <div className="text-danger">
+                                    {errors.pinCode}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>City</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="city"
+                                  value={formValues.city}
+                                  onChange={handleInputChange}
+                                  required
+                                />
+                                {errors.city && (
+                                  <div className="text-danger">
+                                    {errors.city}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>State</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="state"
+                                  value={formValues.state}
+                                  onChange={handleInputChange}
+                                  required
+                                />
+                                {errors.state && (
+                                  <div className="text-danger">
+                                    {errors.state}
+                                  </div>
+                                )}
+                              </div>
+                              <div className={homeStyles["form_group"]}>
+                                <Form.Label>Country</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  name="country"
+                                  value={formValues.country}
+                                  onChange={handleInputChange}
+                                  required
+                                />
+                                {errors.country && (
+                                  <div className="text-danger">
+                                    {errors.country}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <div className={styles.checkoutQctShippingAddress}>
+                              <button
+                                className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`}
+                                onClick={saveShippingAddress}
+                              >
+                                <span>ADD ADDRESS</span>
+                              </button>
+                            </div>
+                          </>
+                        )}
 
                         <div>
                           <h4>Select Shipping Address</h4>
@@ -714,12 +745,12 @@ const CheckoutPage = () => {
                     <span>PROCEED TO PAYMENT</span>
                   </button>
                 </div> */}
-                {/* <div className={styles.cartPriceBox}>
+                <div className={styles.cartPriceBox}>
                   <div className={styles.cartOrderSummary}>
                     <h4>Order summary</h4>
                     <ServingInfo />
                   </div>
-                  <ul className={styles.cartPriceAmt}>
+                  {/* <ul className={styles.cartPriceAmt}>
                     {products.map((item) => (
                       <li>
                         <h4>
@@ -741,14 +772,15 @@ const CheckoutPage = () => {
                   <div className={styles.cartPriceTotalAmt}>
                     <h4>Total</h4>
                     <h5>₹{totalPrice}</h5>
-                  </div>
+                  </div> */}
+                  <OrderSummary data={products} />
                   <button
-                    className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`} onClick={createOrder}
+                    className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`}
+                    onClick={createOrder}
                   >
                     <span>Checkout</span>
                   </button>
-                </div> */}
-                <OrderSummary cart={products}/>
+                </div>
               </div>
             </div>
           </div>
