@@ -43,7 +43,6 @@ const index = () => {
         <p>order Status : {orderDetails.order_status}</p>
         <p>order Date : {orderDetails.order_date}</p>
         </div>
-
         <div className="shippingDetail">
         Shipping Details :
         <p>mobile number : {orderDetails.mobile_number}</p>

@@ -234,7 +234,7 @@ export default function Header() {
     sessionStorage.clear();
     signOut("google");
     signOut("facebook");
-    setIsLoggedIn(false)
+    setIsLoggedIn(false);
     router.push("/mumbai");
   };
 
@@ -361,6 +361,7 @@ export default function Header() {
                               <Link
                                 href={`/${category.url_name}`}
                                 onClick={toggleClass}
+                                prefetch={true}
                               >
                                 <h4 className="category-title">
                                   {category.name}
@@ -392,6 +393,7 @@ export default function Header() {
                               <Link
                                 href={`/products${category.url_name}`}
                                 onClick={toggleClass}
+                                prefetch={true}
                               >
                                 <h4 className="category-title">
                                   {category.name}
@@ -444,6 +446,7 @@ export default function Header() {
                                       >
                                         <Link
                                           href={`/products${category.url_name}${subcategory.url_name}`}
+                                          prefetch={true}
                                         >
                                           <span onClick={toggleClass}>
                                             {subcategory.name}
@@ -453,7 +456,10 @@ export default function Header() {
                                     )
                                   )}
                                   <li className="category-sub-title">
-                                    <Link href={`/${city}/l/Cakes`}>
+                                    <Link
+                                      href={`/${city}/l/Cakes`}
+                                      prefetch={true}
+                                    >
                                       All Cakes
                                     </Link>
                                   </li>
@@ -502,18 +508,18 @@ export default function Header() {
                             <p>Membership prices vary across these areas</p>
                             <ul className="selectLocationOption">
                               <li>
-                                  <h4>Mumbai</h4>
-                                  <img
-                                    src="https://static.cure.fit/assets/images/back-arrow-white.svg"
-                                    alt="No image found"
-                                  />
+                                <h4>Mumbai</h4>
+                                <img
+                                  src="https://static.cure.fit/assets/images/back-arrow-white.svg"
+                                  alt="No image found"
+                                />
                               </li>
                               <li>
-                                  <h4>Navi Mumbai & Thane</h4>
-                                  <img
-                                    src="https://static.cure.fit/assets/images/back-arrow-white.svg"
-                                    alt="No image found"
-                                  />
+                                <h4>Navi Mumbai & Thane</h4>
+                                <img
+                                  src="https://static.cure.fit/assets/images/back-arrow-white.svg"
+                                  alt="No image found"
+                                />
                               </li>
                             </ul>
                           </div>
@@ -526,22 +532,21 @@ export default function Header() {
                         ></div>
                       </li>
                       <li>
-                          <span className="SvgIcons">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-search"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                            </svg>
-                          </span>
+                        <span className="SvgIcons">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-search"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                          </svg>
+                        </span>
                       </li>
-                      {
-                        isLoggedIn && (
-                          <li className="myProfileItems">
+                      {isLoggedIn && (
+                        <li className="myProfileItems">
                           <Dropdown>
                             <Dropdown.Toggle
                               as={CustomToggle}
@@ -549,7 +554,7 @@ export default function Header() {
                             >
                               Dropdown Button
                             </Dropdown.Toggle>
-  
+
                             <Dropdown.Menu align={{ lg: "end" }}>
                               <Dropdown.Item href={`/${city}/cart`}>
                                 My Account
@@ -569,11 +574,14 @@ export default function Header() {
                             </Dropdown.Menu>
                           </Dropdown>
                         </li>
-                        )
-                      }
-                     
+                      )}
+
                       <li>
-                        <Link href={`/${city}/cart`} className="cartButton">
+                        <Link
+                          href={`/${city}/cart`}
+                          className="cartButton"
+                          prefetch={true}
+                        >
                           <span className="SvgIcons">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
