@@ -364,7 +364,7 @@ img{
 ul.selectLocationOption li{
   margin: 0;
 }
-.selectLocationOption li a{
+.selectLocationOption li{
   display: flex;
   width: 100%;
   height: 60px;
@@ -381,11 +381,11 @@ ul.selectLocationOption li{
   line-height: 20px;
   justify-content: space-between;
 }
-.selectLocationOption li a h4{
+.selectLocationOption li h4{
   font-size: 1.4rem;
   margin-bottom: 0px;
 }
-.selectLocationOption li a img{
+.selectLocationOption li img{
   height: 15px;
     width: 15px;
     cursor: pointer;
