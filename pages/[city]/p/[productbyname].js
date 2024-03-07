@@ -10,6 +10,7 @@ import ProducDetails from "@/component/productDetails";
 import ProductImageZoom from "@/component/productImageZoom";
 import https from "https";
 import AppConfig from "@/AppConfig";
+import Link from "next/link";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -92,7 +93,7 @@ const productbyname = ({ data }) => {
               </div>
               <div className={styles.breadcrumb}>
                 <div className={styles.breadcrumb}>
-                  <a
+                  <Link
                     href={`/${city}/l/${data.category_name
                       .split(" ")
                       .join("-")}/${data.sub_category_name
@@ -104,7 +105,7 @@ const productbyname = ({ data }) => {
                     <span className={styles.delimiter}>
                       {data ? data.sub_category_name : ""}
                     </span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

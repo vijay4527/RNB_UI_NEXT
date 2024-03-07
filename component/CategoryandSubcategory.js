@@ -125,6 +125,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                         key={item.product_id}
                         href={`/${city}/p/${productName}`}
                         className={styles.itemCard}
+                        prefetch={true}
                       >
                         <div className={styles.item}>
                           <div className={styles.itemInfo}>
