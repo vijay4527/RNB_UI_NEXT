@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import initAOS from '../../component/initAOS'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
 // Import OwlCarousel dynamically to prevent SSR issues
 const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   ssr: false

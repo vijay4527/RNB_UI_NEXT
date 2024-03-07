@@ -90,6 +90,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
     }
   };
 
+
+
   const handleOTPChange = (e, index) => {
     const inputs = document.querySelectorAll("input"),
       button = document.querySelector("button");
@@ -146,6 +148,9 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
       }
     });
   }, [showOtpSection]);
+  useEffect(()=>{
+
+  },[])
 
   function addListener(input, index) {
     input.addEventListener("keyup", function (event) {

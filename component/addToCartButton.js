@@ -71,8 +71,6 @@ const addToCartButton = ({ data }) => {
     };
     const response = await axiosPost(`/CartMaster/SaveCartDetails`, cartItem);
     if (response.resp == true) {
-      toast("Your Product added to cart", { autoClose: 3000, closeButton: true }); 
-      setTimeout(() => {
         try {
           if (!cartId) {
             sessionStorage.setItem("cartId", response.respObj.cart_id);
@@ -83,7 +81,6 @@ const addToCartButton = ({ data }) => {
         } catch (error) {
           console.error("Error storing cartId in session storage:", error);
         }
-      }, 3000);
     }
   };
   return (
