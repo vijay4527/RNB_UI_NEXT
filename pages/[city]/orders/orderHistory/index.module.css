@@ -102,6 +102,11 @@
 .orderHistoryCardInfo{
   margin-left: 1.6rem;
 }
+.orderHistoryCardInfo a,
+.orderHistoryCardInfo a:hover{
+  text-decoration: none;
+  color: #fff;
+}
 .orderHistoryCardInfo h4{
   font-size: 1.6rem;
 }

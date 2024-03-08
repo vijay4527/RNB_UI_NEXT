@@ -545,8 +545,7 @@ export default function Header() {
                           </svg>
                         </span>
                       </li>
-                      {isLoggedIn && (
-                        <li className="myProfileItems">
+                      <li className="myProfileItems">
                           <Dropdown>
                             <Dropdown.Toggle
                               as={CustomToggle}
@@ -556,11 +555,15 @@ export default function Header() {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu align={{ lg: "end" }}>
-                              <Dropdown.Item href={`/${city}/cart`}>
-                                My Account
-                              </Dropdown.Item>
-                              <Dropdown.Item>Order History</Dropdown.Item>
-                              <Dropdown.Divider />
+                              {isLoggedIn && (
+                                <>
+                                <Dropdown.Item href={`/${city}/cart`}>
+                                  My Account
+                                </Dropdown.Item>
+                                <Dropdown.Item href={`/${city}/orders/orderHistory`}>Order History</Dropdown.Item>
+                                <Dropdown.Divider />
+                                </>
+                              )}
                               {!isLoggedIn && (
                                 <Dropdown.Item
                                   onClick={() => setIsLoginModalOpen(true)}
@@ -568,14 +571,15 @@ export default function Header() {
                                   Sign In
                                 </Dropdown.Item>
                               )}
-                              <Dropdown.Item onClick={Logout}>
-                                Sign Out
-                              </Dropdown.Item>
+                              {isLoggedIn && (
+                                <Dropdown.Item onClick={Logout}>
+                                  Sign Out
+                                </Dropdown.Item>
+                               )}
+                              
                             </Dropdown.Menu>
                           </Dropdown>
                         </li>
-                      )}
-
                       <li>
                         <Link
                           href={`/${city}/cart`}
