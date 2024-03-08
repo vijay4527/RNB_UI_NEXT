@@ -89,7 +89,7 @@ const addToCartButton = ({ data }) => {
   return (
     <div className={styles.pdp_ProductContentButton}>
       <h4 className={styles.pdp_ProductContentPrice}>₹ {Variable}</h4>
-      <div>
+      <div onClick={handleAddToCartOrWishlist}>
         <button
           className={
             isLoading
@@ -98,7 +98,7 @@ const addToCartButton = ({ data }) => {
           }
           onClick={handleClick}
         >
-          <span onClick={handleAddToCartOrWishlist}>Add to cart</span>
+          <span >Add to cart</span>
           <div className={styles.cart}>
             <svg viewBox="0 0 36 26">
               <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
