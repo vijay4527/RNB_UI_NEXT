@@ -465,24 +465,25 @@ const Index = ({ city }) => {
                   <ul>
                     <li>
                       <a href="/">
-                        <span className="material-icons">
-                          call
+                        <span className="">
+                        <img src="icons-01.png" alt="" className='icon-image'/>
                         </span>
                         <h4>1234567890</h4>
                       </a>
                     </li>
                     <li>
                       <a href="/">
-                        <span className="material-icons">
-                          email
+                        <span className="">
+                        <img src="icons-02.png" alt="" className='icon-image'/>
                         </span>
+
                         <h4>abc@gmail.com</h4>
                       </a>
                     </li>
                     <li>
                       <a href="/">
-                        <span className="material-icons">
-                          home
+                        <span className="">
+                        <img src="icons-03.png" alt="" className='icon-image'/>
                         </span>
                         <h4>60+ Stores Pan India</h4>
                       </a>
