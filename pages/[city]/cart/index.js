@@ -13,7 +13,8 @@ import Head from "next/head";
 import ServingInfo from "@/component/ServingInfo";
 import { apiBaseUrl } from "next-auth/client/_utils";
 import OrderSummary from "@/component/OrderSummary";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CartPage = () => {
   const { data, status } = useSession();
   const [cart, setCart] = useState([]);
@@ -111,8 +112,10 @@ useEffect(()=>{
   const handleProducts = () => {
     if (!isLoggedIn && !user) {
       setCityModalOpen(true);
-    } else {
+    } else if(cart.length > 0) {
       router.push(`/${city}/checkout`);
+    }else{
+      toast("you have no products in your cart ! Please select products before checkout",{autoClose : 2000,closeButton: true})
     }
   };
 
@@ -300,6 +303,8 @@ const addToFavourite = async(data)=>{
             closeLoginModal={closeCityModal}
           />
         )}
+              <ToastContainer />
+
       </div>
     </>
   );
