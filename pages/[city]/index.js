@@ -50,6 +50,7 @@ const optionsMedia = {
 
 const Index = ({ city }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isMountedChk, setIsMountedChk] = useState(false);
 
   useEffect(() => {
     initAOS();
@@ -57,7 +58,7 @@ const Index = ({ city }) => {
 
 
   useEffect(() => {
-    setIsMounted(true); // Set isMounted to true when component is mounted on the client-side
+    setIsMounted(true); 
   }, []);
 
   const [scrollPosition, setScrollPosition] = useState(0);

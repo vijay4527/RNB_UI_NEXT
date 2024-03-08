@@ -254,13 +254,14 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
           {showLoginSection ? (
             showloginInput ? (
               <form className="p-4 m-4">
-                <h1 className="text-center mb-4">Login</h1>
-                <div className="form-group mb-3">
-                  <label className="form-label">Mobile or Email</label>
+                <h1 className="loginTitle">Login / Sign Up</h1>
+                <div className="form_group mb-3">
+                  {/* <label className="form-label">Email / Phone No</label> */}
                   <input
                     type="text"
-                    className="form-control"
+                    className="form_control"
                     value={mobile}
+                    placeholder="Email / Phone No"
                     onChange={(e) => setMobile(e.target.value)}
                   />
                 </div>
@@ -280,10 +281,10 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
                 )}
                 <button
                   type="button"
-                  className="btn btn-block w-100 btn-secondary btn-block mb-4 text-center"
+                  className="loginButtons"
                   onClick={() => submitHandler("login")}
                 >
-                  Sign in
+                  Proceed
                 </button>
                 <div className="text-center">
                   <p>
@@ -296,20 +297,22 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
                     </span>
                   </p>
                   <p>Or Sign In with</p>
-                  <button
-                    type="button"
-                    className="btn btn-link btn-floating mx-1"
-                    onClick={() => signIn("google")}
-                  >
-                    <i className="fa fa-google"></i>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-link btn-floating mx-1"
-                    onClick={() => signIn("facebook")}
-                  >
-                    <i className="fa fa-facebook"></i>
-                  </button>
+                  <div className="socialLogin">
+                    <button
+                      type="button"
+                      className="btn googleLogin"
+                      onClick={() => signIn("google")}
+                    >
+                      <i className="fa fa-google"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn facebookLogin"
+                      onClick={() => signIn("facebook")}
+                    >
+                      <i className="fa fa-facebook"></i>
+                    </button>
+                  </div>
                 </div>
               </form>
             ) : (
@@ -332,49 +335,53 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
             )
           ) : showRegisterationSection ? (
             <form className="p-4">
-              <h1 className="text-center mb-4">Registration</h1>
+              <h1 className="loginTitle">Registration</h1>
               <div className="form-group">
-                <label className="form-label">First Name</label>
+                {/* <label className="form-label">First Name</label> */}
                 <input
                   type="text"
-                  className="form-control"
+                  className="form_control"
+                  placeholder="First Name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">Last Name</label>
+                {/* <label className="form-label">Last Name</label> */}
                 <input
                   type="text"
-                  className="form-control"
+                  className="form_control"
+                  placeholder="Last Name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">Email</label>
+                {/* <label className="form-label">Email</label> */}
                 <input
                   type="text"
-                  className="form-control"
+                  className="form_control"
+                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="form-group mb-3">
-                <label className="form-label">Mobile</label>
+                {/* <label className="form-label">Mobile</label> */}
                 <input
                   type="text"
-                  className="form-control"
+                  placeholder="Mobile"
+                  className="form_control"
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
                 />
               </div>
               <button
                 type="button"
-                className="btn btn-block w-100 btn-primary btn-block mb-4 text-center"
+                className="loginButtons"
                 onClick={() => submitHandler("registeration",e)}
               >
-                Submit
+                Proceed
               </button>
               <div className="text-center">
                 <p>
@@ -384,20 +391,22 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
                   </span>
                 </p>
                 <p>Or sign up with</p>
-                <button
-                  type="button"
-                  className="btn btn-link btn-floating mx-1"
-                  onClick={() => registerUser("google")}
-                >
-                  <i className="fa fa-google"></i>
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-link btn-floating mx-1"
-                  onClick={() => registerUser("facebook")}
-                >
-                  <i className="fa fa-facebook"></i>
-                </button>
+                <div className="socialLogin">
+                    <button
+                      type="button"
+                      className="btn googleLogin"
+                      onClick={() => registerUser("google")}
+                    >
+                      <i className="fa fa-google"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn facebookLogin"
+                      onClick={() => registerUser("facebook")}
+                    >
+                      <i className="fa fa-facebook"></i>
+                    </button>
+                  </div>
               </div>
             </form>
           ) : (
