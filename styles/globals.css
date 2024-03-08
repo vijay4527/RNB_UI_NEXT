@@ -269,6 +269,11 @@ img{
   width: 100%;
   text-align: center;
 }
+.navbar_logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .navbar_logo img {
   height: 100%
 }
@@ -885,6 +890,7 @@ ul.selectLocationOption li{
 }
 .banner-img4 {
   margin-top: 150px;
+  text-align: right;
 }
 .banner-img4 img {
   width: 85%;
@@ -1440,6 +1446,7 @@ overflow: visible;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 30px;
+  font-family: var(--font-family);
 }
 .advInstaContent2 {
   display: grid;
@@ -1864,4 +1871,54 @@ overflow: visible;
 
 .loginInput{
   margin-bottom: 1 rem !important;
+}
+.loginTitle{
+  font-weight: 600;
+    font-size: 23px;
+    color: #015790;
+    text-align: center;
+    margin-bottom: 1.6rem;
+}
+.loginButtons{
+  height: 50px;
+  font-size: 16.5px;
+  background: #4596f3;
+  color: #ffffff;
+  border-radius: 5px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 0px;
+  width: 100%;
+  margin: 0rem 0 1rem;
+}
+.form_control{
+  margin: 0rem 0 1rem;
+  position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: auto;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 0;
+    max-height: 35px;
+    border: 1px solid #d7d6d6;
+    width: 100%;
+}
+.socialLogin{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1.6rem;
+}
+.socialLogin .btn{
+  padding: 0.75rem;
+  font-size: 1.6rem;
+}
+.btn.googleLogin{
+  background-color: #fff;
+    border: 1px solid #d7d6d6;
+    color: #5b5b5b;
+}
+.btn.facebookLogin{
+  background: #3a5898;
+  color: #ffffff;
 }
