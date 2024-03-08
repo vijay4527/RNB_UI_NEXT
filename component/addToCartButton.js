@@ -47,18 +47,22 @@ const addToCartButton = ({ data }) => {
 
   const [isLoading, setLoading] = useState(false);
 
-  const handleClick = () => {
-    if (!isLoading) {
-      setLoading(true);
-      setTimeout(() => setLoading(false), 3700);
-    }
-  };
+  // const handleClick = () => {
+  //   if (!isLoading) {
+  //     setLoading(true);
+  //     setTimeout(() => setLoading(false), 3700);
+  //   }
+  // };
   const cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
 
   const { city } = router.query;
   // const apiurl = process.env.API_URL;
   const handleAddToCartOrWishlist = async () => {
+    if (!isLoading) {
+      setLoading(true);
+      setTimeout(() => setLoading(false), 3700);
+    }
     const cartItem = {
       user_id: user ? user.user_id : "",
       cart_id: cartId ? cartId : "",
@@ -86,16 +90,16 @@ const addToCartButton = ({ data }) => {
   return (
     <div className={styles.pdp_ProductContentButton}>
       <h4 className={styles.pdp_ProductContentPrice}>₹ {Variable}</h4>
-      <div>
+      <div >
         <button
           className={
             isLoading
               ? `${styles.button} ${styles.loading}`
               : `${styles.button}`
           }
-          onClick={handleClick}
+          onClick={handleAddToCartOrWishlist}
         >
-          <span onClick={handleAddToCartOrWishlist}>Add to cart</span>
+          <span >Add to cart</span>
           <div className={styles.cart}>
             <svg viewBox="0 0 36 26">
               <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>

@@ -98,6 +98,7 @@ const Index = ({ city }) => {
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
       </Head>
 
 
@@ -462,11 +463,11 @@ const Index = ({ city }) => {
               </div>
               <div className='enquiryContent'>
                 <div className='enquiryContact'>
-                  <ul>
+                <ul>
                     <li>
                       <a href="/">
                         <span className="">
-                        <img src="icons-01.png" alt="" className='icon-image'/>
+                        <img src="https://fama.b-cdn.net/RnB/call.png" alt="" className='icon-image'/>
                         </span>
                         <h4>1234567890</h4>
                       </a>
@@ -474,7 +475,7 @@ const Index = ({ city }) => {
                     <li>
                       <a href="/">
                         <span className="">
-                        <img src="icons-02.png" alt="" className='icon-image'/>
+                        <img src="https://fama.b-cdn.net/RnB/email.png" alt="" className='icon-image'/>
                         </span>
 
                         <h4>abc@gmail.com</h4>
@@ -483,7 +484,7 @@ const Index = ({ city }) => {
                     <li>
                       <a href="/">
                         <span className="">
-                        <img src="icons-03.png" alt="" className='icon-image'/>
+                        <img src="https://fama.b-cdn.net/RnB/home.png" alt="" className='icon-image'/>
                         </span>
                         <h4>60+ Stores Pan India</h4>
                       </a>
