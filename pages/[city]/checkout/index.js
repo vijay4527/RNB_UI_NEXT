@@ -3,19 +3,14 @@ import React from "react";
 import "./index.module.css";
 import { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { getCookie } from "@/cookieUtils";
 import Link from "next/link";
 import styles from "./index.module.css";
 import homeStyles from "../.././../styles/Home.module.css";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import Head from "next/head";
 import Form from "react-bootstrap/Form";
-import {
-  GoogleMap,
-  Marker,
-  InfoWindow,
-  LoadScript,
-} from "@react-google-maps/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import * as yup from "yup";
 import AppConfig from "@/AppConfig";
@@ -45,7 +40,7 @@ const CheckoutPage = () => {
   const [subTotalAmount, setSubTotalAmount] = useState(0);
   const [shippingCharges, setShippingCharges] = useState(20);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [selectedOption, setSelectedOption] = useState("pickup");
+  const [selectedOption, setSelectedOption] = useState("delivery");
   const [inputValue, setInputValue] = useState("");
   const [franchise, setFranchise] = useState([]);
   const [selectedFranchise, setSelectedFranchise] = useState("");
@@ -58,7 +53,11 @@ const CheckoutPage = () => {
   const [user, setUser] = useState({});
   const [grandTotal, setGrandTotal] = useState(0);
   const [enableAddress, setEnableAddress] = useState(false);
-
+  const [sessionData,setSessionData] = useState({})
+  const userObject =
+  typeof window !== "undefined"
+    ? JSON.parse(sessionStorage.getItem("userData"))
+    : "";
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -70,10 +69,14 @@ const CheckoutPage = () => {
     pinCode: "",
     country: "",
   });
-  // const city = getCookie("userCity");
+
+  useEffect(()=>{
+    if(data){
+       setSessionData(data)
+    }
+  },[])
   const router = useRouter();
   const { city } = router.query;
-  let userCity = "";
   useEffect(() => {
     const fetchUser = async () => {
       const userObject =
@@ -183,6 +186,31 @@ const CheckoutPage = () => {
       console.log("error while fetching the data" + error);
     }
   };
+
+  const validateOrder = () => {
+    if (selectedOption === 'delivery') {
+      if (!selectedAddress) {
+        toast('Please select a shipping address for delivery.',{autoClose : 3000,closeButton: true});
+        return false;
+      }
+    } else if (selectedOption === 'pickup') {
+      if (!selectedFranchise) {
+        toast('Please select a shop for pickup.',{autoClose : 3000,closeButton: true});
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+
+  const handlePlaceOrder = async () => {
+    const isValidOrder = validateOrder();
+    if (isValidOrder) {
+      await createOrder();
+    }
+  };
+
   const createOrder = async () => {
     products.forEach((e) => {
       e.city = city;
@@ -199,6 +227,7 @@ const CheckoutPage = () => {
     };
     const order = await axiosPost("Order/SaveOrder", orderobj);
     if (order.resp == true) {
+      toast("Your Order has been placed",{autoClose : 3000,closeButton: true})
       console.log("Order SuccessFull");
     } else {
       console.log("Order not placed");
@@ -322,20 +351,20 @@ const CheckoutPage = () => {
                     <ul className={styles.checkoutQctShippingTabs}>
                       <li
                         className={
-                          selectedOption === "pickup" ? `${styles.active}` : ""
+                          selectedOption === "delivery" ? `${styles.active}` : ""
                         }
-                        onClick={() => handleOptionChange("pickup")}
+                        onClick={() => handleOptionChange("delivery")}
                       >
                         <h4>Home Delivery</h4>
                         <p>(Get your product delivered to your home)</p>
                       </li>
                       <li
                         className={
-                          selectedOption === "delivery"
+                          selectedOption === "pickup"
                             ? `${styles.active}`
                             : ""
                         }
-                        onClick={() => handleOptionChange("delivery")}
+                        onClick={() => handleOptionChange("pickup")}
                       >
                         <h4>Pick from nearby store</h4>
                         <p>(Collect your order from a store of your choice)</p>
@@ -344,7 +373,7 @@ const CheckoutPage = () => {
                     <div className={styles.checkoutQctShippingContents}>
                       <div
                         className={`${styles.checkoutQctShippingContent} ${
-                          selectedOption === "pickup" ? `${styles.active}` : ""
+                          selectedOption === "delivery" ? `${styles.active}` : ""
                         }`}
                       >
                         <div className={styles.newAddress}>
@@ -604,7 +633,7 @@ const CheckoutPage = () => {
 
                       <div
                         className={`${styles.checkoutQctShippingContent} ${
-                          selectedOption === "delivery"
+                          selectedOption === "pickup"
                             ? `${styles.active}`
                             : ""
                         }`}
@@ -776,7 +805,7 @@ const CheckoutPage = () => {
                   <OrderSummary data={products} />
                   <button
                     className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`}
-                    onClick={createOrder}
+                    onClick={handlePlaceOrder}
                   >
                     <span>Checkout</span>
                   </button>
@@ -786,6 +815,7 @@ const CheckoutPage = () => {
           </div>
         </div>
       </section>
+      <ToastContainer />
 
       {/* <section
         className="h-100 h-custom"

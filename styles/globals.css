@@ -1927,3 +1927,13 @@ overflow: visible;
 .icon-image{
   height: 100%;
 }
+
+
+.orderDetails{
+  text-decoration: none !important;
+  color: white;
+}
+
+.orderDetails:hover{
+  color:white !important
+}

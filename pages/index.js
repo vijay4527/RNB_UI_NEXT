@@ -3,10 +3,17 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
-
+import useUserData from '@/component/verifyEmail'; // Import the useUserData hook
+import { useEffect,useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({ city }) {
+  const { data: session } = useSession();
+  const { isLoggedIn, loading } = useUserData(session);
+  useEffect(()=>{
+   console.log("user is logged in",isLoggedIn)
+  },[isLoggedIn])
+
   return (
     <>
      <NextSeo

@@ -29,8 +29,8 @@ const orderHistory = () => {
   //   }
   // },[user])
   const getAllOrders = async () => {
-    const Orders = await axiosGet(`Order/GetOrderByUserId/${userInfo.user_id}`);
-    console.log("Orders", Orders);
+    const Orders =await axiosGet(`Order/GetOrderByUserId/${userInfo.user_id}`);
+    console.log("Orders");
     if (Orders) {
       setOrders(Orders);
     }
@@ -58,20 +58,21 @@ const orderHistory = () => {
                 <div className={styles.orderHistoryTitle}>All Orders</div>
                 {orders && orders.length > 0
                   ? orders.map((orderDetail) => (
-                      <div className={styles.orderHistoryItems}>
+                      <div className={styles.orderHistoryItems} key={orderDetail.order_id
+                      }>
                         <div className={styles.orderHistoryItem}>
                           <div className={styles.orderHistoryNo}>
                             <h4>Order ID</h4>
                             <h5>{orderDetail.order_id}</h5>
                           </div>
-
+                          <Link href={`/${city}/orders/${orderDetail.order_id}`} className="orderDetails">
                           <div className={styles.orderHistoryCard}>
-                            <img src="https://fama.b-cdn.net/RnB/Dev/products/20240120085625241.jpeg" />
+                            <img src={`https://fama.b-cdn.net/RnB/Dev/products/${orderDetail.orderProducts[0].product_image.split(",")[0]}`}  />
                             <div className={styles.orderHistoryCardInfo}>
-                              <Link href={`/${city}/orders/${orderDetail.order_id}`}>
+                              {/* <Link href={`/${city}/orders/${orderDetail.order_id}`}>
                                 INFINITE PRALINE CAKE
-                              </Link>
-                              <h5>₹ 345(Small)</h5>
+                              </Link> */}
+                              <h5>Total Price : ₹ {orderDetail.total_price}</h5>
                               <h4>
                                 <span className={styles.cartBoxMsg}>
                                   Message on Cake
@@ -87,7 +88,7 @@ const orderHistory = () => {
                                         width="16"
                                         height="16"
                                         fill="#46b275"
-                                        class="bi bi-check-circle-fill"
+                                        className="bi bi-check-circle-fill"
                                         viewBox="0 0 16 16"
                                       >
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
@@ -105,7 +106,7 @@ const orderHistory = () => {
                                         width="16"
                                         height="16"
                                         fill="#46b275"
-                                        class="bi bi-check-circle-fill"
+                                        className="bi bi-check-circle-fill"
                                         viewBox="0 0 16 16"
                                       >
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
@@ -121,6 +122,7 @@ const orderHistory = () => {
                               </div>
                             </div>
                           </div>
+                          </Link>
                         </div>
 
                         {/* <div className={styles.orderHistoryItem}>
@@ -142,7 +144,7 @@ const orderHistory = () => {
                                     width="16"
                                     height="16"
                                     fill="#cc0000"
-                                    class="bi bi-x-circle-fill"
+                                    className="bi bi-x-circle-fill"
                                     viewBox="0 0 16 16"
                                   >
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
@@ -173,7 +175,7 @@ const orderHistory = () => {
                                     width="16"
                                     height="16"
                                     fill="#cc0000"
-                                    class="bi bi-x-circle-fill"
+                                    className="bi bi-x-circle-fill"
                                     viewBox="0 0 16 16"
                                   >
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
@@ -204,7 +206,7 @@ const orderHistory = () => {
                                     width="16"
                                     height="16"
                                     fill="#cc0000"
-                                    class="bi bi-x-circle-fill"
+                                    className="bi bi-x-circle-fill"
                                     viewBox="0 0 16 16"
                                   >
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
@@ -235,7 +237,7 @@ const orderHistory = () => {
                                     width="16"
                                     height="16"
                                     fill="#cc0000"
-                                    class="bi bi-x-circle-fill"
+                                    className="bi bi-x-circle-fill"
                                     viewBox="0 0 16 16"
                                   >
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />

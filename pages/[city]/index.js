@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { getCookie, setCookie, removeCookie } from "@/cookieUtils";
-import Container from 'react-bootstrap/Container';
+import Container from "react-bootstrap/Container";
 import Head from "next/head";
-import dynamic from 'next/dynamic';
-import initAOS from '../../component/initAOS'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-// Import OwlCarousel dynamically to prevent SSR issues
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false
+import dynamic from "next/dynamic";
+import initAOS from "../../component/initAOS";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { axiosGet, axiosPost, axiosGetAll } from "@/api";
+import useUserData from '@/component/verifyEmail'; // Import the useUserData hook
+import { useSession } from "next-auth/react";
+const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
+  ssr: false,
 });
-// Import Owl Carousel CSS
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import { Prociono } from "next/font/google";
 
 const options = {
   items: 1,
@@ -21,9 +23,12 @@ const options = {
   autoplay: true,
   autoplayTimeout: 3000,
   autoplayHoverPause: true,
-  nav: true, // Enable navigation arrows
-  dots: true, // Enable navigation dots
-  navText: ['<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>', '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
+  nav: true, 
+  dots: true, 
+  navText: [
+    '<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
+    '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
+  ],
 };
 
 const optionsNewLunched = {
@@ -31,9 +36,12 @@ const optionsNewLunched = {
   loop: true,
   margin: 10,
   autoplay: false,
-  nav: false, // Enable navigation arrows
-  dots: false, // Enable navigation dots
-  navText: ['<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>', '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
+  nav: false, 
+  dots: false,
+  navText: [
+    '<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
+    '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
+  ],
 };
 
 const optionsMedia = {
@@ -43,23 +51,35 @@ const optionsMedia = {
   autoplay: true,
   autoplayTimeout: 3000,
   autoplayHoverPause: true,
-  nav: true, // Enable navigation arrows
-  dots: false, // Enable navigation dots
-  navText: ['<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>', '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>'], // Custom text for navigation arrows
-}
+  nav: true,
+  dots: false,
+  navText: [
+    '<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
+    '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
+  ],
+};
 
 const Index = ({ city }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isMountedChk, setIsMountedChk] = useState(false);
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const {data,status} = useSession()
+  const { isLoggedIn, loading } = useUserData();
+  useEffect(() => {
+    if(isLoggedIn){
+      console.log("user is logged in", isLoggedIn);
 
+    }
+  }, [isLoggedIn]);
   useEffect(() => {
     initAOS();
-  }, []); // Run the initialization only once when the component mounts
+    setIsMounted(true);
+  }, [data]); 
 
 
-  useEffect(() => {
-    setIsMounted(true); 
-  }, []);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -69,71 +89,145 @@ const Index = ({ city }) => {
       setScrollPosition(scrollY);
     };
 
-    // Attach the scroll event listener when the component mounts
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-    // Clean up the event listener when the component unmounts
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const saveNewsLetter = async () => {
+    try {
+      var obj = {
+        news_letter_id: "",
+        email: email,
+        is_active: true,
+        created_on: "0001-01-01",
+        created_by: "",
+        updated_on: "0001-01-01",
+        updated_by: "",
+        is_deleted: true,
+      };
+      const newsLetterResponse = await axiosPost(
+        "NewsLetter/SaveNewsLetter",
+        obj
+      );
+
+      if (newsLetterResponse) {
+        alert("News letter saved");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Head>
-      <meta charset="utf-8"></meta>
-      <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title>
-      <meta name="description" content="Online Cakes Shop in Mumbai, Pune and Mangalore . Online Cakes Delivery . Buy,Order &amp; Send Birthday, Wedding Anniversary &amp; Chocolate Cakes anywhere in Mumbai from best Cake Shop Ribbons &amp; Balloons."></meta>
-      <meta name="keywords" content="Ribbons and Balloons, Buy Cakes Online, Online Cake delivery, Cakes Mumbai, Cakes to Mumbai, order cakes online, cake delivery in mumbai, Send Cakes to Mumbai, Mumbai Cake Shop, Online Cakes to Mumbai, Cakes Mumbai, Cake delivery to Mumbai, Chocolate Cakes Mumbai, Heart Shape Cakes, Eggless Cakes, Occasion Cakes, birthday cakes online delivery, Send Birthday Cakes, Congratulations Cakes, Missing You Cakes, Baby and Kids Cakes, Anniversary Cakes Online, Thank You Cakes, House Warming Cakes, Wedding Cakes Mumbai, customised cakes in mumbai, cup cakes mumbai, Online Cakes Shop Mumbai, valentine special cakes mumbai, plum cakes mumbai, fresh fruit cakes online"></meta>
-      <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"></meta>
-      <link rel="icon" href="https://ribbonsandballoons.com/frontassets/images/fav.png" type="image/x-icon" />
-      <meta name="google-site-verification" content="hj44_Ud2995b4jkL3My7hTX96_sALd3yQ7tlf0El0IE"></meta>
-      <meta name="p:domain_verify" content="e35c0804c87b42f9187c00fa30ff64f9"></meta>
-      <meta name="facebook-domain-verification" content="1cpqqtudq8imtqkiwxpq0vd20x3b69"></meta>
+        <meta charset="utf-8"></meta>
+        <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title>
+        <meta
+          name="description"
+          content="Online Cakes Shop in Mumbai, Pune and Mangalore . Online Cakes Delivery . Buy,Order &amp; Send Birthday, Wedding Anniversary &amp; Chocolate Cakes anywhere in Mumbai from best Cake Shop Ribbons &amp; Balloons."
+        ></meta>
+        <meta
+          name="keywords"
+          content="Ribbons and Balloons, Buy Cakes Online, Online Cake delivery, Cakes Mumbai, Cakes to Mumbai, order cakes online, cake delivery in mumbai, Send Cakes to Mumbai, Mumbai Cake Shop, Online Cakes to Mumbai, Cakes Mumbai, Cake delivery to Mumbai, Chocolate Cakes Mumbai, Heart Shape Cakes, Eggless Cakes, Occasion Cakes, birthday cakes online delivery, Send Birthday Cakes, Congratulations Cakes, Missing You Cakes, Baby and Kids Cakes, Anniversary Cakes Online, Thank You Cakes, House Warming Cakes, Wedding Cakes Mumbai, customised cakes in mumbai, cup cakes mumbai, Online Cakes Shop Mumbai, valentine special cakes mumbai, plum cakes mumbai, fresh fruit cakes online"
+        ></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        ></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+        ></meta>
+        <link
+          rel="icon"
+          href="https://ribbonsandballoons.com/frontassets/images/fav.png"
+          type="image/x-icon"
+        />
+        <meta
+          name="google-site-verification"
+          content="hj44_Ud2995b4jkL3My7hTX96_sALd3yQ7tlf0El0IE"
+        ></meta>
+        <meta
+          name="p:domain_verify"
+          content="e35c0804c87b42f9187c00fa30ff64f9"
+        ></meta>
+        <meta
+          name="facebook-domain-verification"
+          content="1cpqqtudq8imtqkiwxpq0vd20x3b69"
+        ></meta>
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha2/dist/css/bootstrap.min.css"
           rel="stylesheet"
         />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        ></link>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
       </Head>
-
 
       <div className="banner-wrap">
         <Container fluid>
           <div className="banner-body">
             <div className="banner-sec1">
-              <div className="banner-img banner-img1" 
-              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg" 
-                                alt="No image found"/>
+              <div
+                className="banner-img banner-img1"
+                id="animatedImage"
+                style={{ transform: `translateY(-${scrollPosition * 1}px)` }}
+              >
+                <img
+                  src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-7.jpg"
+                  alt="No image found"
+                />
               </div>
-              <div className="banner-img banner-img2"
-              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png" 
-                                alt="No image found"/>
+              <div
+                className="banner-img banner-img2"
+                id="animatedImage"
+                style={{ transform: `translateY(-${scrollPosition * 1}px)` }}
+              >
+                <img
+                  src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-1-729x1024.png"
+                  alt="No image found"
+                />
               </div>
             </div>
             <div className="banner-sec1 banner-sec-center">
-              <div className="banner-img banner-img-center"
-              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg" 
-                                alt="No image found"/>
+              <div
+                className="banner-img banner-img-center"
+                id="animatedImage"
+                style={{ transform: `translateY(-${scrollPosition * 0.5}px)` }}
+              >
+                <img
+                  src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-8.jpg"
+                  alt="No image found"
+                />
               </div>
             </div>
             <div className="banner-sec1">
-              <div className="banner-img banner-img3" 
-              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg" 
-                                alt="No image found"/>
+              <div
+                className="banner-img banner-img3"
+                id="animatedImage"
+                style={{ transform: `translateY(-${scrollPosition * 1}px)` }}
+              >
+                <img
+                  src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-10.jpg"
+                  alt="No image found"
+                />
               </div>
-              <div className="banner-img banner-img4"
-              id="animatedImage" style={{ transform: `translateY(-${scrollPosition * 1}px)` }}>
-                <img src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg" 
-                                alt="No image found"/>
+              <div
+                className="banner-img banner-img4"
+                id="animatedImage"
+                style={{ transform: `translateY(-${scrollPosition * 1}px)` }}
+              >
+                <img
+                  src="https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/h2-img-9.jpg"
+                  alt="No image found"
+                />
               </div>
             </div>
           </div>
@@ -143,11 +237,11 @@ const Index = ({ city }) => {
       <div className="testimonialsWrap">
         <Container fluid>
           <div className="testimonialsBody">
-            <div className='headerTitle'>
-              <p className=''> you said about us </p>
+            <div className="headerTitle">
+              <p className=""> you said about us </p>
               <h2>Testimonials</h2>
               <div className="testimonialUnderLine">
-                <div className='testimonialUnder'>
+                <div className="testimonialUnder">
                   <div className="underLine"></div>
                   <div className="shapLine"></div>
                 </div>
@@ -157,56 +251,71 @@ const Index = ({ city }) => {
               <OwlCarousel className="owl-theme" {...options}>
                 <div className="item">
                   <div className="headerTitle">
-                    <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
+                    <h6>
+                      An vis civibus albucius. Eu mea augue menandri consequat,
+                      his graeco discere consequat ei. An autem nostrum
+                      signiferumque mea, id ullum antiopam qui. Has eu timeam
+                      utroque dissentiunt, eos te iriure verterem suis san.
+                    </h6>
                     <h5>Roland Brown</h5>
                     <div>Chef</div>
                   </div>
                 </div>
                 <div className="item">
                   <div className="headerTitle">
-                    <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
+                    <h6>
+                      An vis civibus albucius. Eu mea augue menandri consequat,
+                      his graeco discere consequat ei. An autem nostrum
+                      signiferumque mea, id ullum antiopam qui. Has eu timeam
+                      utroque dissentiunt, eos te iriure verterem suis san.
+                    </h6>
                     <h5>Roland Brown</h5>
                     <div>Chef</div>
                   </div>
                 </div>
                 <div className="item">
                   <div className="headerTitle">
-                    <h6>An vis civibus albucius. Eu mea augue menandri consequat, his graeco discere consequat ei. An autem nostrum signiferumque mea, id ullum antiopam qui. Has eu timeam utroque dissentiunt, eos te iriure verterem suis san.</h6>
+                    <h6>
+                      An vis civibus albucius. Eu mea augue menandri consequat,
+                      his graeco discere consequat ei. An autem nostrum
+                      signiferumque mea, id ullum antiopam qui. Has eu timeam
+                      utroque dissentiunt, eos te iriure verterem suis san.
+                    </h6>
                     <h5>Roland Brown</h5>
                     <div>Chef</div>
                   </div>
                 </div>
               </OwlCarousel>
             )}
-
           </div>
         </Container>
       </div>
 
-      <div className='advInstaWrap'>
+      <div className="advInstaWrap">
         <Container fluid>
-          <div className='headerTitle'>
+          <div className="headerTitle">
             <h2>INSTAGRAM</h2>
             <div className="testimonialUnderLine">
-              <div className='testimonialUnder'>
+              <div className="testimonialUnder">
                 <div className="underLine"></div>
                 <div className="shapLine"></div>
               </div>
             </div>
           </div>
-          <div className='advInstaBody'>
-            <div className='advInstaContent'>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-6-650x650.jpg" 
-                                alt="No image found"/>
+          <div className="advInstaBody">
+            <div className="advInstaContent">
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-6-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -215,18 +324,19 @@ const Index = ({ city }) => {
                 </div>
               </div>
             </div>
-            <div className='advInstaContent2'>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg" 
-                                alt="No image found"/>
+            <div className="advInstaContent2">
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -234,17 +344,18 @@ const Index = ({ city }) => {
                   </div>
                 </div>
               </div>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg" 
-                                alt="No image found"/>
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -252,17 +363,18 @@ const Index = ({ city }) => {
                   </div>
                 </div>
               </div>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg" 
-                                alt="No image found"/>
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -270,17 +382,18 @@ const Index = ({ city }) => {
                   </div>
                 </div>
               </div>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg" 
-                                alt="No image found"/>
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -289,19 +402,20 @@ const Index = ({ city }) => {
                 </div>
               </div>
             </div>
-            
-            <div className='advInstaContent2'>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg" 
-                                alt="No image found"/>
+
+            <div className="advInstaContent2">
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-2-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -309,17 +423,18 @@ const Index = ({ city }) => {
                   </div>
                 </div>
               </div>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg" 
-                                alt="No image found"/>
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-5-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -327,17 +442,18 @@ const Index = ({ city }) => {
                   </div>
                 </div>
               </div>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg" 
-                                alt="No image found"/>
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-7-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -345,17 +461,18 @@ const Index = ({ city }) => {
                   </div>
                 </div>
               </div>
-              <div className='advInstaContentBox'>
-                <div className='advInstaContentBoxImg'>
-                  <img src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg" 
-                                alt="No image found"/>
+              <div className="advInstaContentBox">
+                <div className="advInstaContentBoxImg">
+                  <img
+                    src="https://dolcino.qodeinteractive.com/wp-content/uploads/2018/10/port-1-img-4-650x650.jpg"
+                    alt="No image found"
+                  />
                 </div>
-                <div className='advInstaContentBoxHover'>
-                  <div className='advInstaContentBoxTrap'>
-                    <div className='advInstaContentBoxborder'>
+                <div className="advInstaContentBoxHover">
+                  <div className="advInstaContentBoxTrap">
+                    <div className="advInstaContentBoxborder">
                       <div className="advInstaContentInfo">
-                        <img src='' 
-                                alt="No image found"/>
+                        <img src="" alt="No image found" />
                         <h3>Calisson</h3>
                         <p>$15</p>
                       </div>
@@ -372,12 +489,12 @@ const Index = ({ city }) => {
       </div>
 
       <div className="newLaunchWrap">
-        <div className='lte-background-overlay'></div>
+        <div className="lte-background-overlay"></div>
         <Container fluid>
-          <div className='headerTitle'>
+          <div className="headerTitle">
             <h2>New Launches</h2>
             <div className="testimonialUnderLine">
-              <div className='testimonialUnder'>
+              <div className="testimonialUnder">
                 <div className="underLine"></div>
                 <div className="shapLine"></div>
               </div>
@@ -385,55 +502,62 @@ const Index = ({ city }) => {
             {isMounted && (
               <OwlCarousel className="owl-theme" {...optionsNewLunched}>
                 <div className="item">
-                  <div className='itemNewLunch'>
-                    <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln1.jpg" 
-                                alt="No image found"/>
+                  <div className="itemNewLunch">
+                    <div className="itemNewLunchImg">
+                      <img
+                        src="https://fama.b-cdn.net/RnB/Ln1.jpg"
+                        alt="No image found"
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="item">
-                  <div className='itemNewLunch'>
-                    <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln2.jpg" 
-                                alt="No image found"/>
+                  <div className="itemNewLunch">
+                    <div className="itemNewLunchImg">
+                      <img
+                        src="https://fama.b-cdn.net/RnB/Ln2.jpg"
+                        alt="No image found"
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="item">
-                  <div className='itemNewLunch'>
-                    <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln3.jpg" 
-                                alt="No image found"/>
+                  <div className="itemNewLunch">
+                    <div className="itemNewLunchImg">
+                      <img
+                        src="https://fama.b-cdn.net/RnB/Ln3.jpg"
+                        alt="No image found"
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="item">
-                  <div className='itemNewLunch'>
-                    <div className='itemNewLunchImg'>
-                      <img src="https://fama.b-cdn.net/RnB/Ln4.jpg" 
-                                alt="No image found"/>
+                  <div className="itemNewLunch">
+                    <div className="itemNewLunchImg">
+                      <img
+                        src="https://fama.b-cdn.net/RnB/Ln4.jpg"
+                        alt="No image found"
+                      />
                     </div>
                   </div>
                 </div>
               </OwlCarousel>
             )}
-
           </div>
         </Container>
       </div>
 
-      <div className='cakeOfMonthWrap'>
-        <div className='headerTitle'>
+      <div className="cakeOfMonthWrap">
+        <div className="headerTitle">
           <h2>Cake of the month</h2>
           <div className="testimonialUnderLine">
-            <div className='testimonialUnder'>
+            <div className="testimonialUnder">
               <div className="underLine"></div>
               <div className="shapLine"></div>
             </div>
           </div>
         </div>
-        <div className='cakeOfMonthBody'>
+        <div className="cakeOfMonthBody">
           <div className="wrapper">
             <div className="backdrop"></div>
             <div className="stage_floor"></div>
@@ -450,85 +574,118 @@ const Index = ({ city }) => {
       </div>
 
       <div className="enquiryWrap">
-          <Container fluid>
-            <div className="enquiryBody">
-              <div className='headerTitle'>
-                <h2>Enquiry Now</h2>
-                <div className="testimonialUnderLine">
-                  <div className='testimonialUnder'>
-                    <div className="underLine"></div>
-                    <div className="shapLine"></div>
-                  </div>
-                </div>
-              </div>
-              <div className='enquiryContent'>
-                <div className='enquiryContact'>
-                <ul>
-                    <li>
-                      <a href="/">
-                        <span className="">
-                        <img src="https://fama.b-cdn.net/RnB/call.png" alt="" className='icon-image'/>
-                        </span>
-                        <h4>1234567890</h4>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/">
-                        <span className="">
-                        <img src="https://fama.b-cdn.net/RnB/email.png" alt="" className='icon-image'/>
-                        </span>
-
-                        <h4>abc@gmail.com</h4>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/">
-                        <span className="">
-                        <img src="https://fama.b-cdn.net/RnB/home.png" alt="" className='icon-image'/>
-                        </span>
-                        <h4>60+ Stores Pan India</h4>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className='enquiryForm'>
-                  <div className='enquiryFormData'>
-                    <Form>
-                      <Form.Group controlId="formfirstname">
-                        <Form.Control type="text" placeholder="Enter firstname"/>
-                      </Form.Group>
-                      <Form.Group controlId="formlastname">
-                        <Form.Control type="text" placeholder="Enter lastname"/>
-                      </Form.Group>
-                      <Form.Group controlId="formemail">
-                        <Form.Control type="email" placeholder="Enter email"/>
-                      </Form.Group>
-                      <Form.Group controlId="formmessage" >
-                      <Form.Control
-                            as="textarea"
-                            placeholder="Enter message"
-                            style={{ height: '100px' }}
-                            htmlFor="message on"
-                          />
-                      </Form.Group>
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button>
-                    </Form>
-                  </div>
+        <Container fluid>
+          <div className="enquiryBody">
+            <div className="headerTitle">
+              <h2>Enquiry Now</h2>
+              <div className="testimonialUnderLine">
+                <div className="testimonialUnder">
+                  <div className="underLine"></div>
+                  <div className="shapLine"></div>
                 </div>
               </div>
             </div>
-          </Container>
+            <div className="enquiryContent">
+              <div className="enquiryContact">
+                <ul>
+                  <li>
+                    <a href="/">
+                      <span className="">
+                        <img
+                          src="https://fama.b-cdn.net/RnB/call.png"
+                          alt=""
+                          className="icon-image"
+                        />
+                      </span>
+                      <h4>1234567890</h4>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/">
+                      <span className="">
+                        <img
+                          src="https://fama.b-cdn.net/RnB/email.png"
+                          alt=""
+                          className="icon-image"
+                        />
+                      </span>
+
+                      <h4>abc@gmail.com</h4>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/">
+                      <span className="">
+                        <img
+                          src="https://fama.b-cdn.net/RnB/home.png"
+                          alt=""
+                          className="icon-image"
+                        />
+                      </span>
+                      <h4>60+ Stores Pan India</h4>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="enquiryForm">
+                <div className="enquiryFormData">
+                  <Form>
+                    <Form.Group controlId="formfirstname">
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter firstname"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formlastname">
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter lastname"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formemail">
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formmessage">
+                      <Form.Control
+                        as="textarea"
+                        placeholder="Enter message"
+                        style={{ height: "100px" }}
+                        htmlFor="message on"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Button
+                      variant="primary"
+                      type="button"
+                      onClick={saveNewsLetter}
+                    >
+                      Submit
+                    </Button>
+                  </Form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
       </div>
 
       <div className="mediaCollabWrap">
         <Container fluid>
           <div className="testimonialsBody">
-            <div className='headerTitle'>
+            <div className="headerTitle">
               <h2>MEDIA COLLABORATIONS</h2>
               <div className="testimonialUnderLine">
-                <div className='testimonialUnder'>
+                <div className="testimonialUnder">
                   <div className="underLine"></div>
                   <div className="shapLine"></div>
                 </div>
@@ -537,35 +694,42 @@ const Index = ({ city }) => {
             {isMounted && (
               <OwlCarousel className="owl-theme" {...optionsMedia}>
                 <div className="item">
-                  <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media2.png' 
-                                alt="No image found"/>
+                  <div className="MediaContentImg">
+                    <img
+                      src="https://fama.b-cdn.net/RnB/media2.png"
+                      alt="No image found"
+                    />
                   </div>
                 </div>
                 <div className="item">
-                  <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media1.png' 
-                                alt="No image found"/>
+                  <div className="MediaContentImg">
+                    <img
+                      src="https://fama.b-cdn.net/RnB/media1.png"
+                      alt="No image found"
+                    />
                   </div>
                 </div>
                 <div className="item">
-                  <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media3.png' 
-                                alt="No image found"/>
+                  <div className="MediaContentImg">
+                    <img
+                      src="https://fama.b-cdn.net/RnB/media3.png"
+                      alt="No image found"
+                    />
                   </div>
                 </div>
                 <div className="item">
-                  <div className='MediaContentImg'>
-                    <img src='https://fama.b-cdn.net/RnB/media4.png' alt="mediaImage" />
+                  <div className="MediaContentImg">
+                    <img
+                      src="https://fama.b-cdn.net/RnB/media4.png"
+                      alt="mediaImage"
+                    />
                   </div>
                 </div>
               </OwlCarousel>
             )}
-
           </div>
         </Container>
       </div>
-
     </>
   );
 };

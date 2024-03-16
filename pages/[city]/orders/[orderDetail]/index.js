@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import styles from "./index.module.css";
 import OrderSummary from "@/component/OrderSummary";
 import homeStyles from "../.././../../styles/Home.module.css";
-
+import { useRouter } from "next/router";
+import { axiosGet } from "@/api";
+import { useState } from "react";
 const orderDetail = () => {
+
+ const router = useRouter() 
+ const {orderDetail} = router.query
+ const [orderInfo ,setOrderInfo] = useState({})
+ useEffect(()=>{
+  getOrderDetails()
+ },[])
+  const getOrderDetails = async()=>{
+    const  response = await axiosGet("Order/getOrderByOrderId/"+orderDetail)
+    if(response){
+      setOrderInfo(response)
+    }
+  }
   
   return (
     <>

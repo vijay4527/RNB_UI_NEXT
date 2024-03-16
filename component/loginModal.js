@@ -7,7 +7,9 @@ import { axiosGet, axiosPost } from "@/api";
 import * as yup from "yup";
 import { loginSchema, registrationSchema } from "./validation";
 import homeStyles from "../styles/Home.module.css";
+import useUserData from "./verifyEmail";
 const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
+  const {data ,status} = useSession()
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
@@ -29,10 +31,12 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const [newOtp, setnewOtp] = useState("");
   const [loginError, setLoginError] = useState("");
   const inputs = ["input1", "input2", "input3", "input4"];
-
+  const cartId =
+  typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
   const router = useRouter();
   const currentPath = router.asPath;
   const { city } = router.query;
+  const {isLoggedIn,loading} =useUserData()
   const openRegistrationModal = () => {
     setShowLoginSection(false);
     setShowRegisterationSection(true);
@@ -43,11 +47,24 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
     setShowLoginSection(true);
   };
 
+
+  useEffect(()=>{
+    if(isLoggedIn == true){
+      
+    }else if(isLoggedIn == false){
+           
+    }
+  },[isLoggedIn])
+
   useEffect(() => {
     if (isOpen) {
       setModalIsOpen(true);
     }
   }, [isOpen]);
+
+  useEffect(()=>{
+     registerUser()
+  },[data])
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -66,6 +83,10 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
     const api_url = process.env.API_URL;
     if (type == "login") {
       try {
+        var loginData= {
+          mobile : mobile,
+          cart_id: cartId ? cartId : "",
+        }
         await loginSchema.validate({ mobile }, { abortEarly: false });
         const userData = await axiosPost(`/User/Login?cred=${mobile}`);
         if (userData.resp === true) {
@@ -75,6 +96,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
           router.push(currentPath);
           // router.push("/")
         } else {
+          registerUser()
           setLoginError(userData.respMsg);
         }
       } catch (validationError) {
@@ -148,9 +170,6 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
       }
     });
   }, [showOtpSection]);
-  useEffect(()=>{
-
-  },[])
 
   function addListener(input, index) {
     input.addEventListener("keyup", function (event) {
@@ -185,62 +204,81 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   };
 
 
-  const registerUser = async (type,e) => {
-    if (type === 'google') {
+  // const registerUser = async (type,e) => {
+  //   // if (type === 'google') {
+  //   //   try {
+  //   //     const result = await signIn(type, { redirect: false });
+  //   //     e.preventDefalut()
+  //   //     if (result?.error) {
+  //   //       console.error(`Error signing in with ${type}: ${result.error}`);
+  //   //     } else {
+  //   //       const userData = result.account;
+  //   //       // setShowLoginSection(true);
+  //   //        setShowOtpSection(true);
+  //   //     }
+  //   //   } catch (error) {
+  //   //     console.error(`Error during Google sign-in:`, error);
+  //   //   }
+  //   // } else {
+  //   //   setShowOtpSection(true); 
+  //   //   try {
+  //   //     const data = await axiosPost(
+  //   //       `${api_url}/User/Login?mobile_number=${mobile}&password=${password}`
+  //   //     );
+  //   //     if (data.resp === true) {
+  //   //       sessionStorage.clear();
+  //   //       sessionStorage.setItem('userObject', JSON.stringify(data.respObj));
+  //   //       setIsLoggedIn(true);
+  //   //       setMobile('');
+  //   //       setPassword('');
+  //   //       closeModal();
+  //   //     } else {
+  //   //       setLoginError('Please check your mobile and password.');
+
+  //   //     }
+  //   //   } catch (error) {
+  //   //     console.error('Error during login:', error);
+  //   //   }
+  //   // }
+  // // if(type=="google"){
+     
+  // // }
+  // // else if(type=="facebook"){
+
+  // // }
+
+  // if(data){
+  //   setShowLoginInput(true)
+  // }
+  // };
+
+
+  const registerUser = async (type, e) => {
+    if (type === 'google' || type === 'facebook') {
       try {
-        // Perform Google sign-in without automatic redirection
         const result = await signIn(type, { redirect: false });
-        e.preventDefalut()
+        e.preventDefault();
         if (result?.error) {
           console.error(`Error signing in with ${type}: ${result.error}`);
         } else {
-          // Google sign-in successful, retrieve user data
-          const userData = result.account;
-  
-          // Set user data in state or local storage for later use
-          // ...
-  
-          // Optionally, you can make an API call to send OTP to the user's email or phone
-          // ...
-  
-          // Do not redirect automatically, handle the flow manually
-          // setShowLoginSection(true);
-          // setShowOtpSection(true);
+          const sessionData = result?.data;
+          if (sessionData) {
+            const userData = await axiosPost(`/User/Login?cred=${sessionData.mobile}`);
+            if (userData.resp === true) {
+              sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
+              router.push(currentPath);
+            } else {
+              setShowLoginInput(true);
+              setShowOtpSection(true);
+              setLoginError('Please complete registration.');
+            }
+          }
         }
       } catch (error) {
-        console.error(`Error during Google sign-in:`, error);
-      }
-    } else {
-      // Handle other types of registration (if needed)
-      setShowOtpSection(true);
-  
-      try {
-        // Your existing code for regular login and OTP verification
-        const data = await axiosPost(
-          `${api_url}/User/Login?mobile_number=${mobile}&password=${password}`
-        );
-  
-        if (data.resp === true) {
-          sessionStorage.clear();
-          sessionStorage.setItem('userObject', JSON.stringify(data.respObj));
-          setIsLoggedIn(true);
-          setMobile('');
-          setPassword('');
-          closeModal();
-        } else {
-          // Handle login failure, show error message, etc.
-          setLoginError('Please check your mobile and password.');
-        }
-      } catch (error) {
-        console.error('Error during login:', error);
+        console.error(`Error during ${type} sign-in:`, error);
       }
     }
   };
-  
-  
-  
-  
-  
   
   return (
     <div>
@@ -251,17 +289,19 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
         centered
       >
         <div className="container container-fluid">
-          {showLoginSection ? (
+          {
+          // showLoginSection ? (
             showloginInput ? (
               <form className="p-4 m-4">
-                <h1 className="loginTitle">Login / Sign Up</h1>
+                {/* <h1 className="loginTitle">Login / Sign Up</h1> */}
+                <h1 className="loginTitle">{ data ? "Phone Number" :"Login / Sign Up"}</h1>
                 <div className="form_group mb-3">
                   {/* <label className="form-label">Email / Phone No</label> */}
                   <input
                     type="text"
                     className="form_control"
                     value={mobile}
-                    placeholder="Email / Phone No"
+                    placeholder="Phone No"
                     onChange={(e) => setMobile(e.target.value)}
                   />
                 </div>
@@ -286,7 +326,9 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
                 >
                   Proceed
                 </button>
-                <div className="text-center">
+                {
+                  !data && (
+                    <div className="text-center">
                   <p>
                     Not a member?{" "}
                     <span
@@ -314,104 +356,115 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
                     </button>
                   </div>
                 </div>
+                  )
+                }
+                
               </form>
-            ) : (
-              <div className={`${homeStyles["form-group"]} text-center p-4`}>
-                <label className="mb-4">Verify Your OTP</label>
-                <div className={`${homeStyles["otp-input"]}`}>
-                  {inputs.map((id) => (
-                    <input
-                      className={`${homeStyles.input}`}
-                      key={id}
-                      id={id}
-                      type="text"
-                      maxLength="1"
-                    />
-                  ))}
-                </div>
-                <button className="btn btn-primary mt-4" onClick={verifyOTP}>verify</button>
-
-              </div>
-            )
-          ) : showRegisterationSection ? (
-            <form className="p-4">
-              <h1 className="loginTitle">Registration</h1>
-              <div className="form-group">
-                {/* <label className="form-label">First Name</label> */}
-                <input
-                  type="text"
-                  className="form_control"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                {/* <label className="form-label">Last Name</label> */}
-                <input
-                  type="text"
-                  className="form_control"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                {/* <label className="form-label">Email</label> */}
-                <input
-                  type="text"
-                  className="form_control"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="form-group mb-3">
-                {/* <label className="form-label">Mobile</label> */}
-                <input
-                  type="text"
-                  placeholder="Mobile"
-                  className="form_control"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                />
-              </div>
-              <button
-                type="button"
-                className="loginButtons"
-                onClick={() => submitHandler("registeration",e)}
-              >
-                Proceed
-              </button>
-              <div className="text-center">
-                <p>
-                  Already have an Account?{" "}
-                  <span onClick={openLoginModal} style={{ cursor: "pointer" }}>
-                    Login
-                  </span>
-                </p>
-                <p>Or sign up with</p>
-                <div className="socialLogin">
-                    <button
-                      type="button"
-                      className="btn googleLogin"
-                      onClick={() => registerUser("google")}
-                    >
-                      <i className="fa fa-google"></i>
-                    </button>
-                    <button
-                      type="button"
-                      className="btn facebookLogin"
-                      onClick={() => registerUser("facebook")}
-                    >
-                      <i className="fa fa-facebook"></i>
-                    </button>
+            ) : ("")
+           
+             
+          // )
+          //  : showRegisterationSection ? (
+          //   <form className="p-4">
+          //     <h1 className="loginTitle">Registration</h1>
+          //     <div className="form-group">
+          //       {/* <label className="form-label">First Name</label> */}
+          //       <input
+          //         type="text"
+          //         className="form_control"
+          //         placeholder="First Name"
+          //         value={firstName}
+          //         onChange={(e) => setFirstName(e.target.value)}
+          //       />
+          //     </div>
+          //     <div className="form-group">
+          //       {/* <label className="form-label">Last Name</label> */}
+          //       <input
+          //         type="text"
+          //         className="form_control"
+          //         placeholder="Last Name"
+          //         value={lastName}
+          //         onChange={(e) => setLastName(e.target.value)}
+          //       />
+          //     </div>
+          //     <div className="form-group">
+          //       {/* <label className="form-label">Email</label> */}
+          //       <input
+          //         type="text"
+          //         className="form_control"
+          //         placeholder="Email"
+          //         value={email}
+          //         onChange={(e) => setEmail(e.target.value)}
+          //       />
+          //     </div>
+          //     <div className="form-group mb-3">
+          //       {/* <label className="form-label">Mobile</label> */}
+          //       <input
+          //         type="text"
+          //         placeholder="Mobile"
+          //         className="form_control"
+          //         value={mobile}
+          //         onChange={(e) => setMobile(e.target.value)}
+          //       />
+          //     </div>
+          //     <button
+          //       type="button"
+          //       className="loginButtons"
+          //       onClick={() => submitHandler("registeration",e)}
+          //     >
+          //       Proceed
+          //     </button>
+          //     <div className="text-center">
+          //       <p>
+          //         Already have an Account?{" "}
+          //         <span onClick={openLoginModal} style={{ cursor: "pointer" }}>
+          //           Login
+          //         </span>
+          //       </p>
+          //       <p>Or sign up with</p>
+          //       <div className="socialLogin">
+          //           <button
+          //             type="button"
+          //             className="btn googleLogin"
+          //             onClick={() => registerUser("google")}
+          //           >
+          //             <i className="fa fa-google"></i>
+          //           </button>
+          //           <button
+          //             type="button"
+          //             className="btn facebookLogin"
+          //             onClick={() => registerUser("facebook")}
+          //           >
+          //             <i className="fa fa-facebook"></i>
+          //           </button>
+          //         </div>
+          //     </div>
+          //   </form>
+          // ) : (
+          //   ""
+          // )
+          }
+           {
+              showOtpSection && (
+                (
+                  <div className={`${homeStyles["form-group"]} text-center p-4`}>
+                    <label className="mb-4">Verify Your OTP</label>
+                    <div className={`${homeStyles["otp-input"]}`}>
+                      {inputs.map((id) => (
+                        <input
+                          className={`${homeStyles.input}`}
+                          key={id}
+                          id={id}
+                          type="text"
+                          maxLength="1"
+                        />
+                      ))}
+                    </div>
+                    <button className="btn btn-primary mt-4" onClick={verifyOTP}>verify</button>
                   </div>
-              </div>
-            </form>
-          ) : (
-            ""
-          )}
+                )
+              )
+            }
         </div>
       </Modal>
     </div>

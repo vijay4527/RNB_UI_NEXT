@@ -197,6 +197,10 @@ export default function Header() {
     setIsActive(!isActive);
   };
 
+
+  useEffect(()=>{
+   console.log("Your data is ", data)
+  },[data])
   const handleClick = () => {
     setIsClicked(!isClicked);
     // searchInputRef.current.focus();
@@ -555,7 +559,7 @@ export default function Header() {
                             <Dropdown.Menu align={{ lg: "end" }}>
                               {isLoggedIn && (
                                 <>
-                                <Dropdown.Item href={`/${city}/cart`}>
+                                <Dropdown.Item href={`/${city}/profile`}>
                                   My Account
                                 </Dropdown.Item>
                                 <Dropdown.Item href={`/${city}/orders/orderHistory`}>Order History</Dropdown.Item>
