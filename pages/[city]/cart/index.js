@@ -38,11 +38,7 @@ const CartPage = () => {
     ? JSON.parse(sessionStorage.getItem("userData"))
     : "";
   useEffect(()=>{
-     if(isUserLoggedIn == true && !userInfo){
-      console.log("user is logged in")
-          
-     }
-     else if(userInfo){
+   if(userInfo){
       setIsUserLoggedIn(true)
      }
   },[isLoggedIn])
@@ -340,7 +336,7 @@ const CartPage = () => {
             <h1>Your Cart is Empty!</h1>
           )} */}
         </div>
-        {!isLoggedIn && (
+        {!isUserLoggedIn && (
           <LoginModal
             isOpen={isCityModalOpen}
             onRequestClose={closeCityModal}
