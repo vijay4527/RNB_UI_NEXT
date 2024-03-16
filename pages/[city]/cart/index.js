@@ -23,6 +23,7 @@ const CartPage = () => {
   const [user, setUser] = useState({});
   const router = useRouter();
   const { isLoggedIn, loading } = useUserData();
+  const [isUserLoggedIn,setIsUserLoggedIn]= useState(isLoggedIn)
   // const api_url = process.env.API_URL;
   const { city } = router.query;
   const [isCityModalOpen, setCityModalOpen] = useState(false);
@@ -33,13 +34,16 @@ const CartPage = () => {
     }
   }, [data]);
 
+  var userInfo = typeof window !== "undefined"
+    ? JSON.parse(sessionStorage.getItem("userData"))
+    : "";
   useEffect(()=>{
-     if(isLoggedIn == true){
+     if(isUserLoggedIn == true && !userInfo){
       console.log("user is logged in")
-          isUser=true
+          
      }
-     else if(isLoggedIn == false){
-       isUser =false
+     else if(userInfo){
+      setIsUserLoggedIn(true)
      }
   },[isLoggedIn])
   let cartId =
