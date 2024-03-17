@@ -1994,3 +1994,17 @@ overflow: visible;
 .orderDetails:hover{
   color:white !important
 }
+
+.ShowCaseSliderWrap{
+ padding-top: 4.6rem; 
+}
+.ShowCaseSliderTitle{
+  font-size: 24px;
+    line-height: 1.33;
+    color: #fff;
+    margin-top: 1rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    letter-spacing: 3.1px;
+    font-family: var(--font-family);
+}

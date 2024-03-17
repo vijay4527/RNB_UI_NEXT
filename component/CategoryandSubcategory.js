@@ -52,8 +52,6 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   // const handleChange = (newValue) => {
   //   setValue(newValue);
   // };
-
-
   return (
     <>
       <div className={styles.breadcrumb}>
