@@ -229,20 +229,7 @@ const productbyname = ({ data }) => {
                     ) : (
                       ""
                     )}
-                    <ul className={styles.pdp_ProductDesc}>
-                      <li>
-                        <span>Base: </span>Chocolate Sponge.
-                      </li>
-                      <li>
-                        <span>Filling: </span>Layered with white ganache,
-                        coconut crunchy & french vanilla custard.
-                      </li>
-                      <li>
-                        <span>Topping: </span>Coated with rich cream mixed with
-                        french vanilla custard & Garnished with french vanilla
-                        custard glaze and rich dark ganache.
-                      </li>
-                    </ul>
+                    
                     {/* <div className={styles.pdp_ProductContent}>
                     <h4>
                       Call Us For Instant Help:{" "}
@@ -260,7 +247,7 @@ const productbyname = ({ data }) => {
             </div>
             <div className={homeStyles["container_fluid"]}>
               <div className={styles.reviewSection}>
-                <ReviewDetails></ReviewDetails>
+                {/* <ReviewDetails></ReviewDetails> */}
               </div>
             </div>
           </div>

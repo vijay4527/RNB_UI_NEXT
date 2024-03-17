@@ -658,6 +658,31 @@ function getProductDetails({ data }) {
             ></textarea>
           </div>
         </div>
+
+        <div className={styles.underLineSeperator}></div>
+        
+        <div className={styles.pdp_SelectInfo}>
+          <div className={styles.pdp_shortInfo}>
+              <h4 className={styles.pdp_DetailInfoTitle} >Product Description</h4>
+          </div>
+          <div className={styles.pdp_SelectMessage}>
+            <ul className={styles.pdp_ProductDesc}>
+              <li>
+                <span>Base: </span>Chocolate Sponge.
+              </li>
+              <li>
+                <span>Filling: </span>Layered with white ganache,
+                coconut crunchy & french vanilla custard.
+              </li>
+              <li>
+                <span>Topping: </span>Coated with rich cream mixed with
+                french vanilla custard & Garnished with french vanilla
+                custard glaze and rich dark ganache.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
         <div className={styles.fassalDiv}>
           <img src="https://media.bakingo.com/bakingo-ssr/static/media/Info-1.aa9d95cd.png" alt="logo"></img>
         </div>

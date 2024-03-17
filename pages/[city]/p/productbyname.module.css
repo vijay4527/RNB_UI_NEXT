@@ -152,6 +152,8 @@
   text-align: center;
   padding: 0px 25px;
   display: flex;
+  position: sticky;
+  top: 180px;
 }
 /* .pdp_ProductImg{
   height: calc(100% - 105px);
@@ -423,6 +425,7 @@
   }
   .fassalDiv {
     width: 380px;
+    margin: auto;
     margin-top: 40px;
     background-color: white;
     border-radius: var(--border-radius);
