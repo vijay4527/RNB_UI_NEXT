@@ -159,7 +159,7 @@ const productbyname = ({ data }) => {
                         <h2 className={styles.pdp_ProductName}>
                           {data.product_name}
                         </h2>
-                        <div className={styles.reviewProductWrap}>
+                        {/* <div className={styles.reviewProductWrap}>
                           <h4>3.5</h4>
                           <div className={reviewStyles.reviewStart}>
                             <span>
@@ -223,14 +223,17 @@ const productbyname = ({ data }) => {
                               </svg>
                             </span>
                           </div>
-                        </div>
+                        </div> */}
                         <div className={styles.underLineSeperator}></div>
                       </>
                     ) : (
                       ""
                     )}
                     <ul className={styles.pdp_ProductDesc}>
-                      <li>
+                      {
+                        data.description
+                      }
+                      {/* <li>
                         <span>Base: </span>Chocolate Sponge.
                       </li>
                       <li>
@@ -241,7 +244,7 @@ const productbyname = ({ data }) => {
                         <span>Topping: </span>Coated with rich cream mixed with
                         french vanilla custard & Garnished with french vanilla
                         custard glaze and rich dark ganache.
-                      </li>
+                      </li> */}
                     </ul>
                     {/* <div className={styles.pdp_ProductContent}>
                     <h4>

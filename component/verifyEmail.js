@@ -7,12 +7,26 @@ import axios from 'axios'; // Make sure axios is installed
 const useUserData = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { data: session } = useSession();
+  const { data: session ,provider} = useSession();
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (session) {
+        console.log("faceBook session", session);
+        // Check if the user object and email are available
+        if (session.user && session.user.email) {
+          console.log("Facebook Email", session.user.email);
+        } else {
+          console.log("Email not available");
+        }
         try {
+    //  var obj  =   {
+    //         mobile : mobile,
+    //         cart_id: cartId ? cartId : "",
+    //         fb_id:"",
+    //          g_id:"",
+    //          otp:""
+    //       }
           // Replace 'your-api-endpoint' with the actual API endpoint
           // const response = await axios.get('your-api-endpoint', {
           //   headers: {

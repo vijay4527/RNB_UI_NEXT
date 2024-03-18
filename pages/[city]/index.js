@@ -736,11 +736,6 @@ const Index = ({ city }) => {
 
 export async function getServerSideProps(context) {
   const city = context.query.city;
-  removeCookie("userCity");
-  if (city) {
-    setCookie("userCity", city);
-    console.log("Cookie set with value: " + getCookie("userCity"));
-  }
 
   return {
     props: {

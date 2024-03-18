@@ -36,7 +36,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const router = useRouter();
   const currentPath = router.asPath;
   const { city } = router.query;
-  const {isLoggedIn,loading} =useUserData()
+  const {isLoggedIn} =useUserData()
+  const [loading,setLoading]= useState(false)
   const openRegistrationModal = () => {
     setShowLoginSection(false);
     setShowRegisterationSection(true);
@@ -86,6 +87,9 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
         var loginData= {
           mobile : mobile,
           cart_id: cartId ? cartId : "",
+          fb_id:"",
+           g_id:"",
+           otp:""
         }
         await loginSchema.validate({ mobile }, { abortEarly: false });
         const userData = await axiosPost(`/User/Login?cred=${mobile}`);
@@ -95,10 +99,11 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
           // setModalIsOpen(false);
           router.push(currentPath);
           // router.push("/")
-        } else {
-          registerUser()
-          setLoginError(userData.respMsg);
         }
+        //  else {
+        //   registerUser()
+        //   setLoginError(userData.respMsg);
+        // }
       } catch (validationError) {
         if (validationError instanceof yup.ValidationError) {
           setLoginError(validationError.message);
@@ -112,7 +117,31 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
     }
   };
 
+  const handleFacebookLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/auth/facebook');
+      const data = await response.json();
+      console.log(data); // Handle the response data as needed
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/auth/google');
+      const data = await response.json();
+      console.log(data); // Handle the response data as needed
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleOTPChange = (e, index) => {
     const inputs = document.querySelectorAll("input"),
