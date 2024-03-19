@@ -59,7 +59,6 @@
     background-attachment: fixed !important;
     transition: background 0s !important;
     background-size: 100%;
-    padding-bottom: 100px;
 }
 .text_title_heading {
   text-transform: capitalize;
@@ -108,7 +107,10 @@
   margin-right: 12px;
 }
 /* header breadcrumb */
-
+.pdp_otherContent{
+  position: relative;
+  top: 50px;
+}
 .pdp_DetailBody{
   display: grid;
   grid-template-columns:620px calc(100% - 620px);
@@ -152,6 +154,8 @@
   text-align: center;
   padding: 0px 25px;
   display: flex;
+  position: sticky;
+  top: 180px;
 }
 /* .pdp_ProductImg{
   height: calc(100% - 105px);
@@ -423,6 +427,7 @@
   }
   .fassalDiv {
     width: 380px;
+    margin: auto;
     margin-top: 40px;
     background-color: white;
     border-radius: var(--border-radius);

@@ -624,7 +624,9 @@
     padding: 25px 15px;
   }
   .plpFilterDescAction [data-testid="element"]{
-    width: 75%;
+    width: 65%;
+    background: #ddd;
+    height: 4px;
   }
   .plpFilterDescAction ul{
     margin: 0;

@@ -23,15 +23,18 @@
 .cartBoxItems{
 }
 .cartBoxItem{
-  border: 1px solid #ecedeb;
+  /* border: 1px solid #ecedeb; */
   padding: 16px ;
   font-family: var(--font-family);
   margin-bottom: 1.6rem;
+  background-color: #25130f;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .cartMainBody{
   display: grid;
-  grid-template-columns: calc(66.666667% - 1.6rem) 33.333333%;
-  grid-column-gap: 1.6rem;
+  grid-template-columns: calc(66.666667% - 2.6rem) 33.333333%;
+  grid-column-gap: 2.6rem;
 }
 .cartBoxContent{
   display: flex;
@@ -102,9 +105,12 @@
   border-right: 1px solid #ecedeb;
 }
 .cartPriceBox{
-  border: 1px solid #ecedeb;
+  /* border: 1px solid #ecedeb; */
   padding: 1.6rem;
   font-family: var(--font-family);
+  background-color: #25130f;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .cartPriceAmt{
   padding: 0;

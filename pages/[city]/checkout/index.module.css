@@ -25,9 +25,12 @@
     flex-direction: row;
 }
 .checkoutQctShipping{
-    width: calc(65% - 1.6rem);
-    margin-right: 1.6rem;
-    border: 1px solid #ecedeb;
+    width: calc(65% - 2.6rem);
+    margin-right: 2.6rem;
+    /* border: 1px solid #ecedeb; */
+    background-color: #25130f;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .checkoutQctOrderSummary{
     width: 35%;
@@ -57,7 +60,7 @@
     position: relative;
 }
 .checkoutQctShippingTabs li.active{
-    bottom: -0.1px;
+    bottom: -1.1px;
     border-bottom: 5px solid var(--theme-primary);
 }
 .checkoutQctShippingTabs h4{
@@ -203,9 +206,12 @@
 
 }
 .cartPriceBox{
-    border: 1px solid #ecedeb;
+    /* border: 1px solid #ecedeb; */
     padding: 1.6rem;
     font-family: var(--font-family);
+    background-color: #25130f;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
   .cartPriceAmt{
     padding: 0;

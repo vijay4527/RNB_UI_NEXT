@@ -15,6 +15,7 @@ const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { Prociono } from "next/font/google";
+import EnquiryModal from "@/component/EnquiryModal";
 
 const options = {
   items: 1,
@@ -573,7 +574,7 @@ const Index = ({ city }) => {
         </div>
       </div>
 
-      <div className="enquiryWrap">
+      {/* <div className="enquiryWrap">
         <Container fluid>
           <div className="enquiryBody">
             <div className="headerTitle">
@@ -677,7 +678,7 @@ const Index = ({ city }) => {
             </div>
           </div>
         </Container>
-      </div>
+      </div> */}
 
       <div className="mediaCollabWrap">
         <Container fluid>
@@ -729,6 +730,10 @@ const Index = ({ city }) => {
             )}
           </div>
         </Container>
+      </div>
+
+      <div className="enquiryWrapper">
+        <EnquiryModal/>
       </div>
     </>
   );

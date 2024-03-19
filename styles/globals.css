@@ -870,6 +870,7 @@ ul.selectLocationOption li{
 }
 .banner-img1 img{
   width: 80%;
+  margin-top: calc(100% - 80%);
 }
 .banner-img3{
   text-align: end;
@@ -880,7 +881,7 @@ ul.selectLocationOption li{
 }
 .banner-img-center img{
   width: 100%;
-  margin-top: calc(100% - 50%);
+  margin-top: calc(100% - 100%);
 }
 .banner-img2 {
   margin-top: 150px;
@@ -1008,16 +1009,57 @@ ul.selectLocationOption li{
   transition: background 0s !important;
   background-size: 100%;
 }
+.enquiryBody{
+  padding: 0 !important;
+}
 .enquiryContent {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr; */
   text-align: center;
+}
+.enquiry_btn{
+  background: #efc468;
+    border-radius: 0;
+    color: #232323;
+    display: inline-block;
+    font-size: 1.3rem;
+    height: 50px;
+    line-height: 50px;
+    position: fixed;
+    right: 0;
+    top: 120px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform-origin: bottom right;
+    width: 150px;
+    z-index: 1;
+    font-family: var(--font-family);
+    border: 0;
+    cursor: pointer;
+}
+.enquiryLinks{
+  display: flex;
+  justify-content: center;
+  margin-top: 1.1rem;
+}
+.enquiryLinks a{
+  margin: 0px 10px;
+  color: #000 !important;
+  font-family: var(--font-family);
+  text-decoration: underline !important;
+  cursor: pointer;
 }
 .enquiryContact ul {
   padding: 0;
   list-style: none;
   width: 60%;
   margin: auto;
+  display: none;
 }
 .enquiryContact ul li a {
   display: flex;
@@ -1047,9 +1089,9 @@ ul.selectLocationOption li{
   font-family: var(--font-family);
 }
 .enquiryFormData {
-  max-width: 650px;
+  /* max-width: 650px; */
   margin-left: auto;
-  padding: 60px 50px;
+  padding: 35px 35px 16px;
   border-radius: var(--border-radius);
   background-color: var(--theme-primary);
   margin: auto;
@@ -1060,7 +1102,7 @@ ul.selectLocationOption li{
     border: none;
     padding: 16px 20px;
     margin-bottom: 22px;
-    height: 56px;
+    height: 45px;
     font-family: var(--font-family);
     font-size: 1.4rem;
 }
@@ -1142,6 +1184,17 @@ ul.selectLocationOption li{
   -webkit-transform: translate(-50%,-50%) rotate(45deg);
   -moz-transform: translate(-50%,-50%) rotate(45deg);
   transform: translate(-50%,-50%) rotate(45deg);
+}
+.enquiryBody .headerTitle h2{
+  color: #000;
+  padding-top: 1.6rem;
+  font-size: 2.2rem;
+}
+.enquiryBody .headerTitle .testimonialUnderLine{
+  margin: 5px 0 5px;
+}
+.enquiryBody .headerTitle .testimonialUnder{
+  margin: 5px 0;
 }
 .headerTitle p {
   font-size: 3.5rem;
@@ -1517,6 +1570,9 @@ overflow: visible;
   color: #000000;
   font-size: 1.4rem;
 }
+.advInstaContentInfo img{
+  display: none;
+}
 .advInstaContentBox:hover .advInstaContentBoxHover{
   display: block;
 }
@@ -1858,7 +1914,8 @@ overflow: visible;
 .range-slider .range-slider__thumb {
     background: #faa307;
     transition: transform .3s;
-    border-radius: var(--border-radius);
+    width: 20px;
+    height: 20px;
     z-index: 2;
 }
 .range-slider .range-slider__thumb[data-active] {
@@ -1936,4 +1993,18 @@ overflow: visible;
 
 .orderDetails:hover{
   color:white !important
+}
+
+.ShowCaseSliderWrap{
+ padding-top: 4.6rem; 
+}
+.ShowCaseSliderTitle{
+  font-size: 24px;
+    line-height: 1.33;
+    color: #fff;
+    margin-top: 1rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    letter-spacing: 3.1px;
+    font-family: var(--font-family);
 }
