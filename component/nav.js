@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import Facebook from "next-auth/providers/facebook";
 import LoginModal from "@/component/loginModal";
 import { axiosGet,axiosPost,axiosGetAll } from "@/api";
+import { split } from "lodash";
 // const brand = [
 //   {
 //     cat_id: 1,
@@ -419,7 +420,7 @@ export default function Header() {
                               }
                             >
                               <Link
-                                href={`/products${category.url_name}`}
+                                href={`/${city}/l/${category.category_name.replaceAll(" ",'-')}`}
                                 onClick={toggleClass}
                                 prefetch={true}
                               >
@@ -473,7 +474,7 @@ export default function Header() {
                                         key={subcategory.sub_category_id}
                                       >
                                         <Link
-                                          href={`/products${category.url_name}${subcategory.url_name}`}
+                                          href={`/${city}/l/${category.category_name}/${subcategory.sub_category_name ? subcategory.sub_category_name.replaceAll(" ", '-') : ''}`}
                                           prefetch={true}
                                         >
                                           <span onClick={toggleClass}>
