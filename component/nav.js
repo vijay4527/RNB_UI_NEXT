@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Facebook from "next-auth/providers/facebook";
 import LoginModal from "@/component/loginModal";
+import { axiosPost,axiosGet } from "@/api";
 const brand = [
   {
     cat_id: 1,
@@ -188,6 +189,8 @@ export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { data, status } = useSession();
   const [countCart, setCountCart] = useState(0);
+  const [category,setCategory] = useState([])
+  const [subCategory,setSubCategory] = useState([])
 
   const loactionToggle = () => {
     setIsLoactionActive(!isLoactionActive);
@@ -204,11 +207,32 @@ export default function Header() {
     setIsClicked(!isClicked);
     // searchInputRef.current.focus();
   };
+  useEffect(()=>{
+    getCategory()
+  },[])
 
-  const handleMouseEnter = (category) => {
-    setHoveredCategory(category);
+  const getCategory = async () => {
+    try {
+      var categoryObj = {
+        city_name: city
+      };
+      const data = await axiosPost("Category/GetAllCategories", categoryObj);
+      if (data) {
+        setCategory(data); // Assuming respObj contains an array of categories
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
   };
 
+  const handleMouseEnter = async(category) => {
+    setHoveredCategory(category);
+    const data = await axiosGet("SubCategory/GetSubCategoryByCategoryId/"+category.category_id)
+    if(data){
+      setSubCategory(data)
+    }
+
+  };
   const handleMouseLeave = () => {
     setHoveredCategory(null);
   };
@@ -355,7 +379,19 @@ export default function Header() {
                           </div>
                         </div>
 
-                        {brand.map((category, index) => (
+                        <div className={`sub_nav`}>
+                          <div className={"sub_navbtn"}>
+                            <Link
+                              href={`/${city}/about-us`}
+                              onClick={toggleClass}
+                              prefetch={true}
+                            >
+                              <h4 className="category-title">About Us</h4>
+                            </Link>
+                          </div>
+                        </div>
+
+                        {category && category.length>0 && (category.map((category, index) => (
                           <div
                             className={`sub_nav ${
                               hoveredCategory === category ? "show" : ""
@@ -372,12 +408,12 @@ export default function Header() {
                               }
                             >
                               <Link
-                                href={`/${category.url_name}`}
+                                href={`/${category.category_name}`}
                                 onClick={toggleClass}
                                 prefetch={true}
                               >
                                 <h4 className="category-title">
-                                  {category.name}
+                                  {category.category_name}
                                 </h4>
                               </Link>
                               <span className="category-dropIcon">
@@ -404,7 +440,7 @@ export default function Header() {
                               }
                             >
                               <Link
-                                href={`/products${category.url_name}`}
+                                href={`/${city}/l/${category.category_name.replaceAll(" ",'-')}`}
                                 onClick={toggleClass}
                                 prefetch={true}
                               >
@@ -416,7 +452,7 @@ export default function Header() {
                                 onMouseLeave={handleMouseLeave}
                                 onClick={() => handleCategoryClick(category)}
                                 className="category-dropIcon"
-                              >
+                              >   
                                 <i className="plus_Icon">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -444,38 +480,30 @@ export default function Header() {
                               </span>
                             </div>
 
-                            {category.sub_categories && (
+                            {subCategory && (
                               <div
                                 className={`subnav-content ${
                                   hoveredCategory === category ? "active" : ""
                                 }`}
                               >
                                 <ul className="submenu-list">
-                                  {category.sub_categories.map(
+                                  {subCategory && subCategory.length>0 && subCategory.map(
                                     (subcategory) => (
                                       <li
                                         className="category-sub-title"
-                                        key={subcategory.sub_id}
+                                        key={subcategory.sub_category_id}
                                       >
                                         <Link
-                                          href={`/products${category.url_name}${subcategory.url_name}`}
+                                          href={`/${city}/l/${category.category_name}/${subcategory.sub_category_name ? subcategory.sub_category_name.replaceAll(" ", '-') : ''}`}
                                           prefetch={true}
                                         >
                                           <span onClick={toggleClass}>
-                                            {subcategory.name}
+                                            {subcategory.sub_category_name}
                                           </span>
                                         </Link>
                                       </li>
                                     )
                                   )}
-                                  <li className="category-sub-title">
-                                    <Link
-                                      href={`/${city}/l/Cakes`}
-                                      prefetch={true}
-                                    >
-                                      All Cakes
-                                    </Link>
-                                  </li>
                                 </ul>
                                 <div className="subnav-img">
                                   <div className="imgdiv">
@@ -488,7 +516,7 @@ export default function Header() {
                               </div>
                             )}
                           </div>
-                        ))}
+                        )))}
                       </div>
                     </div>
                   </div>
