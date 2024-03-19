@@ -104,8 +104,22 @@ function EnquiryModal() {
                   </Form>
                   
                     <div className='enquiryLinks'>
-                        <a>1234567890</a>
-                        <a>abc@gmail.com</a>
+                        <a>
+                            <img
+                            src="https://fama.b-cdn.net/RnB/call.png"
+                            alt=""
+                            className="icon-image"
+                            />
+                            <span>1234567890</span>
+                        </a>
+                        <a>
+                            <img
+                            src="https://fama.b-cdn.net/RnB/email.png"
+                            alt=""
+                            className="icon-image"
+                            />
+                            <span>abc@gmail.com</span>
+                        </a>
                     </div>
                 </div>
               </div>
