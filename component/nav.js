@@ -197,10 +197,9 @@ export default function Header() {
     setIsActive(!isActive);
   };
 
-
-  useEffect(()=>{
-   console.log("Your data is ", data)
-  },[data])
+  useEffect(() => {
+    console.log("Your data is ", data);
+  }, [data]);
   const handleClick = () => {
     setIsClicked(!isClicked);
     // searchInputRef.current.focus();
@@ -344,6 +343,18 @@ export default function Header() {
                     </div>
                     <div className="Brands_navbody">
                       <div className="subNavbar_body">
+                        <div className={`sub_nav`}>
+                          <div className={"sub_navbtn"}>
+                            <Link
+                              href={`/${city}`}
+                              onClick={toggleClass}
+                              prefetch={true}
+                            >
+                              <h4 className="category-title">Home</h4>
+                            </Link>
+                          </div>
+                        </div>
+
                         {brand.map((category, index) => (
                           <div
                             className={`sub_nav ${
@@ -548,40 +559,43 @@ export default function Header() {
                         </span>
                       </li>
                       <li className="myProfileItems">
-                          <Dropdown>
-                            <Dropdown.Toggle
-                              as={CustomToggle}
-                              id="dropdown-custom-components"
-                            >
-                              Dropdown Button
-                            </Dropdown.Toggle>
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            as={CustomToggle}
+                            id="dropdown-custom-components"
+                          >
+                            Dropdown Button
+                          </Dropdown.Toggle>
 
-                            <Dropdown.Menu align={{ lg: "end" }}>
-                              {isLoggedIn && (
-                                <>
+                          <Dropdown.Menu align={{ lg: "end" }}>
+                            {isLoggedIn && (
+                              <>
                                 <Dropdown.Item href={`/${city}/profile`}>
                                   My Account
                                 </Dropdown.Item>
-                                <Dropdown.Item href={`/${city}/orders/orderHistory`}>Order History</Dropdown.Item>
-                                <Dropdown.Divider />
-                                </>
-                              )}
-                              {!isLoggedIn && (
                                 <Dropdown.Item
-                                  onClick={() => setIsLoginModalOpen(true)}
+                                  href={`/${city}/orders/orderHistory`}
                                 >
-                                  Sign In
+                                  Order History
                                 </Dropdown.Item>
-                              )}
-                              {isLoggedIn && (
-                                <Dropdown.Item onClick={Logout}>
-                                  Sign Out
-                                </Dropdown.Item>
-                               )}
-                              
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </li>
+                                <Dropdown.Divider />
+                              </>
+                            )}
+                            {!isLoggedIn && (
+                              <Dropdown.Item
+                                onClick={() => setIsLoginModalOpen(true)}
+                              >
+                                Sign In
+                              </Dropdown.Item>
+                            )}
+                            {isLoggedIn && (
+                              <Dropdown.Item onClick={Logout}>
+                                Sign Out
+                              </Dropdown.Item>
+                            )}
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </li>
                       <li>
                         <Link
                           href={`/${city}/cart`}
