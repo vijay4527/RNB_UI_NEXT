@@ -371,6 +371,30 @@ export default function Header() {
                     </div>
                     <div className="Brands_navbody">
                       <div className="subNavbar_body">
+                      <div className={`sub_nav`}>
+                          <div className={"sub_navbtn"}>
+                            <Link
+                              href={`/${city}`}
+                              onClick={toggleClass}
+                              prefetch={true}
+                            >
+                              <h4 className="category-title">Home</h4>
+                            </Link>
+                          </div>
+                        </div>
+
+                        <div className={`sub_nav`}>
+                          <div className={"sub_navbtn"}>
+                            <Link
+                              href={`/${city}`}
+                              onClick={toggleClass}
+                              prefetch={true}
+                            >
+                              <h4 className="category-title">About us</h4>
+                            </Link>
+                          </div>
+                        </div>
+
                         {category && category.length>0 && (category.map((category, index) => (
                           <div
                             className={`sub_nav ${
