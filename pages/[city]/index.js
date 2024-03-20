@@ -7,8 +7,9 @@ import initAOS from "../../component/initAOS";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
-import useUserData from '@/component/verifyEmail'; // Import the useUserData hook
+import useUserData from "@/component/verifyEmail"; // Import the useUserData hook
 import { useSession } from "next-auth/react";
+import LoginModal from "@/component/loginModal";
 const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
   ssr: false,
 });
@@ -24,8 +25,8 @@ const options = {
   autoplay: true,
   autoplayTimeout: 3000,
   autoplayHoverPause: true,
-  nav: true, 
-  dots: true, 
+  nav: true,
+  dots: true,
   navText: [
     '<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
     '<span className="arrow-next-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
@@ -37,7 +38,7 @@ const optionsNewLunched = {
   loop: true,
   margin: 10,
   autoplay: false,
-  nav: false, 
+  nav: false,
   dots: false,
   navText: [
     '<span className="arrow-prev-icon"><span className="arrow-top-part"></span><span className="arrow-bottom-part"></span></span>',
@@ -67,20 +68,22 @@ const Index = ({ city }) => {
   const [message, setMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const {data,status} = useSession()
+  const { data, status } = useSession();
   const { isLoggedIn, loading } = useUserData();
-  useEffect(() => {
-    if(isLoggedIn){
-      console.log("user is logged in", isLoggedIn);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
+  useEffect(() => {
+    if(!isLoggedIn && !data){
+      setIsLoginModalOpen(false)
     }
-  }, [isLoggedIn]);
+    else if(data){
+      setIsLoginModalOpen(false)
+    }
+  }, [isLoggedIn,data]);
   useEffect(() => {
     initAOS();
     setIsMounted(true);
-  }, [data]); 
-
-
+  }, [data]);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -731,9 +734,15 @@ const Index = ({ city }) => {
           </div>
         </Container>
       </div>
-
+      {!isLoggedIn && (
+        <LoginModal
+          isOpen={!isLoginModalOpen}
+          onRequestClose={() => setIsLoginModalOpen(false)}
+          closeLoginModal={() => setIsLoginModalOpen(false)}
+        ></LoginModal>
+      )}
       <div className="enquiryWrapper">
-        <EnquiryModal/>
+        <EnquiryModal />
       </div>
     </>
   );
