@@ -8,8 +8,11 @@ import * as yup from "yup";
 import { loginSchema, registrationSchema } from "./validation";
 import homeStyles from "../styles/Home.module.css";
 import useUserData from "./verifyEmail";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
-  const {data ,status} = useSession()
+  const { data: session, status } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
@@ -36,8 +39,9 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const router = useRouter();
   const currentPath = router.asPath;
   const { city } = router.query;
-  const {isLoggedIn} =useUserData()
-  const [loading,setLoading]= useState(false)
+  const [hitApi,setHitApi] = useState(false)
+  const {isLoggedIn,loading} =useUserData()
+
   const openRegistrationModal = () => {
     setShowLoginSection(false);
     setShowRegisterationSection(true);
@@ -49,13 +53,13 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   };
 
 
-  useEffect(()=>{
-    if(isLoggedIn == true){
+  // useEffect(()=>{
+  //   if(isLoggedIn == true){
       
-    }else if(isLoggedIn == false){
+  //   }else if(isLoggedIn == false){
            
-    }
-  },[isLoggedIn])
+  //   }
+  // },[isLoggedIn])
 
   useEffect(() => {
     if (isOpen) {
@@ -63,9 +67,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
     }
   }, [isOpen]);
 
-  useEffect(()=>{
-     registerUser()
-  },[data])
+ 
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -80,24 +82,25 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
     // setShowLoginSection(false);
     setShowRegisterationSection(false);
     setShowLoginInput(false)
-    setType(type);
-    const api_url = process.env.API_URL;
-    if (type == "login") {
       try {
         var loginData= {
-          mobile : mobile,
-          cart_id: cartId ? cartId : "",
-          fb_id:"",
-           g_id:"",
-           otp:""
+          "mobile": mobile,
+          "fb_id": "",
+          "cart_id": cartId ? cartId : "",
+          "g_id": session.user.email,
+          "otp": ""
         }
         await loginSchema.validate({ mobile }, { abortEarly: false });
-        const userData = await axiosPost(`/User/Login?cred=${mobile}`);
+        setShowOtpSection(true)
+        const userData = await axiosPost("/User/UserPortalRegistration",loginData);
         if (userData.resp === true) {
            sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
-          // setShowOtpSection(true);
+           setShowOtpSection(true);
           // setModalIsOpen(false);
           router.push(currentPath);
+        } else {
+          registerUser()
+          setLoginError(userData.respMsg);
           // router.push("/")
         }
         //  else {
@@ -111,37 +114,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
           console.log(validationError);
         }
       }
-    }
-    if (type == "registeration") {
- 
-    }
   };
 
-  const handleFacebookLogin = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/auth/facebook');
-      const data = await response.json();
-      console.log(data); // Handle the response data as needed
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/auth/google');
-      const data = await response.json();
-      console.log(data); // Handle the response data as needed
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleOTPChange = (e, index) => {
     const inputs = document.querySelectorAll("input"),
@@ -222,14 +196,19 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   }
 
   const verifyOTP = async () => {
-
-    if (Type == "login") {
-      const userData = await axiosPost(`/User/Login?cred=${mobile}`);
-    } else if (Type == "registeration") {
-      const obj = {
-        user_id: "",
-      };
+    var loginData= {
+      "mobile": mobile,
+      "fb_id": "",
+      "cart_id": cartId ? cartId : "",
+      "g_id": session.user.email,
+      "otp": otp
     }
+    if (userData) {
+      const data = await axiosPost('OtpDetails/VerifUseryOtp',loginData);
+      if(data){
+        toast("You have successfully logged in",{autoClose : 3000,closeButton: true})
+      }
+    } 
   };
 
 
@@ -282,32 +261,32 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   // };
 
 
-  const registerUser = async (type, e) => {
-    if (type === 'google' || type === 'facebook') {
-      try {
-        const result = await signIn(type, { redirect: false });
-        e.preventDefault();
-        if (result?.error) {
-          console.error(`Error signing in with ${type}: ${result.error}`);
-        } else {
-          const sessionData = result?.data;
-          if (sessionData) {
-            const userData = await axiosPost(`/User/Login?cred=${sessionData.mobile}`);
-            if (userData.resp === true) {
-              sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
-              router.push(currentPath);
-            } else {
-              setShowLoginInput(true);
-              setShowOtpSection(true);
-              setLoginError('Please complete registration.');
-            }
-          }
-        }
-      } catch (error) {
-        console.error(`Error during ${type} sign-in:`, error);
-      }
-    }
-  };
+  // const registerUser = async (type, e) => {
+  //   if (type === 'google' || type === 'facebook') {
+  //     try {
+  //       const result = await signIn(type, { redirect: false });
+  //       e.preventDefault();
+  //       if (result?.error) {
+  //         console.error(`Error signing in with ${type}: ${result.error}`);
+  //       } else {
+  //         const sessionData = result?.data;
+  //         if (sessionData) {
+  //           const userData = await axiosPost(`/User/Login?cred=${sessionData.mobile}`);
+  //           if (userData.resp === true) {
+  //             sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
+  //             router.push(currentPath);
+  //           } else {
+  //             setShowLoginInput(true);
+  //             setShowOtpSection(true);
+  //             setLoginError('Please complete registration.');
+  //           }
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error(`Error during ${type} sign-in:`, error);
+  //     }
+  //   }
+  // };
   
   return (
     <div>
@@ -323,7 +302,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
             showloginInput ? (
               <form className="p-4 m-4">
                 {/* <h1 className="loginTitle">Login / Sign Up</h1> */}
-                <h1 className="loginTitle">{ data ? "Phone Number" :"Login / Sign Up"}</h1>
+                <h1 className="loginTitle">{ session ? "Phone Number" :"Login / Sign Up"}</h1>
                 <div className="form_group mb-3">
                   {/* <label className="form-label">Email / Phone No</label> */}
                   <input
@@ -356,7 +335,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
                   Proceed
                 </button>
                 {
-                  !data && (
+                  !session && (
                     <div className="text-center">
                   <p>
                     Not a member?{" "}
@@ -496,6 +475,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
             }
         </div>
       </Modal>
+      <ToastContainer />
+
     </div>
   );
 };

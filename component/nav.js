@@ -9,177 +9,173 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Facebook from "next-auth/providers/facebook";
 import LoginModal from "@/component/loginModal";
-import { axiosGet,axiosPost,axiosGetAll } from "@/api";
-import { split } from "lodash";
-// const brand = [
-//   {
-//     cat_id: 1,
-//     name: "Home",
-//     url_name: "mumbai",
-//     sub_categories: null,
-//   },
-//   {
-//     cat_id: 1,
-//     name: "About us",
-//     url_name: "mumbai/about-us",
-//     sub_categories: null,
-//   },
-//   {
-//     cat_id: 1,
-//     name: "Occasional Cakes",
-//     url_name: "OccasionalCakes",
-//     sub_categories: [
-//       {
-//         sub_id: 1,
-//         name: "Wedding Day",
-//         url_name: "#WeddingDay",
-//       },
-//       {
-//         sub_id: 2,
-//         name: "Birthday Bash Cake",
-//         url_name: "#BirthdayBashCake",
-//       },
-//       {
-//         sub_id: 3,
-//         name: "Dazzling Collection",
-//         url_name: "#DazzlingCollection",
-//       },
-//       {
-//         sub_id: 4,
-//         name: "Customised Cakes",
-//         url_name: "#CustomisedCakes",
-//       },
-//     ],
-//   },
-//   {
-//     cat_id: 1,
-//     name: "Our Products",
-//     url_name: "OurProducts",
-//     sub_categories: [
-//       {
-//         sub_id: 1,
-//         name: "Cheese Cake",
-//         url_name: "#CheeseCake",
-//       },
-//       {
-//         sub_id: 2,
-//         name: "Pastries",
-//         url_name: "#Pastries",
-//       },
-//       {
-//         sub_id: 3,
-//         name: "Biscuits",
-//         url_name: "#Biscuits",
-//       },
-//       {
-//         sub_id: 4,
-//         name: "Savoury",
-//         url_name: "#Savoury",
-//       },
-//       {
-//         sub_id: 5,
-//         name: "Donuts",
-//         url_name: "#Donuts",
-//       },
-//       {
-//         sub_id: 6,
-//         name: "Desserts",
-//         url_name: "#Desserts",
-//       },
-//       {
-//         sub_id: 7,
-//         name: "Chocolates",
-//         url_name: "#Chocolates",
-//       },
-//       {
-//         sub_id: 8,
-//         name: "Wafers",
-//         url_name: "#Wafers",
-//       },
-//       {
-//         sub_id: 9,
-//         name: "Titbits",
-//         url_name: "#Titbits",
-//       },
-//       {
-//         sub_id: 10,
-//         name: "Breads",
-//         url_name: "#Breads",
-//       },
-//       {
-//         sub_id: 11,
-//         name: "Tea Time Cakes",
-//         url_name: "#TeaTimeCakes",
-//       },
-//     ],
-//   },
-//   {
-//     cat_id: 1,
-//     name: "Cakes",
-//     url_name: `mumbai/l/Cakes`,
-//     sub_categories: [
-//       {
-//         sub_id: 1,
-//         name: "Mithai Magic Collection",
-//         url_name: "#MithaiMagicCollection",
-//       },
-//       {
-//         sub_id: 2,
-//         name: "Ready Regulars ",
-//         url_name: "#ReadyRegulars ",
-//       },
-//       {
-//         sub_id: 3,
-//         name: "Sinful Collections",
-//         url_name: "#SinfulCollections",
-//       },
-//       {
-//         sub_id: 4,
-//         name: "Photo Cakes",
-//         url_name: "#PhotoCakes",
-//       },
-//       {
-//         sub_id: 5,
-//         name: "Signature Cakes",
-//         url_name: "#SignatureCakes",
-//       },
-//       {
-//         sub_id: 6,
-//         name: "Fancy Cakes ",
-//         url_name: "#FancyCakes ",
-//       },
-//       {
-//         sub_id: 7,
-//         name: "Sensational Cakes",
-//         url_name: "#SensationalCakes",
-//       },
-//       {
-//         sub_id: 8,
-//         name: "Cake of The Month",
-//         url_name: "#CakeofTheMonth",
-//       },
-//       {
-//         sub_id: 9,
-//         name: "Tall Wonder",
-//         url_name: "#TallWonder",
-//       },
-//       {
-//         sub_id: 10,
-//         name: "Tintastic",
-//         url_name: "#Tintastic",
-//       },
-//     ],
-//   },
-//   {
-//     cat_id: 1,
-//     name: "Get Franchise",
-//     url_name: "GetFranchise",
-//     sub_categories: null,
-//   },
-// ];
-
-
-
+import { axiosPost,axiosGet } from "@/api";
+const brand = [
+  {
+    cat_id: 1,
+    name: "Home",
+    url_name: "mumbai",
+    sub_categories: null,
+  },
+  {
+    cat_id: 1,
+    name: "About us",
+    url_name: "mumbai/about-us",
+    sub_categories: null,
+  },
+  {
+    cat_id: 1,
+    name: "Occasional Cakes",
+    url_name: "OccasionalCakes",
+    sub_categories: [
+      {
+        sub_id: 1,
+        name: "Wedding Day",
+        url_name: "#WeddingDay",
+      },
+      {
+        sub_id: 2,
+        name: "Birthday Bash Cake",
+        url_name: "#BirthdayBashCake",
+      },
+      {
+        sub_id: 3,
+        name: "Dazzling Collection",
+        url_name: "#DazzlingCollection",
+      },
+      {
+        sub_id: 4,
+        name: "Customised Cakes",
+        url_name: "#CustomisedCakes",
+      },
+    ],
+  },
+  {
+    cat_id: 1,
+    name: "Our Products",
+    url_name: "OurProducts",
+    sub_categories: [
+      {
+        sub_id: 1,
+        name: "Cheese Cake",
+        url_name: "#CheeseCake",
+      },
+      {
+        sub_id: 2,
+        name: "Pastries",
+        url_name: "#Pastries",
+      },
+      {
+        sub_id: 3,
+        name: "Biscuits",
+        url_name: "#Biscuits",
+      },
+      {
+        sub_id: 4,
+        name: "Savoury",
+        url_name: "#Savoury",
+      },
+      {
+        sub_id: 5,
+        name: "Donuts",
+        url_name: "#Donuts",
+      },
+      {
+        sub_id: 6,
+        name: "Desserts",
+        url_name: "#Desserts",
+      },
+      {
+        sub_id: 7,
+        name: "Chocolates",
+        url_name: "#Chocolates",
+      },
+      {
+        sub_id: 8,
+        name: "Wafers",
+        url_name: "#Wafers",
+      },
+      {
+        sub_id: 9,
+        name: "Titbits",
+        url_name: "#Titbits",
+      },
+      {
+        sub_id: 10,
+        name: "Breads",
+        url_name: "#Breads",
+      },
+      {
+        sub_id: 11,
+        name: "Tea Time Cakes",
+        url_name: "#TeaTimeCakes",
+      },
+    ],
+  },
+  {
+    cat_id: 1,
+    name: "Cakes",
+    url_name: `mumbai/l/Cakes`,
+    sub_categories: [
+      {
+        sub_id: 1,
+        name: "Mithai Magic Collection",
+        url_name: "#MithaiMagicCollection",
+      },
+      {
+        sub_id: 2,
+        name: "Ready Regulars ",
+        url_name: "#ReadyRegulars ",
+      },
+      {
+        sub_id: 3,
+        name: "Sinful Collections",
+        url_name: "#SinfulCollections",
+      },
+      {
+        sub_id: 4,
+        name: "Photo Cakes",
+        url_name: "#PhotoCakes",
+      },
+      {
+        sub_id: 5,
+        name: "Signature Cakes",
+        url_name: "#SignatureCakes",
+      },
+      {
+        sub_id: 6,
+        name: "Fancy Cakes ",
+        url_name: "#FancyCakes ",
+      },
+      {
+        sub_id: 7,
+        name: "Sensational Cakes",
+        url_name: "#SensationalCakes",
+      },
+      {
+        sub_id: 8,
+        name: "Cake of The Month",
+        url_name: "#CakeofTheMonth",
+      },
+      {
+        sub_id: 9,
+        name: "Tall Wonder",
+        url_name: "#TallWonder",
+      },
+      {
+        sub_id: 10,
+        name: "Tintastic",
+        url_name: "#Tintastic",
+      },
+    ],
+  },
+  {
+    cat_id: 1,
+    name: "Get Franchise",
+    url_name: "GetFranchise",
+    sub_categories: null,
+  },
+];
 
 export default function Header() {
   const router = useRouter();
@@ -195,7 +191,7 @@ export default function Header() {
   const [countCart, setCountCart] = useState(0);
   const [category,setCategory] = useState([])
   const [subCategory,setSubCategory] = useState([])
-   const [brand,setBrand] = useState([])
+
   const loactionToggle = () => {
     setIsLoactionActive(!isLoactionActive);
   };
@@ -204,6 +200,13 @@ export default function Header() {
     setIsActive(!isActive);
   };
 
+  useEffect(() => {
+    console.log("Your data is ", data);
+  }, [data]);
+  const handleClick = () => {
+    setIsClicked(!isClicked);
+    // searchInputRef.current.focus();
+  };
   useEffect(()=>{
     getCategory()
   },[])
@@ -222,12 +225,6 @@ export default function Header() {
     }
   };
 
-
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-    // searchInputRef.current.focus();
-  };
-
   const handleMouseEnter = async(category) => {
     setHoveredCategory(category);
     const data = await axiosGet("SubCategory/GetSubCategoryByCategoryId/"+category.category_id)
@@ -236,7 +233,6 @@ export default function Header() {
     }
 
   };
-
   const handleMouseLeave = () => {
     setHoveredCategory(null);
   };
@@ -371,7 +367,7 @@ export default function Header() {
                     </div>
                     <div className="Brands_navbody">
                       <div className="subNavbar_body">
-                      <div className={`sub_nav`}>
+                        <div className={`sub_nav`}>
                           <div className={"sub_navbtn"}>
                             <Link
                               href={`/${city}`}
@@ -386,11 +382,11 @@ export default function Header() {
                         <div className={`sub_nav`}>
                           <div className={"sub_navbtn"}>
                             <Link
-                              href={`/${city}`}
+                              href={`/${city}/about-us`}
                               onClick={toggleClass}
                               prefetch={true}
                             >
-                              <h4 className="category-title">About us</h4>
+                              <h4 className="category-title">About Us</h4>
                             </Link>
                           </div>
                         </div>
@@ -591,40 +587,43 @@ export default function Header() {
                         </span>
                       </li>
                       <li className="myProfileItems">
-                          <Dropdown>
-                            <Dropdown.Toggle
-                              as={CustomToggle}
-                              id="dropdown-custom-components"
-                            >
-                              Dropdown Button
-                            </Dropdown.Toggle>
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            as={CustomToggle}
+                            id="dropdown-custom-components"
+                          >
+                            Dropdown Button
+                          </Dropdown.Toggle>
 
-                            <Dropdown.Menu align={{ lg: "end" }}>
-                              {isLoggedIn && (
-                                <>
+                          <Dropdown.Menu align={{ lg: "end" }}>
+                            {isLoggedIn && (
+                              <>
                                 <Dropdown.Item href={`/${city}/profile`}>
                                   My Account
                                 </Dropdown.Item>
-                                <Dropdown.Item href={`/${city}/orders/orderHistory`}>Order History</Dropdown.Item>
-                                <Dropdown.Divider />
-                                </>
-                              )}
-                              {!isLoggedIn && (
                                 <Dropdown.Item
-                                  onClick={() => setIsLoginModalOpen(true)}
+                                  href={`/${city}/orders/orderHistory`}
                                 >
-                                  Sign In
+                                  Order History
                                 </Dropdown.Item>
-                              )}
-                              {isLoggedIn && (
-                                <Dropdown.Item onClick={Logout}>
-                                  Sign Out
-                                </Dropdown.Item>
-                               )}
-                              
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </li>
+                                <Dropdown.Divider />
+                              </>
+                            )}
+                            {!isLoggedIn && (
+                              <Dropdown.Item
+                                onClick={() => setIsLoginModalOpen(true)}
+                              >
+                                Sign In
+                              </Dropdown.Item>
+                            )}
+                            {isLoggedIn && (
+                              <Dropdown.Item onClick={Logout}>
+                                Sign Out
+                              </Dropdown.Item>
+                            )}
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </li>
                       <li>
                         <Link
                           href={`/${city}/cart`}
