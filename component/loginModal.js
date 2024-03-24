@@ -8,8 +8,9 @@ import * as yup from "yup";
 import { loginSchema, registrationSchema } from "./validation";
 import homeStyles from "../styles/Home.module.css";
 import useUserData from "./verifyEmail";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Head from "next/head";
 
 const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const { data: session, status } = useSession();
@@ -25,7 +26,6 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showloginInput, setShowLoginInput] = useState(true);
   const [Type, setType] = useState("");
-  const [showRegisterationSection, setShowRegisterationSection] = useState(false);
   const [showLoginSection, setShowLoginSection] = useState(true);
   const [otp, setOTP] = useState(["", "", "", "", ""]);
   const length = otp.length;
@@ -35,29 +35,20 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const [loginError, setLoginError] = useState("");
   const inputs = ["input1", "input2", "input3", "input4"];
   const cartId =
-  typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
+    typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
   const router = useRouter();
   const currentPath = router.asPath;
   const { city } = router.query;
-  const [hitApi,setHitApi] = useState(false)
-  const {isLoggedIn,loading} =useUserData()
-
-  const openRegistrationModal = () => {
-    setShowLoginSection(false);
-    setShowRegisterationSection(true);
-  };
-
-  const openLoginModal = () => {
-    setShowRegisterationSection(false);
-    setShowLoginSection(true);
-  };
+  const [hitApi, setHitApi] = useState(false);
+  const { isLoggedIn, loading } = useUserData(hitApi);
+  const [userObject, setUserObject] = useState({});
 
 
   // useEffect(()=>{
   //   if(isLoggedIn == true){
-      
+
   //   }else if(isLoggedIn == false){
-           
+
   //   }
   // },[isLoggedIn])
 
@@ -67,59 +58,61 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
     }
   }, [isOpen]);
 
- 
+// useEffect(()=>{
+//    if(isLoggedIn == false ){
+//     setModalIsOpen(true);
 
+//    }
+// },[isLoggedIn])
   const closeModal = () => {
     setModalIsOpen(false);
-    setShowLoginInput(true)
-    setShowOtpSection(false)
-    setMobile("")
+    setShowLoginInput(true);
+    setShowOtpSection(false);
+    setMobile("");
     onRequestClose();
     closeLoginModal();
   };
 
   const submitHandler = async (type) => {
-    // setShowLoginSection(false);
-    setShowRegisterationSection(false);
-    setShowLoginInput(false)
-      try {
-        var loginData= {
-          "mobile": mobile,
-          "fb_id": "",
-          "cart_id": cartId ? cartId : "",
-          "g_id": session.user.email,
-          "otp": ""
-        }
-        await loginSchema.validate({ mobile }, { abortEarly: false });
-        setShowOtpSection(true)
-        const userData = await axiosPost("/User/UserPortalRegistration",loginData);
-        if (userData.resp === true) {
-           sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
-           setShowOtpSection(true);
-          // setModalIsOpen(false);
-          router.push(currentPath);
-        } else {
-          registerUser()
-          setLoginError(userData.respMsg);
-          // router.push("/")
-        }
-        //  else {
-        //   registerUser()
-        //   setLoginError(userData.respMsg);
-        // }
-      } catch (validationError) {
-        if (validationError instanceof yup.ValidationError) {
-          setLoginError(validationError.message);
-        } else {
-          console.log(validationError);
-        }
-      }
-  };
 
+    try {
+      var loginData = {
+        mobile: mobile,
+        fb_id:
+          session && session.account.provider == "facebook"
+            ? session.accessToken
+            : "",
+        cart_id: cartId ? cartId : "",
+        g_id:
+          session && session.account.provider == "google"
+            ? session.accessToken
+            : "",
+        otp: "",
+      };
+      await loginSchema.validate({ mobile }, { abortEarly: false });
+      const response = await axiosPost("/User/LoginCheck", loginData);
+      if (response.resp === true) {
+        sessionStorage.removeItem("userData");
+        setUserObject(response.respObj);
+        setShowLoginInput(false);
+        setShowOtpSection(true);        
+        router.push(currentPath);
+      } else {
+        setLoginError(response.respMsg);
+        // router.push("/")
+      }
+    } catch (validationError) {
+      if (validationError instanceof yup.ValidationError) {
+        setLoginError(validationError.message);
+      } else {
+        console.log(validationError);
+      }
+    }
+  };
 
   const handleOTPChange = (e, index) => {
     const inputs = document.querySelectorAll("input"),
-      button = document.querySelector("button");
+      button = document.getElementById("btnVerifyOtp");
     inputs.forEach((input, index1) => {
       input.addEventListener("keyup", (e) => {
         const currentInput = input,
@@ -196,100 +189,61 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   }
 
   const verifyOTP = async () => {
-    var loginData= {
-      "mobile": mobile,
-      "fb_id": "",
-      "cart_id": cartId ? cartId : "",
-      "g_id": session.user.email,
-      "otp": otp
-    }
-    if (userData) {
-      const data = await axiosPost('OtpDetails/VerifUseryOtp',loginData);
-      if(data){
-        toast("You have successfully logged in",{autoClose : 3000,closeButton: true})
+    const otpValue = inputs
+      .map((id) => document.getElementById(id).value)
+      .join("");
+    var loginData = {
+      mobile: mobile,
+      fb_id: "",
+      cart_id: cartId ? cartId : "",
+      g_id: session ? session?.user?.email : "",
+      otp: otpValue,
+      userId: userObject && userObject.res ? userObject.res.user_id : userObject?.user_id || ''
+    };
+    if (userObject) {
+      try{
+        const data = await axiosPost("OtpDetails/VerifyUserOtp", loginData);
+        if (data.resp == true) {
+          sessionStorage.setItem("userData", JSON.stringify(data.respObj));
+          setShowOtpSection(false);
+          setModalIsOpen(false);
+          toast.success("You have logged in successfully", {
+            autoClose: 3000,
+            closeButton: true,
+          });
+          
+        }
+        else if(data.resp== false){
+          setLoginError(data.respMsg)
+        }
       }
-    } 
+      catch(error){
+        setLoginError(error)
+
+      }
+      
+    }
   };
 
+  const googleLogin = async () => {
+    setHitApi(true);
+    signIn("google");
+  };
+  const handleOTpNotRecieved = async () => {
+    setShowOtpSection(false);
+    setShowLoginInput(true);
+  };
 
-  // const registerUser = async (type,e) => {
-  //   // if (type === 'google') {
-  //   //   try {
-  //   //     const result = await signIn(type, { redirect: false });
-  //   //     e.preventDefalut()
-  //   //     if (result?.error) {
-  //   //       console.error(`Error signing in with ${type}: ${result.error}`);
-  //   //     } else {
-  //   //       const userData = result.account;
-  //   //       // setShowLoginSection(true);
-  //   //        setShowOtpSection(true);
-  //   //     }
-  //   //   } catch (error) {
-  //   //     console.error(`Error during Google sign-in:`, error);
-  //   //   }
-  //   // } else {
-  //   //   setShowOtpSection(true); 
-  //   //   try {
-  //   //     const data = await axiosPost(
-  //   //       `${api_url}/User/Login?mobile_number=${mobile}&password=${password}`
-  //   //     );
-  //   //     if (data.resp === true) {
-  //   //       sessionStorage.clear();
-  //   //       sessionStorage.setItem('userObject', JSON.stringify(data.respObj));
-  //   //       setIsLoggedIn(true);
-  //   //       setMobile('');
-  //   //       setPassword('');
-  //   //       closeModal();
-  //   //     } else {
-  //   //       setLoginError('Please check your mobile and password.');
-
-  //   //     }
-  //   //   } catch (error) {
-  //   //     console.error('Error during login:', error);
-  //   //   }
-  //   // }
-  // // if(type=="google"){
-     
-  // // }
-  // // else if(type=="facebook"){
-
-  // // }
-
-  // if(data){
-  //   setShowLoginInput(true)
-  // }
-  // };
-
-
-  // const registerUser = async (type, e) => {
-  //   if (type === 'google' || type === 'facebook') {
-  //     try {
-  //       const result = await signIn(type, { redirect: false });
-  //       e.preventDefault();
-  //       if (result?.error) {
-  //         console.error(`Error signing in with ${type}: ${result.error}`);
-  //       } else {
-  //         const sessionData = result?.data;
-  //         if (sessionData) {
-  //           const userData = await axiosPost(`/User/Login?cred=${sessionData.mobile}`);
-  //           if (userData.resp === true) {
-  //             sessionStorage.setItem("userData", JSON.stringify(userData.respObj));
-  //             router.push(currentPath);
-  //           } else {
-  //             setShowLoginInput(true);
-  //             setShowOtpSection(true);
-  //             setLoginError('Please complete registration.');
-  //           }
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error(`Error during ${type} sign-in:`, error);
-  //     }
-  //   }
-  // };
-  
   return (
     <div>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css?family=Roboto"
+          rel="stylesheet"
+          type="text/css"
+        />
+        <script src="https://apis.google.com/js/api:client.js"></script>
+      </Head>
       <Modal
         show={modalIsOpen}
         onHide={closeModal}
@@ -297,61 +251,43 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
         centered
       >
         <div className="container container-fluid">
-          {
-          // showLoginSection ? (
-            showloginInput ? (
-              <form className="p-4 m-4">
-                {/* <h1 className="loginTitle">Login / Sign Up</h1> */}
-                <h1 className="loginTitle">{ session ? "Phone Number" :"Login / Sign Up"}</h1>
-                <div className="form_group mb-3">
-                  {/* <label className="form-label">Email / Phone No</label> */}
-                  <input
-                    type="text"
-                    className="form_control"
-                    value={mobile}
-                    placeholder="Phone No"
-                    onChange={(e) => setMobile(e.target.value)}
-                  />
-                </div>
-                {/* <div className="form-group">
-                <label className="form-label">Password</label>
+          {showloginInput ? (
+            <form className="p-4 m-4">
+              <h1 className="loginTitle">
+                {session ? "Phone Number" : "Login / Sign Up"}
+              </h1>
+              <div className="form_group mb-3">
                 <input
-                  type="password"
-                  className="form-control"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type="text"
+                  className="form_control"
+                  value={mobile}
+                  placeholder="Phone No"
+                  onChange={(e) => setMobile(e.target.value)}
                 />
-              </div> */}
-                {loginError && (
-                  <p className="" style={{ color: "red" }}>
-                    {loginError}
-                  </p>
-                )}
-                <button
-                  type="button"
-                  className="loginButtons"
-                  onClick={() => submitHandler("login")}
-                >
-                  Proceed
-                </button>
-                {
-                  !session && (
-                    <div className="text-center">
-                  <p>
-                    Not a member?{" "}
-                    <span
-                      onClick={openRegistrationModal}
-                      style={{ cursor: "pointer" }}
-                    >
-                      Register
-                    </span>
-                  </p>
+              </div>
+
+              {loginError && (
+                <p className="" style={{ color: "red" }}>
+                  {loginError}
+                </p>
+              )}
+              <button
+                type="button"
+                className="loginButtons"
+                onClick={() => submitHandler("login")}
+              >
+                Proceed
+              </button>
+              {!session && (
+                <div className="text-center">
+                 
                   <p>Or Sign In with</p>
                   <div className="socialLogin">
                     <button
                       type="button"
                       className="btn googleLogin"
-                      onClick={() => signIn("google")}
+                      id="btnGoogle"
+                      onClick={googleLogin}
                     >
                       <i className="fa fa-google"></i>
                     </button>
@@ -364,115 +300,47 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
                     </button>
                   </div>
                 </div>
-                  )
-                }
+              )}
+            </form>
+          ) : (
+            ""
+          )}
+          {showOtpSection && (
+            <div className={`${homeStyles["form-group"]} text-center p-4`}>
+              <label className="mb-4">Verify Your OTP</label>
+              <div className={`${homeStyles["otp-input"]}`}>
+                {inputs.map((id) => (
+                  <input
+                    className={`${homeStyles.input} `}
+                    key={id}
+                    id={id}
+                    type="text"
+                    maxLength="1"
+                  />
+                ))}
                 
-              </form>
-            ) : ("")
-           
-             
-          // )
-          //  : showRegisterationSection ? (
-          //   <form className="p-4">
-          //     <h1 className="loginTitle">Registration</h1>
-          //     <div className="form-group">
-          //       {/* <label className="form-label">First Name</label> */}
-          //       <input
-          //         type="text"
-          //         className="form_control"
-          //         placeholder="First Name"
-          //         value={firstName}
-          //         onChange={(e) => setFirstName(e.target.value)}
-          //       />
-          //     </div>
-          //     <div className="form-group">
-          //       {/* <label className="form-label">Last Name</label> */}
-          //       <input
-          //         type="text"
-          //         className="form_control"
-          //         placeholder="Last Name"
-          //         value={lastName}
-          //         onChange={(e) => setLastName(e.target.value)}
-          //       />
-          //     </div>
-          //     <div className="form-group">
-          //       {/* <label className="form-label">Email</label> */}
-          //       <input
-          //         type="text"
-          //         className="form_control"
-          //         placeholder="Email"
-          //         value={email}
-          //         onChange={(e) => setEmail(e.target.value)}
-          //       />
-          //     </div>
-          //     <div className="form-group mb-3">
-          //       {/* <label className="form-label">Mobile</label> */}
-          //       <input
-          //         type="text"
-          //         placeholder="Mobile"
-          //         className="form_control"
-          //         value={mobile}
-          //         onChange={(e) => setMobile(e.target.value)}
-          //       />
-          //     </div>
-          //     <button
-          //       type="button"
-          //       className="loginButtons"
-          //       onClick={() => submitHandler("registeration",e)}
-          //     >
-          //       Proceed
-          //     </button>
-          //     <div className="text-center">
-          //       <p>
-          //         Already have an Account?{" "}
-          //         <span onClick={openLoginModal} style={{ cursor: "pointer" }}>
-          //           Login
-          //         </span>
-          //       </p>
-          //       <p>Or sign up with</p>
-          //       <div className="socialLogin">
-          //           <button
-          //             type="button"
-          //             className="btn googleLogin"
-          //             onClick={() => registerUser("google")}
-          //           >
-          //             <i className="fa fa-google"></i>
-          //           </button>
-          //           <button
-          //             type="button"
-          //             className="btn facebookLogin"
-          //             onClick={() => registerUser("facebook")}
-          //           >
-          //             <i className="fa fa-facebook"></i>
-          //           </button>
-          //         </div>
-          //     </div>
-          //   </form>
-          // ) : (
-          //   ""
-          // )
-          }
-           {
-              showOtpSection && (
-                (
-                  <div className={`${homeStyles["form-group"]} text-center p-4`}>
-                    <label className="mb-4">Verify Your OTP</label>
-                    <div className={`${homeStyles["otp-input"]}`}>
-                      {inputs.map((id) => (
-                        <input
-                          className={`${homeStyles.input}`}
-                          key={id}
-                          id={id}
-                          type="text"
-                          maxLength="1"
-                        />
-                      ))}
-                    </div>
-                    <button className="btn btn-primary mt-4" onClick={verifyOTP}>verify</button>
-                  </div>
-                )
-              )
-            }
+              {loginError && (
+                <p className="" style={{ color: "red" }}>
+                  {loginError}
+                </p>
+              )}
+              </div>
+              <button
+                className="btn btn-primary mt-4"
+                onClick={verifyOTP}
+                id="btnVerifyOtp"
+              >
+                verify
+              </button>
+              <p
+                onClick={handleOTpNotRecieved}
+                className="text-center mt-2"
+                style={{ cursor: "pointer" }}
+              >
+                Didnt Recieved Otp ? Click here to check Mobile Number{" "}
+              </p>
+            </div>
+          )}
         </div>
       </Modal>
       <ToastContainer />

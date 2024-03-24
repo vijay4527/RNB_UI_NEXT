@@ -131,7 +131,7 @@ function getProductDetails({ data }) {
         }
       }
     }
-  }, []);
+  }, [data]);
 
   const [isLoading, setLoading] = useState(false);
 
@@ -670,9 +670,9 @@ function getProductDetails({ data }) {
           <div className={styles.pdp_SelectMessage}>
             <ul className={styles.pdp_ProductDesc}>
               <li>
-                <span>Base: </span>Chocolate Sponge.
+                <span>{product.description}</span>
               </li>
-              <li>
+              {/* <li>
                 <span>Filling: </span>Layered with white ganache,
                 coconut crunchy & french vanilla custard.
               </li>
@@ -680,7 +680,7 @@ function getProductDetails({ data }) {
                 <span>Topping: </span>Coated with rich cream mixed with
                 french vanilla custard & Garnished with french vanilla
                 custard glaze and rich dark ganache.
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
