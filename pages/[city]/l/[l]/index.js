@@ -2,11 +2,23 @@ import React from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import CategoryComponent from "../../../../component/CategoryandSubcategory";
+import useUserData from "@/component/verifyEmail";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
-
+import { useState,useEffect } from "react";
+import { useSession } from "next-auth/react";
 function CategoryPage({ data, category }) {
   const router = useRouter();
   const { l, subcategory } = router.query;
+  const [hitAPi,setHitApi] = useState(false)
+  const { isLoggedIn, loading } = useUserData(hitAPi);
+  const { data:session, status } = useSession();
+
+  useEffect(()=>{
+    if(session && session.user){
+      console.log(session)
+        setHitApi(true)
+    }
+  },[session])
   return (
     <>
     

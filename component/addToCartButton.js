@@ -6,8 +6,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import { useSession } from "next-auth/react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const addToCartButton = ({ data }) => {
   const { Variable, Variety, Unit, Value, Message } = useSharedStore();
@@ -55,16 +53,18 @@ const addToCartButton = ({ data }) => {
   // };
   const cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
-
+    const userObject =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("userData"))
+      : ""; 
   const { city } = router.query;
-  // const apiurl = process.env.API_URL;
   const handleAddToCartOrWishlist = async () => {
     if (!isLoading) {
       setLoading(true);
       setTimeout(() => setLoading(false), 3700);
     }
     const cartItem = {
-      user_id: user ? user.user_id : "",
+      user_id: userObject ? userObject.user_id : "",
       cart_id: cartId ? cartId : "",
       product_id: data.product_id,
       variety_id: Variety,
@@ -72,21 +72,23 @@ const addToCartButton = ({ data }) => {
       unit: Unit,
       value: Value.toString(),
       msg_cake: Message,
+      type:"AC"
     };
     const response = await axiosPost(`/CartMaster/SaveCartDetails`, cartItem);
     if (response.resp == true) {
-      setTimeout(() => {
         try {
           if (!cartId) {
             sessionStorage.setItem("cartId", response.respObj.cart_id);
           }
+          setTimeout(() => {
           router.push({
             pathname: `/${city}/cart`,
           });
+        }, 3000)
         } catch (error) {
           console.error("Error storing cartId in session storage:", error);
         }
-      }, 3000);
+    ;
     }
   };
   return (
@@ -110,7 +112,6 @@ const addToCartButton = ({ data }) => {
           </div>
         </button>
       </div>
-      <ToastContainer />
 
     </div>
   );

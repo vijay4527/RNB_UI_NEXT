@@ -94,9 +94,15 @@ const CheckoutPage = () => {
   const cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
 
-  useEffect(() => {
-    GetAllCart();
-  }, [user, city]);
+    useEffect(() => {
+      GetAllCart();
+    }, [city]);
+    
+    useEffect(() => {
+      if (userObject) {
+        GetAddress(); // Call to fetch user addresses
+      }
+    }, []);
 
   useEffect(() => {
     countSubTotalAmount();
@@ -108,16 +114,12 @@ const CheckoutPage = () => {
     }
   }, [subTotalAmount]);
 
-  useEffect(() => {
-    if (user.user_id) {
-      GetAddress();
-    }
-  }, []);
+
   const GetAllCart = async () => {
-    if (user.user_id && city) {
+    if (userObject && userObject.user_id && city) {
       var obj = {
         cart_id: cartId ? cartId : "",
-        user_id: user ? user.user_id : "",
+        user_id: userObject ? userObject.user_id : "",
         city_name: city,
       };
       const response = await axiosPost("/CartMaster/GetCartDetails", obj);
@@ -168,15 +170,13 @@ const CheckoutPage = () => {
     const url = `https://www.google.com/maps?q=${lat},${long}`;
     window.open(url, "_blank");
   };
-  useEffect(() => {
-    GetAddress();
-  }, [user]);
+
 
   const GetAddress = async () => {
     try {
-      if (user.user_id) {
+      if (userObject.user_id) {
         const addressData = await axiosGet(
-          `ShippingAddress/GetShippingAddressByUserId/${user.user_id}`
+          `ShippingAddress/GetShippingAddressByUserId/${userObject.user_id}`
         );
         if (addressData) {
           setUserAddress(addressData);
@@ -222,7 +222,7 @@ const CheckoutPage = () => {
       shipping_address_id: selectedAddress ? selectedAddress : "",
       coupon_code: couponCode ? couponCode : null,
       city: city,
-      user_id: user.user_id,
+      user_id: userObject.user_id,
       order_status: null,
     };
     const order = await axiosPost("Order/SaveOrder", orderobj);
@@ -248,7 +248,7 @@ const CheckoutPage = () => {
       await validationSchema.validate(formValues, { abortEarly: false });
       var obj = {
         shipping_address_id: "",
-        user_id: user.user_id,
+        user_id: userObject.user_id,
         first_name: formValues.firstName,
         last_name: formValues.lastName,
         email_address: formValues.email,

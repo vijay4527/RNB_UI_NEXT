@@ -13,6 +13,7 @@ import LoginModal from "@/component/loginModal";
 const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
   ssr: false,
 });
+
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { Prociono } from "next/font/google";
@@ -68,22 +69,23 @@ const Index = ({ city }) => {
   const [message, setMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const { data, status } = useSession();
-  const { isLoggedIn, loading } = useUserData();
+  const { data:session, status } = useSession();
+  const [hitAPi,setHitApi] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  useEffect(() => {
-    if(!isLoggedIn && !data){
-      setIsLoginModalOpen(false)
-    }
-    else if(data){
-      setIsLoginModalOpen(false)
-    }
-  }, [isLoggedIn,data]);
+  const { isLoggedIn, loading ,userInfo} = useUserData(hitAPi);
+  // useEffect(() => {
+  //   if(!isLoggedIn && !isLoginModalOpen){
+  //     setIsLoginModalOpen(true)
+  //   }
+  //   else if(session){
+  //     setIsLoginModalOpen(false)
+  //   }
+  // }, [isLoggedIn,session]);
   useEffect(() => {
     initAOS();
     setIsMounted(true);
-  }, [data]);
+  }, [session]);
+
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -124,11 +126,20 @@ const Index = ({ city }) => {
       console.log(error);
     }
   };
+
+  useEffect(()=>{
+    if(session && session.user){
+      console.log(session)
+        setHitApi(true)
+    }
+  },[session])
+
+  
   return (
     <>
       <Head>
         <meta charset="utf-8"></meta>
-        <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title>
+        {/* <title>Online Cake Delivery in Mumbai, Pune and Mangalore</title> */}
         <meta
           name="description"
           content="Online Cakes Shop in Mumbai, Pune and Mangalore . Online Cakes Delivery . Buy,Order &amp; Send Birthday, Wedding Anniversary &amp; Chocolate Cakes anywhere in Mumbai from best Cake Shop Ribbons &amp; Balloons."
@@ -734,13 +745,13 @@ const Index = ({ city }) => {
           </div>
         </Container>
       </div>
-      {!isLoggedIn && (
+      {/* {!isLoggedIn && !session && (
         <LoginModal
-          isOpen={!isLoginModalOpen}
+          isOpen={!isLoginModalOpen }
           onRequestClose={() => setIsLoginModalOpen(false)}
           closeLoginModal={() => setIsLoginModalOpen(false)}
         ></LoginModal>
-      )}
+      )} */}
       <div className="enquiryWrapper">
         <EnquiryModal />
       </div>
@@ -750,11 +761,6 @@ const Index = ({ city }) => {
 
 export async function getServerSideProps(context) {
   const city = context.query.city;
-  removeCookie("userCity");
-  if (city) {
-    setCookie("userCity", city);
-    console.log("Cookie set with value: " + getCookie("userCity"));
-  }
 
   return {
     props: {

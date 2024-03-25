@@ -52,7 +52,7 @@ const ShowCaseSlider =  ({ sliderName, sliderData }) => {
                   </div>
                 </div>
               </div> */}
-              {sliderData.map((item) => {
+              {sliderData.map((item,index) => {
                 const productName = item.product_name.split(" ").join("-");
                 var image = item.product_image.split(",");
                 return (

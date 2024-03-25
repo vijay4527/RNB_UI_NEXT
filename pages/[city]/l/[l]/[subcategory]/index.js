@@ -1,8 +1,20 @@
 import React from "react";
 import CategoryComponent from "../../../../../component/CategoryandSubcategory";
 import { axiosPost, axiosGet, axiosGetAll } from "@/api";
-
+import useUserData from "@/component/verifyEmail";
+import { useState,useEffect } from "react";
+import { useSession } from "next-auth/react";
 function SubCategoryPage({ data, category, categoryName, subcategoryName }) {
+  const [hitAPi,setHitApi] = useState(false)
+  const { isLoggedIn, loading } = useUserData(hitAPi);
+  const { data:session, status } = useSession();
+
+  useEffect(()=>{
+    if(session && session.user){
+      console.log(session)
+        setHitApi(true)
+    }
+  },[session])
   return (
     <CategoryComponent
       category={category}

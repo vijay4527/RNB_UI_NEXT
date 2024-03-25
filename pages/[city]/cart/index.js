@@ -17,23 +17,24 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useUserData from "@/component/verifyEmail";
 const CartPage = () => {
-  const { data, status } = useSession();
+  const { data:session, status } = useSession();
   const [cart, setCart] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
   const [user, setUser] = useState({});
   const router = useRouter();
-  const { isLoggedIn, loading } = useUserData();
+  const [hitAPi,setHitApi] = useState(false)
+  const { isLoggedIn, loading } = useUserData(hitAPi);
   const [isUserLoggedIn,setIsUserLoggedIn]= useState(isLoggedIn)
+  const [isCityModalOpen,setCityModalOpen] = useState(false)
   // const api_url = process.env.API_URL;
   const { city } = router.query;
-  const [isCityModalOpen, setCityModalOpen] = useState(false);
-  useEffect(() => {
-    if (data) {
-      setUser(data);
-      setCityModalOpen(true);
+ 
+  useEffect(()=>{
+    if(session && session.user){
+      console.log(session)
+        setHitApi(true)
     }
-  }, [data]);
-
+  },[session])
   var userInfo = typeof window !== "undefined"
     ? JSON.parse(sessionStorage.getItem("userData"))
     : "";
@@ -63,7 +64,7 @@ const CartPage = () => {
 
   useEffect(() => {
     GetAllCart();
-  }, [city]);
+  }, [city,cartId,userObject?.user_id]);
 
   const GetAllCart = async () => {
     try {
@@ -72,6 +73,7 @@ const CartPage = () => {
           cart_id: cartId ? cartId : "",
           user_id: userObject ? userObject.user_id : "",
           city_name: city ? city : "",
+          type:"AC"
         };
         const response = await axiosPost("/CartMaster/GetCartDetails", obj);
         if (response) {
@@ -114,13 +116,13 @@ const CartPage = () => {
   };
   const [showLoginModal, setShowLoginModal] = useState(false);
   var isUser = false;
-  if (data || user) {
-    // isLoggedIn = true;
-  }
+  // if (data || user) {
+  //   // isLoggedIn = true;
+  // }
   const handleProducts = () => {
     if (!isLoggedIn && !user) {
       setCityModalOpen(true);
-    } else if (cart.length > 0) {
+    } else if (userInfo && cart.length > 0) {
       router.push(`/${city}/checkout`);
     } else {
       toast(
@@ -136,8 +138,8 @@ const CartPage = () => {
 
   const addToFavourite = async (data) => {
     try {
-      const favouriteData = await axios.post(
-        apiBaseUrl + "addTOFavourite",
+      const favouriteData = await axiosPost(
+        '/CartMaster/SaveCartDetails',
         productData
       );
       if (favouriteData.resp == true) {
@@ -146,7 +148,7 @@ const CartPage = () => {
           closeButton: true,
         });
       }
-    } catch (erro) {
+    } catch (error) {
       console.log("error while adding product to favourites", error);
     }
   };

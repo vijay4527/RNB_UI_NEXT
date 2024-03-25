@@ -19,21 +19,23 @@ export default NextAuth({
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      fields: ['id', 'name', 'email', 'picture', 'phone'], // Include 'phone' field
+
     }),
   ],
   callbacks: {
     async jwt({ token, account }) {
-      console.log("token - " + JSON.stringify(token));
-      console.log("account - " + JSON.stringify(account));
       if (account) {
-        console.log(account);
         token.accessToken = account.access_token;
-      
+        token.provider = account.provider;
+        token.account = account; 
       }
       return token;
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.accessToken = token.accessToken;
+      session.provider = token.provider; 
+      session.account = token.account;
       return session;
     },
   },
