@@ -1942,15 +1942,15 @@ overflow: visible;
 .loginTitle{
   font-weight: 600;
     font-size: 23px;
-    color: #015790;
+    color: var(--theme-primary);;
     text-align: center;
     margin-bottom: 1.6rem;
 }
 .loginButtons{
   height: 50px;
   font-size: 16.5px;
-  background: #4596f3;
-  color: #ffffff;
+  background: var(--theme-btn-bg);
+    color: var(--theme-seconary);
   border-radius: 5px;
   -webkit-box-shadow: none;
   box-shadow: none;
