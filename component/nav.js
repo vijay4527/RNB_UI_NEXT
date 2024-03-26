@@ -18,13 +18,12 @@ export default function Header() {
   const [isClicked, setIsClicked] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { data, status } = useSession();
   const [countCart, setCountCart] = useState(0);
   const [category,setCategory] = useState([])
   const [subCategory,setSubCategory] = useState([])
-  const  {isLoggedIn,loading,userInfo} = useUserData()
+  const  {isLoggedIn,loading,userInfo,openModal} = useUserData()
   const prevIsLoggedInRef = useRef(isLoggedIn); 
   const loactionToggle = () => {
     setIsLoactionActive(!isLoactionActive);
@@ -33,19 +32,19 @@ export default function Header() {
   const toggleClass = () => {
     setIsActive(!isActive);
   };
-
+   const userObject = typeof window !== 'undefined' ? JSON.parse(sessionStorage.getItem('userData')) : null;
   useEffect(() => {
-    if (prevIsLoggedInRef.current !== isLoggedIn && isLoggedIn === false && loading === false) {
+    if ( isLoggedIn === false) {
       setIsLoginModalOpen(true);
     }
-    prevIsLoggedInRef.current = isLoggedIn;
-  }, [isLoggedIn, loading]);
+    // prevIsLoggedInRef.current = isLoggedIn;
+  }, [isLoggedIn]);
   
-  useEffect(()=>{
-     if(isLoggedIn == false) {
-      setIsLoginModalOpen(true)
-     }
-  },[isLoggedIn])
+  // useEffect(()=>{
+  //    if(isLoggedIn == false && !userObject?.user_id) {
+  //     setIsLoginModalOpen(true)
+  //    }
+  // },[isLoggedIn,userObject])
   
 
   const handleClick = () => {
@@ -102,16 +101,9 @@ export default function Header() {
 
   const Logout = () => {
     sessionStorage.removeItem('userData');
-        signOut("google");
-    signOut("facebook");
+    signOut();
     router.push("/mumbai");
   };
-  // useEffect(() => {
-  //   if(isLoggedIn == true){
-  //     setIsUserLoggedIn(isLoggedIn);
-  //   }
-  // }, [isLoggedIn]);
-  
 
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
@@ -454,7 +446,7 @@ export default function Header() {
                               <Dropdown.Item onClick={Logout}>
                                 Sign Out
                               </Dropdown.Item>
-                             {/* )}  */}
+                             {/* )} */}
                           </Dropdown.Menu>
                         </Dropdown>
                       </li>
@@ -500,7 +492,7 @@ export default function Header() {
           ></div>
         </div>
 
-        {!isLoggedIn &&(
+        {!isLoggedIn &&   (
           <LoginModal
             isOpen={isLoginModalOpen}
             onRequestClose={() => setIsLoginModalOpen(false)}

@@ -129,7 +129,6 @@ const Index = ({ city }) => {
 
   useEffect(()=>{
     if(session && session.user){
-      console.log(session)
         setHitApi(true)
     }
   },[session])
