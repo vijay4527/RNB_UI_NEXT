@@ -50,17 +50,15 @@ const CartPage = () => {
       ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
   useEffect(() => {
-    // var userInfo =
-    //   typeof window !== "undefined"
-    //     ? sessionStorage.getItem("userData")
-    //     : sessionStorage.getItem("userData")
-    //     ? data.user
-    //     : "";
+    var userInfo =
+      typeof window !== "undefined"
+        ? sessionStorage.getItem("userData")
+        : sessionStorage.getItem("userData")
     setUser(userObject);
     if (userObject) {
       GetAllCart();
     }
-  }, []);
+  }, [userObject ? userObject.user_id : ""]);
 
   useEffect(() => {
     GetAllCart();

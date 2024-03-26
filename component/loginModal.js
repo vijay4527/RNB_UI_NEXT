@@ -12,25 +12,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Head from "next/head";
 
-const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
+const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
   const { data: session, status } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [street, SetStreet] = useState("");
-  const [Contact, setContact] = useState("");
-  const [email, setEmail] = useState("");
-  const [Password, SetPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showloginInput, setShowLoginInput] = useState(true);
-  const [Type, setType] = useState("");
-  const [showLoginSection, setShowLoginSection] = useState(true);
   const [otp, setOTP] = useState(["", "", "", "", ""]);
   const length = otp.length;
   const [showOtpSection, setShowOtpSection] = useState(false);
-  const [verificationStatus, setVerificationStatus] = useState("");
   const [newOtp, setnewOtp] = useState("");
   const [loginError, setLoginError] = useState("");
   const inputs = ["input1", "input2", "input3", "input4"];
@@ -43,20 +32,17 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
   const { isLoggedIn, loading } = useUserData(hitApi);
   const [userObject, setUserObject] = useState({});
 
-
-  // useEffect(()=>{
-  //   if(isLoggedIn == true){
-
-  //   }else if(isLoggedIn == false){
-
-  //   }
-  // },[isLoggedIn])
-
   useEffect(() => {
     if (isOpen) {
       setModalIsOpen(true);
     }
   }, [isOpen]);
+   const user = typeof window !== "undefined" ? sessionStorage.getItem("userData") : ""
+  useEffect(()=>{
+     if(user?.user_id){
+      setModalIsOpen(false);
+     }
+  },[user])
 
 // useEffect(()=>{
 //    if(isLoggedIn == false ){
@@ -93,6 +79,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal }) => {
       const response = await axiosPost("/User/LoginCheck", loginData);
       if (response.resp === true) {
         sessionStorage.removeItem("userData");
+        setLoginError("")
         setUserObject(response.respObj);
         setShowLoginInput(false);
         setShowOtpSection(true);        

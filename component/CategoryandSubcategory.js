@@ -14,6 +14,7 @@ import AddToFavoriteButton from "./AddToFavoritesButton";
 function CategoryComponent({ category, subcategoryName, data, categoryName }) {
   // const productData = data;
   // const categoryData = category;
+  console.log("data in category and subcategory",data)
   const fcHalfHeight = 205;
   const fcHalfWidth = 135;
   const defaultLightWidth = 40;
@@ -85,8 +86,8 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                     
                     <ul>
                       {category && category.length > 0
-                      ? category.map((item) => (
-                          <li key={item.category_id}>
+                      ? category.map((item,index) => (
+                          <li key={index}>
                             <a>{item.category_name}</a>
                           </li>
                         ))
@@ -120,7 +121,7 @@ function CategoryComponent({ category, subcategoryName, data, categoryName }) {
                     var image = item.product_image.split(",");
                     return (
                      
-                        <div className={styles.item}>
+                        <div className={styles.item} key={item.product_id}>
                           <div className={styles.itemInfo}>
                             <AddToFavoriteButton  productData={item}/>
                             <Link

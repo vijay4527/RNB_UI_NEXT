@@ -121,6 +121,7 @@ const CheckoutPage = () => {
         cart_id: cartId ? cartId : "",
         user_id: userObject ? userObject.user_id : "",
         city_name: city,
+        type:"AC"
       };
       const response = await axiosPost("/CartMaster/GetCartDetails", obj);
       if (response) {
@@ -216,7 +217,7 @@ const CheckoutPage = () => {
       e.city = city;
     });
     const orderobj = {
-      orderProductRequest: products,
+      // orderProductRequest: products,
       order_type: selectedOption,
       franchise_id: selectedFranchise ? selectedFranchise : null,
       shipping_address_id: selectedAddress ? selectedAddress : "",
@@ -227,10 +228,14 @@ const CheckoutPage = () => {
     };
     const order = await axiosPost("Order/SaveOrder", orderobj);
     if (order.resp == true) {
+
       toast("Your Order has been placed",{autoClose : 3000,closeButton: true})
+      sessionStorage.removeItem("cartId")
       console.log("Order SuccessFull");
     } else {
       console.log("Order not placed");
+      toast("Your Order not placed",{autoClose : 3000,closeButton: true})
+
     }
   };
 
