@@ -47,6 +47,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
     // setShowOtpSection(false);
     setModalIsOpen(false);
     // setMobile("");
+
+    signOut()
     onRequestClose();
     closeLoginModal();
   };

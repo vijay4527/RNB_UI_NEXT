@@ -42,7 +42,7 @@ const CartPage = () => {
    if(userInfo){
       setIsUserLoggedIn(true)
      }
-  },[])
+  },[userInfo])
   let cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
   const userObject =

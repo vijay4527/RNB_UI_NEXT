@@ -237,12 +237,18 @@ const CheckoutPage = () => {
     const order = await axiosPost("Order/SaveOrder", orderobj);
     if (order.resp == true) {
 
-      toast("Your Order has been placed",{autoClose : 3000,closeButton: true})
-      sessionStorage.removeItem("cartId")
-      console.log("Order SuccessFull");
+      toast("Your Order has been placed", {
+        autoClose: 3000,
+        closeButton: true,
+        onClose: () => {
+          // After the toast is closed, remove cartId from sessionStorage and redirect to the city page
+          sessionStorage.removeItem("cartId");
+          router.push("/" + city);
+        }
+      });
     } else {
       console.log("Order not placed");
-      toast("Your Order not placed",{autoClose : 3000,closeButton: true})
+      toast("Something went wrong! Your Order has not been placed",{autoClose : 3000,closeButton: true})
 
     }
   };

@@ -38,23 +38,19 @@ export default function Header() {
       console.log(session)
       setIsLoginModalOpen(true);
     }
-    else{
-      if(typeof window !== "undefined" && session?.userData.isLogin ==true){
+    else if(typeof window !== "undefined" && session?.userData.isLogin == true){
         sessionStorage.setItem("userData",JSON.stringify(session.userData))
         sessionStorage.setItem("isLoggedIn", true);
-      }
     }
-  }, [session,isLoggedIn]);
+  },[session,isLoggedIn]);
 
   const loggedIn = typeof window !== "undefined"? sessionStorage.getItem("isLoggedIn") :""
   useEffect(() => {
-   ;
-    if(loggedIn || session?.userData?.isLogin){
+    if(loggedIn || session?.isLogin ){
       setIsLoggedIn(true);
     }
-  }, [session,userObject,loggedIn]);
+  },[session,userObject?.user_id]);
 
-  
   useEffect(() => {
     const handleStorageChange = () => {
       const storedUserObject = JSON.parse(sessionStorage.getItem('userData'));
@@ -461,18 +457,18 @@ export default function Header() {
                                 <Dropdown.Divider />
                               </>
                             )}
-                            {/* {session?.userData?.isLogin  || !isLoggedIn && ( */}
+                             {isLoggedIn == false || isLoggedIn == null && ( 
                               <Dropdown.Item
                                 onClick={() => setIsLoginModalOpen(true)}
                               >
                                 Sign In
                               </Dropdown.Item>
-                            {/* )} */}
-                             {/* {!isLoggedIn && (  */}
+                            )} 
+                             { isLoggedIn == true && (  
                               <Dropdown.Item onClick={Logout}>
                                 Sign Out
                               </Dropdown.Item>
-                              {/* )}  */}
+                              )} 
                           </Dropdown.Menu>
                         </Dropdown>
                       </li>

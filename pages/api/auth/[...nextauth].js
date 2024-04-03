@@ -30,7 +30,6 @@ export default NextAuth({
         token.accessToken = account.access_token;
         token.provider = account.provider;
         token.account = account; 
-
         try {
           const response = await axiosPost('/User/LoginCheck', {
             "mobile": "",
@@ -54,7 +53,6 @@ export default NextAuth({
       session.provider = token.provider; 
       session.account = token.account;
       session.userData = token.userData; 
-
       return session;
     },
   },
