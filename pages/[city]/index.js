@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import initAOS from "../../component/initAOS";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import useUserData from "@/component/verifyEmail"; // Import the useUserData hook
 import { useSession } from "next-auth/react";
 import LoginModal from "@/component/loginModal";
@@ -72,7 +71,8 @@ const Index = ({ city }) => {
   const { data:session, status } = useSession();
   const [hitAPi,setHitApi] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { isLoggedIn, loading ,userInfo} = useUserData(hitAPi);
+  // const { isLoggedIn, loading ,userInfo} = useUserData(hitAPi);
+  const userObject = typeof window !== "undefined" ? sessionStorage.getItem("userData") : ""
   // useEffect(() => {
   //   if(!isLoggedIn && !isLoginModalOpen){
   //     setIsLoginModalOpen(true)
@@ -102,36 +102,13 @@ const Index = ({ city }) => {
     };
   }, []);
 
-  const saveNewsLetter = async () => {
-    try {
-      var obj = {
-        news_letter_id: "",
-        email: email,
-        is_active: true,
-        created_on: "0001-01-01",
-        created_by: "",
-        updated_on: "0001-01-01",
-        updated_by: "",
-        is_deleted: true,
-      };
-      const newsLetterResponse = await axiosPost(
-        "NewsLetter/SaveNewsLetter",
-        obj
-      );
+  
 
-      if (newsLetterResponse) {
-        alert("News letter saved");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(()=>{
-    if(session && session.user){
-        setHitApi(true)
-    }
-  },[session])
+  // useEffect(()=>{
+  //   if(session && session.user && !userObject?.user_id){
+  //       setHitApi(true)
+  //   }
+  // },[session])
 
   
   return (

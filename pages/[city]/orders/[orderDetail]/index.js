@@ -7,94 +7,123 @@ import { useRouter } from "next/router";
 import { axiosGet } from "@/api";
 import { useState } from "react";
 const orderDetail = () => {
-
- const router = useRouter() 
- const {orderDetail} = router.query
- const [orderInfo ,setOrderInfo] = useState({})
- useEffect(()=>{
-  getOrderDetails()
- },[])
-  const getOrderDetails = async()=>{
-    const  response = await axiosGet("Order/getOrderByOrderId/"+orderDetail)
-    if(response){
-      setOrderInfo(response)
+  const router = useRouter();
+  const { orderDetail } = router.query;
+  const [orderInfo, setOrderInfo] = useState({});
+  useEffect(() => {
+    getOrderDetails();
+  }, [orderDetail]);
+  const getOrderDetails = async () => {
+    try {
+      const response = await axiosGet("Order/GetOrderByOrderId/" + orderDetail);
+      if (response) {
+        setOrderInfo(response);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  }
-  
+  };
+
   return (
     <>
-        <Head>
-            <script
-            src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBpti7QuC_QXwWE90MT0RkfMPlET1KbhS4&libraries=places`}
-            ></script>
-        </Head>
-      
-        <section className={styles.CheckOutQct}>
+      <Head>
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBpti7QuC_QXwWE90MT0RkfMPlET1KbhS4&libraries=places`}
+        ></script>
+      </Head>
+
+      <section className={styles.CheckOutQct}>
         <div className={homeStyles["container"]}>
           <div className={styles.checkOutQctWrap}>
             <div className={styles.checkoutQctTitle}>Order Details</div>
-            <div className={styles.checkoutQctBody}>
-              <div className={styles.checkoutQctShipping}>
-                <div className={styles.checkoutQctShippingMethod}>
-                  <div className={styles.checkoutQctShippingHeader}>
-                    <h4>
-                      Order ID
-                    </h4>
-                    <p>1116136552</p>
-                  </div>
-                  <div className={styles.orderHistoryWrap}>
-                    <div className={styles.cartBoxItems}>
-                      <div className={styles.cartBoxItem}>
-                        <div className={styles.cartBoxContent} >
-                          <div className={styles.cartBoxImg}>
-                            <img src="https://fama.b-cdn.net/RnB/Dev/products/20240120085625241.jpeg"/>
+            {orderInfo.orderProducts &&
+              orderInfo.orderProducts.map((product, index) => (
+                <div className={styles.checkoutQctBody} key={index}>
+                  <div className={styles.checkoutQctShipping}>
+                    <div className={styles.checkoutQctShippingMethod}>
+                      <div className={styles.checkoutQctShippingHeader}>
+                        <h4>Order ID</h4>
+                        {orderInfo && <p>{orderInfo.order_id}</p>}
+                      </div>
+                      <div className={styles.orderHistoryWrap}>
+                        <div className={styles.cartBoxItems}>
+                          <div className={styles.cartBoxItem}>
+                            <div className={styles.cartBoxContent}>
+                              <div className={styles.cartBoxImg}>
+                                <img
+                                  src={
+                                    "https://fama.b-cdn.net/RnB/Dev/products/" +
+                                    product.product_image.split(",")[0]
+                                  }
+                                  alt={product.product_name}
+                                />
+                              </div>
+                              <div className={styles.cartBoxInfo}>
+                                <h4>{product.product_name}</h4>
+                                <h4>
+                                  <span className={styles.cartBoxMsg}>
+                                    Message on Cake{" "}
+                                  </span>
+                                  : {product.msg_cake}
+                                </h4>
+                                <h5>
+                                  <span className={styles.cartBoxPrice}>
+                                    ₹ {product.price}
+                                  </span>
+                                </h5>
+                                <h4>{product.size}</h4>
+                              </div>
+                            </div>
                           </div>
-                          <div className={styles.cartBoxInfo} >
-                            <h4>INFINITE PRALINE CAKE</h4>
-                            <h4><span className={styles.cartBoxMsg}>Message on Cake</span>: Testing msg</h4>
-                            <h5>
-                              <span className={styles.cartBoxPrice}>₹ 345</span>
-                            </h5>
-                            <h4>
-                            Small
-                            </h4>
-                          </div >
                         </div>
                       </div>
                     </div>
                   </div>
+                  <div className={styles.checkoutQctOrderSummary}></div>
                 </div>
-              </div>
-              <div className={styles.checkoutQctOrderSummary}>
-                
-              </div>
-            </div>
+              ))}
 
-            
             <div className={styles.cartShippingWrap}>
               <div className={styles.cartShippingDetail}>
-                <div className={styles.cartShippingTitleDetail}>Shipping details</div>
+                <div className={styles.cartShippingTitleDetail}>
+                  {orderInfo.order_type == "delivery"
+                    ? "Shipping details"
+                    : "Pick Up Details"}
+                </div>
                 <div className={styles.cartShippingInfo}>
-                  <h4 className={styles.cartShippingTitleName}>Abdulla kazi</h4>
-                  <p className={styles.cartShippingTitleAddress}>
-                    3B-34 taximens colony LBS road kurla west <br></br>
-                    MUMBAI <br></br>
-                    MAHARASHTRA, 400070 <br></br>
-                    India <br></br>
-                  </p>
+                  {orderInfo && (
+                    <h4 className={styles.cartShippingTitleName}>
+                      {orderInfo.full_name}
+                    </h4>
+                  )}
+                  {orderInfo && (
+                    <>
+                      <p className={styles.cartShippingTitleAddress}>
+                        {orderInfo.shipping_address}
+                      </p>
+                      {orderInfo.created_on &&
+                        typeof orderInfo.created_on === "string" && (
+                          <p className={styles.cartShippingTitleAddress}>
+                            {orderInfo.created_on.split("T")[0]}
+                          </p>
+                        )}
+                    </>
+                  )}
                 </div>
                 <div className={styles.cartShippingNoDetail}>
                   <h4>Mobile Number</h4>
-                  <p>+918907078607</p>
+                  {orderInfo.mobile_number && <p>{orderInfo.mobile_number}</p>}
                 </div>
               </div>
               <div className={styles.cartShippingPriceDetail}>
-                <div className={styles.cartShippingTitleDetail}>Price details of your order</div>
+                <div className={styles.cartShippingTitleDetail}>
+                  Price details of your order
+                </div>
                 <div className={styles.cartShippingPriceWrap}>
                   <ul>
                     <li>
                       <h4>Total MRP</h4>
-                      <h5>₹4396</h5>
+                      <h5>₹{orderInfo.total_price}</h5>
                     </li>
                     <li>
                       <h4>Offer Discount</h4>
@@ -106,14 +135,16 @@ const orderDetail = () => {
                     </li>
                     <li>
                       <h4>Total MRP</h4>
-                      <h5 className={styles.discountAmt}>₹4396</h5>
+                      <h5 className={styles.discountAmt}>
+                        ₹{orderInfo.total_price}
+                      </h5>
                     </li>
                   </ul>
                   <div className={styles.cartShippingPriceAmt}>
                     <h4>Total Amount</h4>
-                    <h5>₹2397.9</h5>
+                    <h5>₹{orderInfo.total_price}</h5>
                   </div>
-                  
+
                   <div className={styles.cartShippingPricePaymentAmt}>
                     <h4>Payment method:</h4>
                     <h5>Cash On Delivery</h5>
@@ -124,8 +155,6 @@ const orderDetail = () => {
           </div>
         </div>
       </section>
-
-
     </>
   );
 };

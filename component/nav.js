@@ -19,12 +19,12 @@ export default function Header() {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { data, status } = useSession();
+  const { data:session, status } = useSession();
   const [countCart, setCountCart] = useState(0);
   const [category,setCategory] = useState([])
   const [subCategory,setSubCategory] = useState([])
-  const  {isLoggedIn,loading,userInfo,openModal} = useUserData()
-  const prevIsLoggedInRef = useRef(isLoggedIn); 
+  const [hitApi,setHitApi] = useState(false)
+  const [isLoggedIn,setIsLoggedIn] = useState(null)
   const loactionToggle = () => {
     setIsLoactionActive(!isLoactionActive);
   };
@@ -34,17 +34,42 @@ export default function Header() {
   };
    const userObject = typeof window !== 'undefined' ? JSON.parse(sessionStorage.getItem('userData')) : null;
   useEffect(() => {
-    if ( isLoggedIn === false) {
+    if ( session?.userData?.isLogin === false) {
+      console.log(session)
       setIsLoginModalOpen(true);
     }
-    // prevIsLoggedInRef.current = isLoggedIn;
-  }, [isLoggedIn]);
+    else{
+      if(typeof window !== "undefined" && session?.userData.isLogin ==true){
+        sessionStorage.setItem("userData",JSON.stringify(session.userData))
+        sessionStorage.setItem("isLoggedIn", true);
+      }
+    }
+  }, [session,isLoggedIn]);
+
+  const loggedIn = typeof window !== "undefined"? sessionStorage.getItem("isLoggedIn") :""
+  useEffect(() => {
+   ;
+    if(loggedIn || session?.userData?.isLogin){
+      setIsLoggedIn(true);
+    }
+  }, [session,userObject,loggedIn]);
+
   
-  // useEffect(()=>{
-  //    if(isLoggedIn == false && !userObject?.user_id) {
-  //     setIsLoginModalOpen(true)
-  //    }
-  // },[isLoggedIn,userObject])
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedUserObject = JSON.parse(sessionStorage.getItem('userData'));
+      const storedIsLoggedIn = sessionStorage.getItem('isLoggedIn');
+      if (storedUserObject || storedIsLoggedIn == true) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+      window.addEventListener('storage', handleStorageChange);
+      return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
   
 
   const handleClick = () => {
@@ -101,8 +126,9 @@ export default function Header() {
 
   const Logout = () => {
     sessionStorage.removeItem('userData');
+    sessionStorage.removeItem('isLoggedIn');
     signOut();
-    router.push("/mumbai");
+    // router.push("/" + city);
   };
 
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -422,7 +448,7 @@ export default function Header() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu align={{ lg: "end" }}>
-                            {isLoggedIn && (
+                            { isLoggedIn == true && (
                               <>
                                 <Dropdown.Item href={`/${city}/profile`}>
                                   My Account
@@ -435,18 +461,18 @@ export default function Header() {
                                 <Dropdown.Divider />
                               </>
                             )}
-                            {!isLoggedIn && (
+                            {/* {session?.userData?.isLogin  || !isLoggedIn && ( */}
                               <Dropdown.Item
                                 onClick={() => setIsLoginModalOpen(true)}
                               >
                                 Sign In
                               </Dropdown.Item>
-                            )}
-                            {/* {isLoggedIn && ( */}
+                            {/* )} */}
+                             {/* {!isLoggedIn && (  */}
                               <Dropdown.Item onClick={Logout}>
                                 Sign Out
                               </Dropdown.Item>
-                             {/* )} */}
+                              {/* )}  */}
                           </Dropdown.Menu>
                         </Dropdown>
                       </li>
@@ -497,6 +523,7 @@ export default function Header() {
             isOpen={isLoginModalOpen}
             onRequestClose={() => setIsLoginModalOpen(false)}
             closeLoginModal={() => setIsLoginModalOpen(false)}
+
           />
         )}
       </div>

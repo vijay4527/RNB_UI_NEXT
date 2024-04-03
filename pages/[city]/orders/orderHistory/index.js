@@ -20,8 +20,11 @@ const orderHistory = () => {
       ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
   useEffect(() => {
-    getAllOrders();
-  }, []);
+    if(userInfo){
+      getAllOrders();
+
+    }
+  }, [userInfo.user_id]);
 
   // useEffect(()=>{
   //   if(user){
@@ -75,13 +78,16 @@ const orderHistory = () => {
                               <h5>Total Price : ₹ {orderDetail.total_price}</h5>
                               <h4>
                                 <span className={styles.cartBoxMsg}>
-                                  Message on Cake
+                                  Order Type  : 
                                 </span>
-                                : Testing msg
+                               {" "} {orderDetail.order_type}
                               </h4>
                               <div className={styles.orderStatus}>
                                 {orderDetail.order_status === "Initiated" ? (
                                   <>
+                                     <span className={styles.cartBoxMsg}>
+                                  Order Status  : 
+                                </span>
                                     <span>
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -120,6 +126,8 @@ const orderHistory = () => {
                                   ""
                                 )}
                               </div>
+                              <h5>Order Date : {orderDetail.created_on.split("T")[0]}</h5>
+
                             </div>
                           </div>
                           </Link>

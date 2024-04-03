@@ -17,7 +17,7 @@ import Head from "next/head";
 import AddToFavoritesButton from "@/component/AddToFavoritesButton";
 import ShowCaseSlider from "@/component/ShowCaseSlider";
 import { useSession } from "next-auth/react";
-import useUserData from "@/component/verifyEmail";
+// import useUserData from "@/component/verifyEmail";
 
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
@@ -61,15 +61,15 @@ const RecentlyViewed = [
   const { city } = router.query;
   const [activeIndex, setActiveIndex] = useState(0);
   const [hitAPi,setHitApi] = useState(false)
-  const { isLoggedIn, loading } = useUserData(hitAPi);
+  // const { isLoggedIn, loading } = useUserData(hitAPi);
   const { data:session, status } = useSession();
 
-  useEffect(()=>{
-    if(session && session.user){
-      console.log(session)
-        setHitApi(true)
-    }
-  },[session])
+  // useEffect(()=>{
+  //   if(session && session.user){
+  //     console.log(session)
+  //       setHitApi(true)
+  //   }
+  // },[session])
   const handleThumbnailClick = (index) => {
     setActiveIndex(index);
   };

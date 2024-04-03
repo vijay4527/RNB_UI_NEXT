@@ -11,7 +11,6 @@ import useUserData from "./verifyEmail";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Head from "next/head";
-
 const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
   const { data: session, status } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -23,38 +22,31 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
   const [newOtp, setnewOtp] = useState("");
   const [loginError, setLoginError] = useState("");
   const inputs = ["input1", "input2", "input3", "input4"];
-  const cartId =
-    typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
+  const cartId =typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
   const router = useRouter();
   const currentPath = router.asPath;
   const { city } = router.query;
   const [hitApi, setHitApi] = useState(false);
-  const { isLoggedIn, loading } = useUserData(hitApi);
+  // const { isLoggedIn, loading } = useUserData(hitApi);
   const [userObject, setUserObject] = useState({});
+  const user = typeof window !== "undefined" ? sessionStorage.getItem("userData") : ""
 
   useEffect(() => {
     if (isOpen) {
       setModalIsOpen(true);
     }
   }, [isOpen]);
-   const user = typeof window !== "undefined" ? sessionStorage.getItem("userData") : ""
   useEffect(()=>{
      if(user?.user_id){
       setModalIsOpen(false);
      }
   },[user])
 
-// useEffect(()=>{
-//    if(isLoggedIn == false ){
-//     setModalIsOpen(true);
-
-//    }
-// },[isLoggedIn])
   const closeModal = () => {
+    // setShowLoginInput(false);
+    // setShowOtpSection(false);
     setModalIsOpen(false);
-    setShowLoginInput(true);
-    setShowOtpSection(false);
-    setMobile("");
+    // setMobile("");
     onRequestClose();
     closeLoginModal();
   };
@@ -79,11 +71,12 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
       const response = await axiosPost("/User/LoginCheck", loginData);
       if (response.resp === true) {
         sessionStorage.removeItem("userData");
+        console.log("API Response:", response);
         setLoginError("")
         setUserObject(response.respObj);
         setShowLoginInput(false);
         setShowOtpSection(true);        
-        router.push(currentPath);
+        // router.push(currentPath);
       } else {
         setLoginError(response.respMsg);
         // router.push("/")
@@ -165,7 +158,6 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
       } else {
         input.value = "";
       }
-
       const key = event.key;
       if (key === "Backspace" || key === "Delete") {
         const prevIndex = index - 1;
@@ -179,26 +171,30 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
     const otpValue = inputs
       .map((id) => document.getElementById(id).value)
       .join("");
-    var loginData = {
-      mobile: mobile,
-      fb_id: "",
-      cart_id: cartId ? cartId : "",
-      g_id: session ? session?.user?.email : "",
-      otp: otpValue,
-      userId: userObject && userObject.res ? userObject.res.user_id : userObject?.user_id || ''
-    };
+
     if (userObject) {
+      console.log(userObject)
       try{
+       
+      var loginData = {
+        mobile: mobile,
+        fb_id: "",
+        cart_id: cartId ? cartId : "",
+        g_id: session ? session?.user?.email : "",
+        otp: otpValue,
+        userId:userObject ? userObject?.user_id :  ''
+      };
         const data = await axiosPost("OtpDetails/VerifyUserOtp", loginData);
         if (data.resp == true) {
           sessionStorage.setItem("userData", JSON.stringify(data.respObj));
-          setShowOtpSection(false);
-          setModalIsOpen(false);
-          toast.success("You have logged in successfully", {
+          sessionStorage.setItem("isLoggedIn", "true");
+
+          toast("You have logged in successfully", {
             autoClose: 3000,
             closeButton: true,
           });
-          
+          setShowOtpSection(false);
+          setModalIsOpen(false);
         }
         else if(data.resp== false){
           setLoginError(data.respMsg)
@@ -206,9 +202,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
       }
       catch(error){
         setLoginError(error)
-
-      }
-      
+      }  
     }
   };
 
@@ -238,7 +232,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
         centered
       >
         <div className="container container-fluid">
-          {showloginInput ? (
+          {showloginInput && !user ? (
             <form className="p-4 m-4">
               <h1 className="loginTitle">
                 {session ? "Phone Number" : "Login / Sign Up"}
@@ -293,9 +287,9 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
             ""
           )}
           {showOtpSection && (
-            <div className={`${homeStyles["form-group"]} text-center p-4`}>
-              <label className="mb-4">Verify Your OTP</label>
-              <div className={`${homeStyles["otp-input"]}`}>
+            <div className={`${homeStyles["form-group"]} text-center p-4 `}>
+              <label className="mb-4 mt-5">Verify Your OTP</label>
+              <div className={`${homeStyles["otp-input"]} mb-4`}>
                 {inputs.map((id) => (
                   <input
                     className={`${homeStyles.input} `}
@@ -307,13 +301,13 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
                 ))}
                 
               {loginError && (
-                <p className="" style={{ color: "red" }}>
+                <p className="mt-3" style={{ color: "red" }}>
                   {loginError}
                 </p>
               )}
               </div>
               <button
-                className="btn btn-primary mt-4"
+                className="btn btn-primary mt-2"
                 onClick={verifyOTP}
                 id="btnVerifyOtp"
               >
@@ -321,7 +315,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
               </button>
               <p
                 onClick={handleOTpNotRecieved}
-                className="text-center mt-2"
+                className="text-center mt-5"
                 style={{ cursor: "pointer" }}
               >
                 Didnt Recieved Otp ? Click here to check Mobile Number{" "}

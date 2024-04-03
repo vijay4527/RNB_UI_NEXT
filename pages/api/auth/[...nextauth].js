@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import FacebookProvider from "next-auth/providers/facebook";
+import { axiosPost,axiosGet } from "@/api";
 
 export default NextAuth({
   session: {
@@ -29,13 +30,31 @@ export default NextAuth({
         token.accessToken = account.access_token;
         token.provider = account.provider;
         token.account = account; 
+
+        try {
+          const response = await axiosPost('/User/LoginCheck', {
+            "mobile": "",
+            "fb_id": account.provider === "facebook" ?  account.access_token : "",
+            "cart_id": "",
+            "g_id": account.provider === "google" ?  account.access_token : "",
+            "otp": "",
+          });
+
+          if (response.respObj) {
+            token.userData = response.respObj;          }
+        } catch (error) {
+          console.error('Error checking login:', error);
+        }
       }
+      console.log("token after",token)
       return token;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.provider = token.provider; 
       session.account = token.account;
+      session.userData = token.userData; 
+
       return session;
     },
   },

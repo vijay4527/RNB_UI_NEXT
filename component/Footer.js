@@ -6,9 +6,60 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import AppConfig from '../AppConfig';
 import Link from 'next/link';
+import * as yup from "yup";
+import { axiosGet, axiosPost, axiosGetAll } from "@/api";
+import { useRouter } from 'next/router';
 
+const validationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Email is required"),
+  });
+  
 
 export default function Footer() {
+    const [errors, setErrors] = useState({});
+    const [email, setEmail] = useState("");
+     const router = useRouter()
+     const {city} = router.query
+     const [status,setStatus] = useState(false)
+    const saveNewsLetter = async () => {
+        try {
+            await validationSchema.validate({ email }, { abortEarly: false });
+            var obj = {
+                news_letter_id: "",
+                email: email,
+                city:city,
+                is_active: true,
+                created_on: "0001-01-01",
+                created_by: "",
+                updated_on: "0001-01-01",
+                updated_by: "",
+                is_deleted: true,
+            };
+            const newsLetterResponse = await axiosPost(
+                "NewsLetter/SaveNewsLetter",
+                obj
+            );
+            if (newsLetterResponse) {
+                setEmail("")
+                setStatus(true)
+                setErrors({ email: "You have subscribed" })            }
+        } catch (validationError) {
+            if (validationError instanceof yup.ValidationError) {
+                const newErrors = {};
+                validationError.inner.forEach((error) => {
+                    newErrors[error.path] = error.message;
+                });
+                setStatus(false)
+                setErrors(newErrors);
+            } else {
+                console.error(validationError);
+            }
+        }
+    };
+    
   return (
     <>
       <div className='footerWap'>
@@ -78,8 +129,13 @@ export default function Footer() {
                                 <h2>Newsletter</h2>
                                 <p>Subscribe to get special offers, free gifts and once-in-a-lifetime deals.</p>
                                 <div className='NewsletterInput'>
-                                    <input placeholder='Enter your email' />
-                                    <span className="material-icons">email</span>
+                                    <input placeholder='Enter your email' value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                                    <span className="material-icons" onClick={saveNewsLetter}>email</span>
+                                    {errors.email && (
+                                  <div className={`${status == true ? 'text-success' : "text-danger"}`}>
+                                    {errors.email}
+                                  </div>
+                                )}
                                 </div>
                             </div>
                         </Col>

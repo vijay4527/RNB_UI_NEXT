@@ -23,14 +23,14 @@ const CartPage = () => {
   const [user, setUser] = useState({});
   const router = useRouter();
   const [hitAPi,setHitApi] = useState(false)
-  const { isLoggedIn, loading } = useUserData(hitAPi);
-  const [isUserLoggedIn,setIsUserLoggedIn]= useState(isLoggedIn)
+  // const { isLoggedIn, loading } = useUserData(hitAPi);
+  const [isUserLoggedIn,setIsUserLoggedIn]= useState(false)
   const [isCityModalOpen,setCityModalOpen] = useState(false)
   // const api_url = process.env.API_URL;
   const { city } = router.query;
  
   useEffect(()=>{
-    if(session && session.user){
+    if(session && session?.user){
       console.log(session)
         setHitApi(true)
     }
@@ -42,23 +42,23 @@ const CartPage = () => {
    if(userInfo){
       setIsUserLoggedIn(true)
      }
-  },[isLoggedIn])
+  },[])
   let cartId =
     typeof window !== "undefined" ? sessionStorage.getItem("cartId") : "";
   const userObject =
     typeof window !== "undefined"
       ? JSON.parse(sessionStorage.getItem("userData"))
       : "";
-  useEffect(() => {
-    var userInfo =
-      typeof window !== "undefined"
-        ? sessionStorage.getItem("userData")
-        : sessionStorage.getItem("userData")
-    setUser(userObject);
-    if (userObject) {
-      GetAllCart();
-    }
-  }, [userObject ? userObject.user_id : ""]);
+  // useEffect(() => {
+  //   var userInfo =
+  //     typeof window !== "undefined"
+  //       ? sessionStorage.getItem("userData")
+  //       : sessionStorage.getItem("userData")
+  //   setUser(userObject);
+  //   if (userObject) {
+  //     GetAllCart();
+  //   }
+  // }, [userObject ? userObject.user_id : ""]);
 
   useEffect(() => {
     GetAllCart();
@@ -118,19 +118,22 @@ const CartPage = () => {
   //   // isLoggedIn = true;
   // }
   const handleProducts = () => {
-    if (!isLoggedIn && !user) {
-      setCityModalOpen(true);
+    if (!isUserLoggedIn) { // Check if the user is not logged in
+      setCityModalOpen(true); // Open the modal
     } else if (userInfo && cart.length > 0) {
       router.push(`/${city}/checkout`);
-    } else {
+    } else if (!userInfo) {
+      setCityModalOpen(true); // Open the modal if userInfo is not available
+    } else if (cart.length === 0) {
       toast(
-        "you have no products in your cart ! Please select products before checkout",
+        "You have no products in your cart! Please select products before checkout",
         { autoClose: 2000, closeButton: true }
       );
     }
   };
 
   const closeCityModal = () => {
+    console.log("Closing modal");
     setCityModalOpen(false);
   };
 

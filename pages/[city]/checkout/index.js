@@ -16,6 +16,9 @@ import * as yup from "yup";
 import AppConfig from "@/AppConfig";
 import ServingInfo from "@/component/ServingInfo";
 import OrderSummary from "@/component/OrderSummary";
+import MapModal from "@/component/googleMapModal";
+import { set } from "lodash";
+
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
@@ -54,6 +57,11 @@ const CheckoutPage = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [enableAddress, setEnableAddress] = useState(false);
   const [sessionData,setSessionData] = useState({})
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
   const userObject =
   typeof window !== "undefined"
     ? JSON.parse(sessionStorage.getItem("userData"))
@@ -102,7 +110,7 @@ const CheckoutPage = () => {
       if (userObject) {
         GetAddress(); // Call to fetch user addresses
       }
-    }, []);
+    }, [userObject?.user_id]);
 
   useEffect(() => {
     countSubTotalAmount();
@@ -266,7 +274,19 @@ const CheckoutPage = () => {
       };
       const data = await axiosPost("ShippingAddress/SaveShippingAddress", obj);
       if (data.resp == true) {
+        toast("Your address has been saved",{autoClose : 3000,closeButton: true})
         GetAddress();
+        setFormValues({ 
+          firstName: "",
+          lastName: "",
+          email: "",
+          contact: "",
+          address: "",
+          city: "",
+          state: "",
+          pinCode: "",
+          country: "",
+        });
       }
     } catch (validationError) {
       if (validationError instanceof yup.ValidationError) {
@@ -296,6 +316,17 @@ const CheckoutPage = () => {
   };
 
   const handleClose = () => {
+    setFormValues({ 
+      firstName: "",
+      lastName: "",
+      email: "",
+      contact: "",
+      address: "",
+      city: "",
+      state: "",
+      pinCode: "",
+      country: "",
+    });
     setEnableAddress(false);
   };
 
@@ -540,6 +571,8 @@ const CheckoutPage = () => {
                               </div>
                             </div>
                             <div className={styles.checkoutQctShippingAddress}>
+                            <button onClick={handleShowModal}>Open Map Modal</button>
+
                               <button
                                 className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`}
                                 onClick={saveShippingAddress}
@@ -1380,6 +1413,8 @@ const CheckoutPage = () => {
           </div>
         </div>
       </section> */}
+            <MapModal show={showModal} handleClose={handleCloseModal} />
+
     </>
   );
 };
