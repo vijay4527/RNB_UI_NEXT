@@ -34,7 +34,7 @@ export default function App({ Component, pageProps,session }) {
       <Nav></Nav>
       <Component {...pageProps}/>
       <Footer></Footer>
-      <LoginModal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal} closeLoginModal={closeLoginModal} />
+      {/* <LoginModal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal} closeLoginModal={closeLoginModal} /> */}
     </SessionProvider>
   );
 }

@@ -241,7 +241,6 @@ const CheckoutPage = () => {
         autoClose: 3000,
         closeButton: true,
         onClose: () => {
-          // After the toast is closed, remove cartId from sessionStorage and redirect to the city page
           sessionStorage.removeItem("cartId");
           router.push("/" + city);
         }

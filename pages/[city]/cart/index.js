@@ -72,7 +72,7 @@ const CartPage = () => {
           user_id: userObject ? userObject.user_id : "",
           city_name: city ? city : "",
           type:"AC"
-        };
+        };  
         const response = await axiosPost("/CartMaster/GetCartDetails", obj);
         if (response) {
           setCart(response);
@@ -118,12 +118,10 @@ const CartPage = () => {
   //   // isLoggedIn = true;
   // }
   const handleProducts = () => {
-    if (!isUserLoggedIn) { // Check if the user is not logged in
-      setCityModalOpen(true); // Open the modal
+    if (!isUserLoggedIn || !userInfo) { 
+      setCityModalOpen(true); 
     } else if (userInfo && cart.length > 0) {
       router.push(`/${city}/checkout`);
-    } else if (!userInfo) {
-      setCityModalOpen(true); // Open the modal if userInfo is not available
     } else if (cart.length === 0) {
       toast(
         "You have no products in your cart! Please select products before checkout",
