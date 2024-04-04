@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryComponent from "../../../../../component/CategoryandSubcategory";
 import { axiosPost, axiosGet, axiosGetAll } from "@/api";
-import useUserData from "@/component/verifyEmail";
+import useUserData from "@/component/verifyOtp";
 import { useState,useEffect } from "react";
 import { useSession } from "next-auth/react";
 function SubCategoryPage({ data, category, categoryName, subcategoryName }) {

@@ -234,22 +234,31 @@ const CheckoutPage = () => {
       user_id: userObject.user_id,
       order_status: null,
     };
-    const order = await axiosPost("Order/SaveOrder", orderobj);
-    if (order.resp == true) {
-
-      toast("Your Order has been placed", {
+    if(products.length> 0 ){
+      const order = await axiosPost("Order/SaveOrder", orderobj);
+      if (order.resp == true) {
+  
+        toast("Your Order has been placed", {
+          autoClose: 3000,
+          closeButton: true,
+          onClose: () => {
+            sessionStorage.removeItem("cartId");
+            setProducts([])
+            router.push( `/${city}/orders/orderHistory`);
+          }
+        });
+      } else {
+        console.log("Order not placed");
+        toast("Something went wrong! Your Order has not been placed",{autoClose : 3000,closeButton: true})
+  
+      }
+    }else{
+      toast("Please add product to your cart", {
         autoClose: 3000,
-        closeButton: true,
-        onClose: () => {
-          sessionStorage.removeItem("cartId");
-          router.push("/" + city);
-        }
+        closeButton: true,    
       });
-    } else {
-      console.log("Order not placed");
-      toast("Something went wrong! Your Order has not been placed",{autoClose : 3000,closeButton: true})
-
     }
+   
   };
 
   const frachiseSelection = (storeid) => {
@@ -315,7 +324,6 @@ const CheckoutPage = () => {
     }
   };
 
-  const totalPrice = products.reduce((acc, item) => acc + item.cost, 0);
   const enableAddAddredd = () => {
     setEnableAddress(true);
   };
@@ -373,9 +381,9 @@ const CheckoutPage = () => {
           name="facebook-domain-verification"
           content="1cpqqtudq8imtqkiwxpq0vd20x3b69"
         ></meta> */}
-        <script
+        {/* <script
           src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBpti7QuC_QXwWE90MT0RkfMPlET1KbhS4&libraries=places`}
-        ></script>
+        ></script> */}
       </Head>
 
       <section className={styles.CheckOutQct}>
@@ -574,9 +582,9 @@ const CheckoutPage = () => {
                                   </div>
                                 )}
                               </div>
+                                <button className="btn btn-sm btn-primary" onClick={handleShowModal}>Select Address from the modal</button>
                             </div>
                             <div className={styles.checkoutQctShippingAddress}>
-                            <button onClick={handleShowModal}>Open Map Modal</button>
 
                               <button
                                 className={`${homeStyles["btn"]} ${homeStyles["btn-primary"]}`}
@@ -859,6 +867,7 @@ const CheckoutPage = () => {
         </div>
       </section>
       <ToastContainer />
+      <MapModal show={showModal} handleClose={handleCloseModal} />
 
       {/* <section
         className="h-100 h-custom"
@@ -1418,7 +1427,6 @@ const CheckoutPage = () => {
           </div>
         </div>
       </section> */}
-            <MapModal show={showModal} handleClose={handleCloseModal} />
 
     </>
   );

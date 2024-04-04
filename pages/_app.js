@@ -8,7 +8,7 @@ import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import SEOConfig from '../next-seo.config';
 import { useSession } from "next-auth/react";
-import useUserData from '@/component/verifyEmail'; // Import the useUserData hook
+import useUserData from '@/component/verifyOtp'; // Import the useUserData hook
 import { useState,useEffect } from "react";
 
 if (typeof window !== "undefined") {

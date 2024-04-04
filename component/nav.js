@@ -9,8 +9,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import LoginModal from "@/component/loginModal";
 import { axiosPost, axiosGet } from "@/api";
-import useUserData from "./verifyEmail";
-export default function Header() {
+import useUserData from "./verifyOtp";
+export default function Header(otpVerified) {
   const router = useRouter();
   const { city } = router.query;
   const [isLoactionActive, setIsLoactionActive] = useState(false);
@@ -23,10 +23,12 @@ export default function Header() {
   const [countCart, setCountCart] = useState(0);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-  const [hitApi, setHitApi] = useState(false);
+   const [hitApi, setHitApi] = useState(false);
   const [cities, setCities] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const pathname = router.pathname;
+  // const { otpVerified } = useUserData();
+
   const [selectedCity, setSelectedCity] = useState("");
   const loactionToggle = () => {
     if (!(pathname.includes("checkout") || pathname.includes("cart"))) {
@@ -36,7 +38,6 @@ export default function Header() {
 useEffect(()=>{
   if(city){
     setSelectedCity(city)
-
   }
 },[city])
   const toggleClass = () => {
@@ -62,10 +63,10 @@ useEffect(()=>{
   const loggedIn =
     typeof window !== "undefined" ? sessionStorage.getItem("isLoggedIn") : "";
   useEffect(() => {
-    if (loggedIn || session?.isLogin) {
+    if (loggedIn || session?.userData?.isLogin|| otpVerified==true) {
       setIsLoggedIn(true);
     }
-  }, [session, userObject?.user_id]);
+  }, [session, userObject?.user_id,otpVerified]);
 
   useEffect(() => {
     const handleStorageChange = () => {

@@ -22,9 +22,8 @@ const orderHistory = () => {
   useEffect(() => {
     if(userInfo){
       getAllOrders();
-
     }
-  }, [userInfo.user_id]);
+  }, [userInfo?.user_id]);
 
   // useEffect(()=>{
   //   if(user){

@@ -15,7 +15,7 @@ import { apiBaseUrl } from "next-auth/client/_utils";
 import OrderSummary from "@/component/OrderSummary";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useUserData from "@/component/verifyEmail";
+import useUserData from "@/component/verifyOtp";
 const CartPage = () => {
   const { data:session, status } = useSession();
   const [cart, setCart] = useState([]);

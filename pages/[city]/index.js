@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import initAOS from "../../component/initAOS";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import useUserData from "@/component/verifyEmail"; // Import the useUserData hook
+import useUserData from "@/component/verifyOtp"; // Import the useUserData hook
 import { useSession } from "next-auth/react";
 import LoginModal from "@/component/loginModal";
 const OwlCarousel = dynamic(() => import("react-owl-carousel"), {

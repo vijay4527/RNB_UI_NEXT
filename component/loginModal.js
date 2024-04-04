@@ -7,7 +7,7 @@ import { axiosGet, axiosPost } from "@/api";
 import * as yup from "yup";
 import { loginSchema, registrationSchema } from "./validation";
 import homeStyles from "../styles/Home.module.css";
-import useUserData from "./verifyEmail";
+import useUserData from "./verifyOtp";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Head from "next/head";
@@ -27,10 +27,11 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
   const currentPath = router.asPath;
   const { city } = router.query;
   const [hitApi, setHitApi] = useState(false);
-  // const { isLoggedIn, loading } = useUserData(hitApi);
+  const { otpVerified } = useUserData(hitApi);
   const [userObject, setUserObject] = useState({});
   const user = typeof window !== "undefined" ? sessionStorage.getItem("userData") : ""
 
+  
   useEffect(() => {
     if (isOpen) {
       setModalIsOpen(true);
@@ -186,7 +187,7 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
         if (data.resp == true) {
           sessionStorage.setItem("userData", JSON.stringify(data.respObj));
           sessionStorage.setItem("isLoggedIn", "true");
-
+          setHitApi(true)
           toast("You have logged in successfully", {
             autoClose: 3000,
             closeButton: true,
