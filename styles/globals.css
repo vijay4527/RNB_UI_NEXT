@@ -371,6 +371,10 @@ img{
 ul.selectLocationOption li{
   margin: 0;
 }
+
+ul.selectLocationOption a {
+  text-decoration: none;
+}
 .selectLocationOption li{
   display: flex;
   width: 100%;

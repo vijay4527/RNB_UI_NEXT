@@ -42,12 +42,8 @@ const LoginModal = ({ isOpen, onRequestClose, closeLoginModal,}) => {
      }
   },[user])
 
-  const closeModal = () => {
-    // setShowLoginInput(false);
-    // setShowOtpSection(false);
+  const closeModal = () => {   
     setModalIsOpen(false);
-    // setMobile("");
-
     signOut()
     onRequestClose();
     closeLoginModal();

@@ -8,7 +8,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import LoginModal from "@/component/loginModal";
-import { axiosPost,axiosGet } from "@/api";
+import { axiosPost, axiosGet } from "@/api";
 import useUserData from "./verifyEmail";
 export default function Header() {
   const router = useRouter();
@@ -19,82 +19,109 @@ export default function Header() {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { data:session, status } = useSession();
+  const { data: session, status } = useSession();
   const [countCart, setCountCart] = useState(0);
-  const [category,setCategory] = useState([])
-  const [subCategory,setSubCategory] = useState([])
-  const [hitApi,setHitApi] = useState(false)
-  const [isLoggedIn,setIsLoggedIn] = useState(null)
+  const [category, setCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
+  const [hitApi, setHitApi] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const pathname = router.pathname;
+  const [selectedCity, setSelectedCity] = useState("");
   const loactionToggle = () => {
-    setIsLoactionActive(!isLoactionActive);
+    if (!(pathname.includes("checkout") || pathname.includes("cart"))) {
+      setIsLoactionActive(!isLoactionActive);
+    }
   };
+useEffect(()=>{
+  if(city){
+    setSelectedCity(city)
 
+  }
+},[city])
   const toggleClass = () => {
     setIsActive(!isActive);
   };
-   const userObject = typeof window !== 'undefined' ? JSON.parse(sessionStorage.getItem('userData')) : null;
+  const userObject =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("userData"))
+      : null;
   useEffect(() => {
-    if ( session?.userData?.isLogin === false) {
-      console.log(session)
+    if (session?.userData?.isLogin === false) {
+      console.log(session);
       setIsLoginModalOpen(true);
+    } else if (
+      typeof window !== "undefined" &&
+      session?.userData.isLogin == true
+    ) {
+      sessionStorage.setItem("userData", JSON.stringify(session.userData));
+      sessionStorage.setItem("isLoggedIn", true);
     }
-    else if(typeof window !== "undefined" && session?.userData.isLogin == true){
-        sessionStorage.setItem("userData",JSON.stringify(session.userData))
-        sessionStorage.setItem("isLoggedIn", true);
-    }
-  },[session,isLoggedIn]);
+  }, [session, isLoggedIn]);
 
-  const loggedIn = typeof window !== "undefined"? sessionStorage.getItem("isLoggedIn") :""
+  const loggedIn =
+    typeof window !== "undefined" ? sessionStorage.getItem("isLoggedIn") : "";
   useEffect(() => {
-    if(loggedIn || session?.isLogin ){
+    if (loggedIn || session?.isLogin) {
       setIsLoggedIn(true);
     }
-  },[session,userObject?.user_id]);
+  }, [session, userObject?.user_id]);
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const storedUserObject = JSON.parse(sessionStorage.getItem('userData'));
-      const storedIsLoggedIn = sessionStorage.getItem('isLoggedIn');
+      const storedUserObject = JSON.parse(sessionStorage.getItem("userData"));
+      const storedIsLoggedIn = sessionStorage.getItem("isLoggedIn");
       if (storedUserObject || storedIsLoggedIn == true) {
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
       }
     };
-      window.addEventListener('storage', handleStorageChange);
-      return () => {
-      window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
-  
 
   const handleClick = () => {
     setIsClicked(!isClicked);
     // searchInputRef.current.focus();
   };
-  useEffect(()=>{
-    getCategory()
-  },[])
+  useEffect(() => {
+    getCategory();
+    getCities();
+  }, []);
+
+  const getCities = async () => {
+    const cityResponse = await axiosGet("RNBCity/GetAllRNBCity");
+    if (cityResponse) {
+      setCities(cityResponse);
+    }
+  };
 
   const getCategory = async () => {
     try {
       var categoryObj = {
-        city_name: city
+        city_name: city,
       };
       const data = await axiosPost("Category/GetAllCategories", categoryObj);
       if (data) {
-        setCategory(data);  
+        setCategory(data);
       }
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
 
-  const handleMouseEnter = async(category) => {
+
+
+  const handleMouseEnter = async (category) => {
     setHoveredCategory(category);
-    const data = await axiosGet("SubCategory/GetSubCategoryByCategoryId/"+category.category_id)
-    if(data){
-      setSubCategory(data)
+    const data = await axiosGet(
+      "SubCategory/GetSubCategoryByCategoryId/" + category.category_id
+    );
+    if (data) {
+      setSubCategory(data);
     }
   };
   const handleMouseLeave = () => {
@@ -121,8 +148,8 @@ export default function Header() {
   }, []);
 
   const Logout = () => {
-    sessionStorage.removeItem('userData');
-    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem("userData");
+    sessionStorage.removeItem("isLoggedIn");
     signOut();
     // router.push("/" + city);
   };
@@ -239,132 +266,146 @@ export default function Header() {
                           </div>
                         </div>
 
-                        {category && category.length>0 && (category.map((category, index) => (
-                          <div
-                            className={`sub_nav ${
-                              hoveredCategory === category ? "show" : ""
-                            }`}
-                            key={index}
-                          >
+                        {category &&
+                          category.length > 0 &&
+                          category.map((category, index) => (
                             <div
-                              onMouseEnter={() => handleMouseEnter(category)}
-                              onMouseLeave={handleMouseLeave}
-                              className={
-                                !category.sub_categories
-                                  ? "sub_navbtn active"
-                                  : "sub_navbtn"
-                              }
+                              className={`sub_nav ${
+                                hoveredCategory === category ? "show" : ""
+                              }`}
+                              key={index}
                             >
-                              <Link
-                                href={`/${city}/l/${category.category_name}`}
-                                onClick={toggleClass}
-                                prefetch={true}
-                              >
-                                <h4 className="category-title">
-                                  {category.category_name}
-                                </h4>
-                              </Link>
-                              <span className="category-dropIcon">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="9"
-                                  height="7"
-                                  fill="none"
-                                  viewBox="0 0 9 7"
-                                >
-                                  <path
-                                    stroke="#000"
-                                    d="M8.177 1.25 4.355 5.663a.1.1 0 0 1-.15 0L.382 1.25"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-
-                            <div
-                              className={
-                                !category.sub_categories
-                                  ? "MobileSub_navbtn active"
-                                  : "MobileSub_navbtn sub_navbtn"
-                              }
-                            >
-                              <Link
-                                href={`/${city}/l/${category.category_name.replaceAll(" ",'-')}`}
-                                onClick={toggleClass}
-                                prefetch={true}
-                              >
-                                <h4 className="category-title">
-                                  {category.name}
-                                </h4>
-                              </Link>
-                              <span
-                                onMouseLeave={handleMouseLeave}
-                                onClick={() => handleCategoryClick(category)}
-                                className="category-dropIcon"
-                              >   
-                                <i className="plus_Icon">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    className="bi bi-plus"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                  </svg>
-                                </i>
-                                <i className="mins_Icon">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    className="bi bi-dash"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                                  </svg>
-                                </i>
-                              </span>
-                            </div>
-
-                            {subCategory && (
                               <div
-                                className={`subnav-content ${
-                                  hoveredCategory === category ? "active" : ""
-                                }`}
+                                onMouseEnter={() => handleMouseEnter(category)}
+                                onMouseLeave={handleMouseLeave}
+                                className={
+                                  !category.sub_categories
+                                    ? "sub_navbtn active"
+                                    : "sub_navbtn"
+                                }
                               >
-                                <ul className="submenu-list">
-                                  {subCategory && subCategory.length>0 && subCategory.map(
-                                    (subcategory) => (
-                                      <li
-                                        className="category-sub-title"
-                                        key={subcategory.sub_category_id}
-                                      >
-                                        <Link
-                                          href={`/${city}/l/${category.category_name}/${subcategory.sub_category_name ? subcategory.sub_category_name.replaceAll(" ", '-') : ''}`}
-                                          prefetch={true}
-                                        >
-                                          <span onClick={toggleClass}>
-                                            {subcategory.sub_category_name}
-                                          </span>
-                                        </Link>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                                <div className="subnav-img">
-                                  <div className="imgdiv">
-                                    <img
-                                      src={`https://media.bakingo.com/gourmet_cake.jpg`}
-                                      alt="No image found"
+                                <Link
+                                  href={`/${city}/l/${category.category_name}`}
+                                  onClick={toggleClass}
+                                  prefetch={true}
+                                >
+                                  <h4 className="category-title">
+                                    {category.category_name}
+                                  </h4>
+                                </Link>
+                                <span className="category-dropIcon">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="9"
+                                    height="7"
+                                    fill="none"
+                                    viewBox="0 0 9 7"
+                                  >
+                                    <path
+                                      stroke="#000"
+                                      d="M8.177 1.25 4.355 5.663a.1.1 0 0 1-.15 0L.382 1.25"
                                     />
+                                  </svg>
+                                </span>
+                              </div>
+
+                              <div
+                                className={
+                                  !category.sub_categories
+                                    ? "MobileSub_navbtn active"
+                                    : "MobileSub_navbtn sub_navbtn"
+                                }
+                              >
+                                <Link
+                                  href={`/${city}/l/${category.category_name.replaceAll(
+                                    " ",
+                                    "-"
+                                  )}`}
+                                  onClick={toggleClass}
+                                  prefetch={true}
+                                >
+                                  <h4 className="category-title">
+                                    {category.name}
+                                  </h4>
+                                </Link>
+                                <span
+                                  onMouseLeave={handleMouseLeave}
+                                  onClick={() => handleCategoryClick(category)}
+                                  className="category-dropIcon"
+                                >
+                                  <i className="plus_Icon">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      fill="currentColor"
+                                      className="bi bi-plus"
+                                      viewBox="0 0 16 16"
+                                    >
+                                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                    </svg>
+                                  </i>
+                                  <i className="mins_Icon">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      fill="currentColor"
+                                      className="bi bi-dash"
+                                      viewBox="0 0 16 16"
+                                    >
+                                      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                                    </svg>
+                                  </i>
+                                </span>
+                              </div>
+
+                              {subCategory && (
+                                <div
+                                  className={`subnav-content ${
+                                    hoveredCategory === category ? "active" : ""
+                                  }`}
+                                >
+                                  <ul className="submenu-list">
+                                    {subCategory &&
+                                      subCategory.length > 0 &&
+                                      subCategory.map((subcategory) => (
+                                        <li
+                                          className="category-sub-title"
+                                          key={subcategory.sub_category_id}
+                                        >
+                                          <Link
+                                            href={`/${city}/l/${
+                                              category.category_name
+                                            }/${
+                                              subcategory.sub_category_name
+                                                ? subcategory.sub_category_name.replaceAll(
+                                                    " ",
+                                                    "-"
+                                                  )
+                                                : ""
+                                            }`}
+                                            prefetch={true}
+                                          >
+                                            <span onClick={toggleClass}>
+                                              {subcategory.sub_category_name}
+                                            </span>
+                                          </Link>
+                                        </li>
+                                      ))}
+                                  </ul>
+                                  <div className="subnav-img">
+                                    <div className="imgdiv">
+                                      <img
+                                        src={`https://media.bakingo.com/gourmet_cake.jpg`}
+                                        alt="No image found"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            )}
-                          </div>
-                        )))}
+                              )}
+                            </div>
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -375,7 +416,7 @@ export default function Header() {
                           className="selectLocation"
                           onClick={loactionToggle}
                         >
-                          <h4>Mumbai</h4>
+                          <h4>{selectedCity}</h4>
                           <img
                             src="https://cdn-images.cure.fit/www-curefit-com/image/upload/c_fill,w_26,q_auto:eco,dpr_2,f_auto,fl_progressive/image/test/header/location.png"
                             alt="No image found"
@@ -388,15 +429,56 @@ export default function Header() {
                         >
                           <div className="selectLocationBody">
                             <div className="selectLocationImg">
-                              <img
-                                src="https://cdn-images.cure.fit/www-curefit-com/image/upload/e_replace_color:black,o_60//image/cities/mumbai_selected.png"
-                                alt="No image found"
-                              />
+                              {selectedCity == "pune" && (
+                                <img
+                                  src="https://ribbonsandballoons.com/frontassets/images/pune1.png"
+                                  alt="No image found"
+                                />
+                              )}
+                              {selectedCity == "mumbai" && (
+                                <img
+                                  src="https://cdn-images.cure.fit/www-curefit-com/image/upload/e_replace_color:black,o_60//image/cities/mumbai_selected.png"
+                                  alt="No image found"
+                                />
+                              )}
+                              {selectedCity== "mangaluru" && (
+                                <img
+                                  src="https://ribbonsandballoons.com/frontassets/images/manglore1.png"
+                                  alt="No image found"
+                                />
+                              )}
+                              {selectedCity == "patna" && (
+                                <img
+                                  src="	https://ribbonsandballoons.com/frontassets/images/Patna.png"
+                                  alt="No image found"
+                                />
+                              )}
                             </div>
                             <h3>Select location preference</h3>
                             <p>Membership prices vary across these areas</p>
                             <ul className="selectLocationOption">
-                              <li>
+                              {cities &&
+                                cities.length > 0 &&
+                                cities.map((e) => (
+                                  <li key={e.rnb_city_id}>
+                                    <Link href={`/${e.city_name.toLowerCase()}`} >
+                                      <h4
+                                        onClick={() =>
+                                          setSelectedCity(e.city_name)
+                                        }
+                                      >
+                                        {e.city_name}
+                                      </h4>
+                                      
+                                    </Link>
+                                    <img
+                                        src="https://static.cure.fit/assets/images/back-arrow-white.svg"
+                                        alt="No image found"
+                                      />
+                                  </li>
+                                ))}
+
+                              {/* <li>
                                 <h4>Mumbai</h4>
                                 <img
                                   src="https://static.cure.fit/assets/images/back-arrow-white.svg"
@@ -409,7 +491,7 @@ export default function Header() {
                                   src="https://static.cure.fit/assets/images/back-arrow-white.svg"
                                   alt="No image found"
                                 />
-                              </li>
+                              </li> */}
                             </ul>
                           </div>
                         </div>
@@ -444,7 +526,7 @@ export default function Header() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu align={{ lg: "end" }}>
-                            { isLoggedIn == true && (
+                            {isLoggedIn == true && (
                               <>
                                 <Dropdown.Item href={`/${city}/profile`}>
                                   My Account
@@ -457,18 +539,19 @@ export default function Header() {
                                 <Dropdown.Divider />
                               </>
                             )}
-                             {isLoggedIn == false || isLoggedIn == null && ( 
-                              <Dropdown.Item
-                                onClick={() => setIsLoginModalOpen(true)}
-                              >
-                                Sign In
-                              </Dropdown.Item>
-                            )} 
-                             { isLoggedIn == true && (  
+                            {isLoggedIn == false ||
+                              (isLoggedIn == null && (
+                                <Dropdown.Item
+                                  onClick={() => setIsLoginModalOpen(true)}
+                                >
+                                  Sign In
+                                </Dropdown.Item>
+                              ))}
+                            {isLoggedIn == true && (
                               <Dropdown.Item onClick={Logout}>
                                 Sign Out
                               </Dropdown.Item>
-                              )} 
+                            )}
                           </Dropdown.Menu>
                         </Dropdown>
                       </li>
@@ -514,12 +597,11 @@ export default function Header() {
           ></div>
         </div>
 
-        {!isLoggedIn &&   (
+        {!isLoggedIn && (
           <LoginModal
             isOpen={isLoginModalOpen}
             onRequestClose={() => setIsLoginModalOpen(false)}
             closeLoginModal={() => setIsLoginModalOpen(false)}
-
           />
         )}
       </div>

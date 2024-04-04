@@ -8,6 +8,7 @@ import { axiosGet, axiosPost, axiosGetAll } from "@/api";
 import { useSession } from "next-auth/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import cartLength from "@/component/cartLength"
 const addToCartButton = ({ data }) => {
   const { Variable, Variety, Unit, Value, Message } = useSharedStore();
   const { session } = useSession();
@@ -15,6 +16,7 @@ const addToCartButton = ({ data }) => {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
   const [user, setUser] = useState({});
+  const [hitApi,setHitApi] = useState(false)
   const router = useRouter();
 
   useEffect(() => {
